@@ -12,9 +12,12 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
   평일 오전 9:30 (GitHub 서버 자동 실행)
     → BioSpectator 로그인
     → 키워드별 검색 (대/소문자 + 별칭 모두)
-    → 오늘 + 어제 날짜 기사만 전문 크롤링
+    → 오늘 + 어제 날짜 기사 수집 (월요일은 금/토/일 포함)
+    → sent_urls.json 대조 → 이미 발송된 기사 제외 (날짜 중복 방지)
+    → 새 기사만 전문 크롤링
     → docs/index.html 생성 → GitHub Pages 업로드
     → 이메일 발송 (상단 링크버튼 + 전체 기사 미리보기)
+    → sent_urls.json 업데이트 (최대 500건 보관)
 
 ■ 배포 구조 (GitHub Actions + GitHub Pages)
   저장소: https://github.com/go2god4u-glitch/KTH_bionews_morning
@@ -60,17 +63,22 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
   GMAIL_APP_PASSWORD Gmail 앱 비밀번호 (2단계 인증 후 발급)
   GMAIL_TO           수신 이메일 주소 (현재: e2102208@donga.co.kr)
 
+■ 중복 기사 방지 (sent_urls.json)
+  - 매일 오늘 + 어제 기사를 가져오므로 날짜가 겹치는 기사가 중복 발송될 수 있음
+    예) 화요일: 월/화 수집 → 수요일: 화/수 수집 → 화요일 기사 중복
+  - 발송된 기사 URL을 docs/sent_urls.json에 저장 → 다음 실행 때 자동 제외
+  - 최대 500건 보관 (약 7일치), 이후 오래된 것부터 자동 삭제
+
 ■ 파일 구조
   biospectator/
   ├── biospectator_crawler.py    ← 메인 크롤러 (이 파일)
   ├── requirements.txt           ← Python 패키지 목록
   ├── .env                       ← 로컬 전용 로그인 정보 (GitHub에 올라가지 않음)
-  ├── .gitignore                 ← .env, *.html 제외 / docs/index.html 예외 허용
+  ├── .gitignore                 ← .env, *.html 제외 / docs/ 예외 허용
   ├── docs/
-  │   └── index.html             ← 매일 덮어씌워지는 리포트 (항상 최신만 유지)
-  │                                 * 과거 리포트 별도 보관 불필요
-  │                                 * 받은 이메일 본문에 기사 전문이 포함되므로
-  │                                   이메일 받은편지함 자체가 날짜별 이력 역할을 함
+  │   ├── index.html             ← 매일 덮어씌워지는 리포트 (항상 최신만 유지)
+  │   │                             * 받은 이메일 본문 = 날짜별 이력 역할
+  │   └── sent_urls.json         ← 발송된 기사 URL 이력 (중복 방지용)
   └── .github/workflows/
       └── daily-crawler.yml      ← 스케줄 + 커밋/푸시 자동화
 
