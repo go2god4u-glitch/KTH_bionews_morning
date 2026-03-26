@@ -286,11 +286,14 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
         if a["URL"] not in {x["URL"] for x in by_keyword[a["키워드"]]}:
             by_keyword[a["키워드"]].append(a)
 
-    # onclick 스크롤: 이메일 클라이언트가 #anchor 링크를 막는 경우 대비
-    section_links = "\n".join(
-        f'<li><a href="#" onclick="var el=document.getElementById(\'kw-{i}\');if(el){{el.scrollIntoView({{behavior:\'smooth\'}});}};return false;">{k.upper()} ({len(v)}건)</a></li>'
-        for i, (k, v) in enumerate(by_keyword.items())
-    )
+    # 키워드 바 (기사 끝마다 반복 표시용)
+    kw_list = list(by_keyword.keys())
+    def keyword_bar():
+        links = " &nbsp;|&nbsp; ".join(
+            f'<a href="#kw-{i}" style="color:#1a73e8;text-decoration:none;font-weight:bold;">{k.upper()} ({len(by_keyword[k])}건)</a>'
+            for i, k in enumerate(kw_list)
+        )
+        return f'<div class="kw-bar">{links}</div>'
 
     sections_html = ""
     for idx, (kw, arts) in enumerate(by_keyword.items()):
@@ -301,12 +304,13 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
             cards += f"""
             <article class="card">
                 <div class="card-header">
-                    <h2><a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge} <a href="#top" class="top-btn">▲ 키워드</a></h2>
+                    <h2><a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}</h2>
                     <span class="date">{a['날짜']}</span>
                 </div>
                 <div class="card-body">{body_html}</div>
                 <div class="card-footer"><a href="{a['URL']}" target="_blank">원문 보기 &rarr;</a></div>
-            </article>"""
+            </article>
+            {keyword_bar()}"""
         sections_html += f"""
         <section id="kw-{idx}">
             <h1 class="section-title">#{kw.upper()}</h1>
@@ -351,7 +355,7 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
   .badge {{ font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #fff0f0; color: #c00; border: 1px solid #fcc; margin-left: 8px; vertical-align: middle; }}
-  .top-btn {{ font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f0fe; color: #1a73e8; border: 1px solid #c5d8f8; margin-left: 8px; vertical-align: middle; text-decoration: none; white-space: nowrap; }}
+  .kw-bar {{ background: #f0f4f8; border-top: 1px solid #dde; padding: 8px 16px; font-size: 12px; text-align: center; margin-top: 4px; border-radius: 0 0 8px 8px; }}
   mark {{ background: #ffff00; padding: 0 2px; font-style: normal; }}
   .paid {{ color: #999; font-style: italic; }}
   .no-articles {{ color: #999; font-size: 14px; padding: 20px; }}
