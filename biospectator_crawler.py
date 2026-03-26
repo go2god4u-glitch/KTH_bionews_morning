@@ -368,7 +368,7 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
     return html_path
 
 
-PAGES_URL = "https://go2god4u-glitch.github.io/biospectator-crawler/"
+PAGES_URL = "https://go2god4u-glitch.github.io/KTH_bionews_morning/"
 
 def send_email(target_dates: list[str], article_count: int):
     """
