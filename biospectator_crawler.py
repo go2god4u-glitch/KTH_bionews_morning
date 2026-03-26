@@ -239,11 +239,12 @@ def crawl_article(session: requests.Session, info: dict) -> dict:
             for tag in body_el.find_all(True):
                 if tag.get("style"): del tag["style"]
                 if tag.get("class"): del tag["class"]
-            # 텍스트 노드의 \n → <br> 변환 (HTML 태그 내부는 건드리지 않음)
+            # 텍스트 노드의 \n → <br> 변환 (내용 있는 노드만, 태그 사이 공백은 제외)
             for node in list(body_el.descendants):
                 if isinstance(node, NavigableString) and node.parent.name not in ['script', 'style']:
-                    if '\n' in str(node):
-                        node.replace_with(BeautifulSoup(str(node).replace('\n', '<br>'), 'html.parser'))
+                    text = str(node)
+                    if '\n' in text and text.strip():  # 공백만 있는 노드는 건너뜀
+                        node.replace_with(BeautifulSoup(text.replace('\n', '<br>'), 'html.parser'))
             body = str(body_el)
 
         is_paid = "[유료]" if not body or len(body) < 100 else ""
