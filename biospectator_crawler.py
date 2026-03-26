@@ -301,7 +301,7 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
             cards += f"""
             <article class="card">
                 <div class="card-header">
-                    <h2><a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}</h2>
+                    <h2><a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge} <a href="#top" class="top-btn">▲ 키워드</a></h2>
                     <span class="date">{a['날짜']}</span>
                 </div>
                 <div class="card-body">{body_html}</div>
@@ -351,12 +351,13 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
   .badge {{ font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #fff0f0; color: #c00; border: 1px solid #fcc; margin-left: 8px; vertical-align: middle; }}
+  .top-btn {{ font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f0fe; color: #1a73e8; border: 1px solid #c5d8f8; margin-left: 8px; vertical-align: middle; text-decoration: none; white-space: nowrap; }}
   mark {{ background: #ffff00; padding: 0 2px; font-style: normal; }}
   .paid {{ color: #999; font-style: italic; }}
   .no-articles {{ color: #999; font-size: 14px; padding: 20px; }}
 </style>
 </head>
-<body>
+<body id="top">
 <div class="top-bar">
   <span class="logo">BioSpectator</span>
   <span class="meta">{generated} &nbsp;|&nbsp; {date_label} &nbsp;|&nbsp; 전체 {total}건</span>
