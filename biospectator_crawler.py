@@ -88,6 +88,14 @@ KEYWORDS = [
     "동아ST",
 ]
 
+# 키워드 별칭: 하나만 입력해도 묶인 모든 단어로 검색
+# - 검색은 모든 별칭으로 수행, 결과는 대표 키워드(KEYWORDS에 있는 것)로 그룹화
+# - 하이라이트도 별칭 포함 모두 강조
+KEYWORD_ALIASES = {
+    "동아ST": ["동아에스티"],
+    # 예시) "노보노디스크": ["Novo Nordisk", "노보 노디스크"],
+}
+
 # 브라우저처럼 보이게 해서 차단 방지
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
@@ -233,14 +241,19 @@ def crawl_article(session: requests.Session, info: dict) -> dict:
 
 
 def highlight_keywords(body_html: str, keywords: list[str]) -> str:
-    """본문 HTML에서 키워드를 형광 <mark>로 강조. HTML 태그 내부는 건드리지 않음"""
+    """본문 HTML에서 키워드(+별칭) 모두 형광 <mark>로 강조. HTML 태그 내부는 건드리지 않음"""
+    all_terms = set()
     for kw in keywords:
-        variants = {kw}
+        all_terms.add(kw)
         if re.search(r'[a-zA-Z]', kw):
-            variants |= {kw.lower(), kw.upper()}  # 영어는 대/소문자 모두
-        for v in sorted(variants, key=len, reverse=True):  # 긴 것 먼저 치환
-            pattern = f'({re.escape(v)})(?![^<]*>)'  # HTML 태그 안쪽 제외
-            body_html = re.sub(pattern, r'<mark>\1</mark>', body_html, flags=re.IGNORECASE)
+            all_terms |= {kw.lower(), kw.upper()}
+        for alias in KEYWORD_ALIASES.get(kw, []):   # 별칭도 강조 대상에 포함
+            all_terms.add(alias)
+            if re.search(r'[a-zA-Z]', alias):
+                all_terms |= {alias.lower(), alias.upper()}
+    for v in sorted(all_terms, key=len, reverse=True):  # 긴 것 먼저 치환
+        pattern = f'({re.escape(v)})(?![^<]*>)'
+        body_html = re.sub(pattern, r'<mark>\1</mark>', body_html, flags=re.IGNORECASE)
     return body_html
 
 
@@ -394,20 +407,25 @@ def main():
     print(f"\n대상 날짜: {', '.join(target_dates)}")
     print(f"검색 키워드: {', '.join(KEYWORDS)}\n")
 
-    # 영어 키워드는 대/소문자 변형 추가 검색, 중복 URL 제거 후 원본 키워드로 그룹화
+    # 검색 변형 생성: 영어 대/소문자 + KEYWORD_ALIASES 별칭 모두 포함
+    # 결과는 KEYWORDS 대표 키워드로 그룹화
     all_infos = []
     seen_urls = set()
     for kw in KEYWORDS:
         search_variants = [kw]
-        if re.search(r'[a-zA-Z]', kw):
+        if re.search(r'[a-zA-Z]', kw):          # 영어 포함 시 대/소문자 추가
             variants = {kw.lower(), kw.upper()}
             variants.discard(kw)
             search_variants += list(variants)
+        for alias in KEYWORD_ALIASES.get(kw, []):  # 별칭도 검색 목록에 추가
+            search_variants.append(alias)
+            if re.search(r'[a-zA-Z]', alias):
+                search_variants += [alias.lower(), alias.upper()]
         for variant in search_variants:
             for info in search_articles(session, variant, target_dates):
                 if info["URL"] not in seen_urls:
                     seen_urls.add(info["URL"])
-                    info["키워드"] = kw
+                    info["키워드"] = kw           # 대표 키워드로 그룹화
                     all_infos.append(info)
 
     if not all_infos:
