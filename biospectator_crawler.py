@@ -6,7 +6,7 @@ BioSpectator 키워드 검색 크롤러
 ■ 제작 환경
   - Claude Code (claude.ai 앱 내 코드 탭, 터미널 포함)
   - Windows 10 로컬 PC에서 개발 및 테스트
-  - 파일 위치: C:\Users\user\test_project\biospectator\
+  - 파일 위치: C:/Users/user/test_project/biospectator/
 
 ■ 동작 방식
   - KEYWORDS 목록의 키워드로 BioSpectator 검색
@@ -30,7 +30,7 @@ BioSpectator 키워드 검색 크롤러
   2. 파일 불러오기:
      Claude Code 탭(터미널)에서 자동으로 로컬 파일에 접근 가능
      별도로 불러올 필요 없이 바로 "~~ 수정해줘" 라고 요청하면 됨
-     (파일 경로: C:\Users\user\test_project\biospectator\biospectator_crawler.py)
+     (파일 경로: C:/Users/user/test_project/biospectator/biospectator_crawler.py)
 
   3. 수정 요청 예시:
      - "키워드에 '삼성바이오로직스' 추가해줘"
