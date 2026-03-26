@@ -38,13 +38,16 @@ HEADERS = {
 
 
 def get_target_dates() -> list[str]:
-    """평일은 오늘만, 월요일은 토/일 포함 (주말 기사 누락 방지)"""
+    """
+    항상 오늘 + 어제 포함 (당일 크롤링 이후 올라온 기사 누락 방지)
+    월요일은 토/일까지 추가 포함
+    """
     today = datetime.now()
-    dates = [today.strftime("%Y-%m-%d")]
-    if today.weekday() == 0:  # 월요일
-        dates.append((today - timedelta(days=1)).strftime("%Y-%m-%d"))  # 일
+    dates = [today.strftime("%Y-%m-%d"),
+             (today - timedelta(days=1)).strftime("%Y-%m-%d")]  # 항상 어제 포함
+    if today.weekday() == 0:  # 월요일: 토/일 추가
         dates.append((today - timedelta(days=2)).strftime("%Y-%m-%d"))  # 토
-    return dates
+    return list(dict.fromkeys(dates))  # 중복 제거 (순서 유지)
 
 
 def login(session: requests.Session) -> bool:
