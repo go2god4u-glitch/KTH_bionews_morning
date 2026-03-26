@@ -220,6 +220,12 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
     generated  = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
     total      = len(articles)
 
+    # 상단 헤더: 이메일/브라우저 모두 바로 기사가 시작되도록 compact하게
+    header_links = " &nbsp;|&nbsp; ".join(
+        f'<a href="#" onclick="var el=document.getElementById(\'kw-{i}\');if(el){{el.scrollIntoView({{behavior:\'smooth\'}});}};return false;" style="color:#fff;text-decoration:none;font-size:13px;">{k.upper()} ({len(v)}건)</a>'
+        for i, (k, v) in enumerate(by_keyword.items())
+    )
+
     html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -228,26 +234,22 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
 <title>BioSpectator 키워드 리포트 ({date_label})</title>
 <style>
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-  body {{ font-family: 'Malgun Gothic', sans-serif; background: #f4f6f9; color: #222; display: flex; }}
-  nav {{ width: 220px; min-height: 100vh; background: #1a3a5c; color: #fff; padding: 24px 16px; position: sticky; top: 0; align-self: flex-start; }}
-  nav .logo {{ font-size: 16px; font-weight: bold; color: #7ecfff; margin-bottom: 4px; }}
-  nav .meta {{ font-size: 11px; color: #aac; margin-bottom: 20px; line-height: 1.6; }}
-  nav ul {{ list-style: none; }}
-  nav ul li {{ margin-bottom: 8px; }}
-  nav ul li a {{ color: #cde; text-decoration: none; font-size: 13px; }}
-  nav ul li a:hover {{ color: #fff; }}
-  main {{ flex: 1; padding: 32px 40px; max-width: 900px; }}
-  .section-title {{ font-size: 22px; color: #1a3a5c; border-left: 5px solid #0077cc; padding-left: 12px; margin: 40px 0 20px; }}
-  .card {{ background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 24px; }}
-  .card-header {{ padding: 18px 20px 10px; border-bottom: 1px solid #eee; }}
+  body {{ font-family: 'Malgun Gothic', sans-serif; background: #f4f6f9; color: #222; }}
+  .top-bar {{ background: #1a3a5c; color: #fff; padding: 10px 24px; font-size: 12px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }}
+  .top-bar .logo {{ font-size: 15px; font-weight: bold; color: #7ecfff; margin-right: 8px; }}
+  .top-bar .meta {{ color: #aac; }}
+  .top-bar .links {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+  .wrap {{ max-width: 900px; margin: 0 auto; padding: 24px 20px; }}
+  .section-title {{ font-size: 20px; color: #1a3a5c; border-left: 5px solid #0077cc; padding-left: 12px; margin: 32px 0 16px; }}
+  .card {{ background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 20px; }}
+  .card-header {{ padding: 16px 20px 10px; border-bottom: 1px solid #eee; }}
   .card-header h2 {{ font-size: 17px; line-height: 1.5; }}
   .card-header h2 a {{ color: #1a3a5c; text-decoration: none; }}
   .card-header h2 a:hover {{ text-decoration: underline; }}
   .date {{ font-size: 12px; color: #888; margin-top: 4px; display: block; }}
-  .card-body {{ padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; white-space: pre-line; }}
+  .card-body {{ padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; }}
   .card-body h4 {{ font-size: 16px; font-weight: bold; color: #333; background: #f0f4f8; border-left: 4px solid #0077cc; padding: 12px 16px; margin: 12px 0 16px; line-height: 1.8; }}
   .card-body p {{ margin-bottom: 12px; white-space: pre-line; }}
-  .card-body div {{ white-space: pre-line; }}
   .card-body img {{ max-width: 100%; height: auto; margin: 8px 0; }}
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
@@ -257,18 +259,14 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
 </style>
 </head>
 <body>
-<nav>
-  <div class="logo">BioSpectator</div>
-  <div class="meta">
-    수집일: {generated}<br>
-    대상날짜: {date_label}<br>
-    전체 {total}건
-  </div>
-  <ul>{section_links}</ul>
-</nav>
-<main>
+<div class="top-bar">
+  <span class="logo">BioSpectator</span>
+  <span class="meta">{generated} &nbsp;|&nbsp; {date_label} &nbsp;|&nbsp; 전체 {total}건</span>
+  <div class="links">{header_links}</div>
+</div>
+<div class="wrap">
 {sections_html if sections_html else '<p class="no-articles">오늘 날짜 기사가 없습니다.</p>'}
-</main>
+</div>
 </body>
 </html>"""
 
