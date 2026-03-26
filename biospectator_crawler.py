@@ -228,6 +228,14 @@ def crawl_article(session: requests.Session, info: dict) -> dict:
             # 불필요 요소 제거: 광고, 관련기사, 유료안내박스, 기자정보
             for tag in body_el.select(".ad, .related, script, style, .viwe-pay-coment, .reporter"):
                 tag.decompose()
+            # HTML 주석 제거 (제목~h4 사이 빈 공간 원인)
+            from bs4 import Comment
+            for comment in body_el.find_all(string=lambda t: isinstance(t, Comment)):
+                comment.extract()
+            # 비어있는 <p>, <div>, <br> 연속 제거
+            for tag in body_el.find_all(['p', 'div']):
+                if not tag.get_text(strip=True) and not tag.find('img'):
+                    tag.decompose()
             for tag in body_el.find_all(True):
                 if tag.get("style"): del tag["style"]
                 if tag.get("class"): del tag["class"]
@@ -330,13 +338,13 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .wrap {{ max-width: 900px; margin: 0 auto; padding: 24px 20px; }}
   .section-title {{ font-size: 20px; color: #1a3a5c; border-left: 5px solid #0077cc; padding-left: 12px; margin: 32px 0 16px; }}
   .card {{ background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 20px; }}
-  .card-header {{ padding: 16px 20px 10px; border-bottom: 1px solid #eee; }}
+  .card-header {{ padding: 12px 20px 8px; border-bottom: 1px solid #eee; }}
   .card-header h2 {{ font-size: 17px; line-height: 1.5; }}
   .card-header h2 a {{ color: #1a3a5c; text-decoration: none; }}
   .card-header h2 a:hover {{ text-decoration: underline; }}
   .date {{ font-size: 12px; color: #888; margin-top: 4px; display: block; }}
   .card-body {{ padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; }}
-  .card-body h4 {{ font-size: 16px; font-weight: bold; color: #333; background: #f0f4f8; border-left: 4px solid #0077cc; padding: 12px 16px; margin: 12px 0 16px; line-height: 1.8; }}
+  .card-body h4 {{ font-size: 16px; font-weight: bold; color: #333; background: #f0f4f8; border-left: 4px solid #0077cc; padding: 10px 16px; margin: 0 0 12px; line-height: 1.8; }}
   .card-body p {{ margin-bottom: 12px; white-space: pre-line; }}
   .card-body img {{ max-width: 100%; height: auto; margin: 8px 0; }}
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
