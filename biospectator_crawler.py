@@ -1,63 +1,75 @@
 """
 ================================================================================
-BioSpectator 키워드 검색 크롤러
+BioSpectator 키워드 크롤러  |  KTH_bionews_morning
 ================================================================================
 
 ■ 제작 환경
-  - Claude Code (claude.ai 앱 내 코드 탭, 터미널 포함)
-  - Windows 10 로컬 PC에서 개발 및 테스트
+  - Claude Code (claude.ai 앱 내 코드 탭 + 터미널)
+  - Windows 로컬 PC에서 개발/테스트
   - 파일 위치: C:/Users/user/test_project/biospectator/
 
-■ 동작 방식
-  - KEYWORDS 목록의 키워드로 BioSpectator 검색
-  - 오늘 + 어제 날짜 기사만 전문 크롤링 (월요일은 토/일 추가)
-  - 결과를 HTML 리포트로 저장 후 이메일 발송
+■ 전체 동작 흐름
+  평일 오전 9:30 (GitHub 서버 자동 실행)
+    → BioSpectator 로그인
+    → 키워드별 검색 (대/소문자 + 별칭 모두)
+    → 오늘 + 어제 날짜 기사만 전문 크롤링
+    → docs/index.html 생성 → GitHub Pages 업로드
+    → 이메일 발송 (상단 링크버튼 + 전체 기사 미리보기)
 
-■ 배포 방식 (GitHub Actions)
-  - GitHub 저장소: https://github.com/go2god4u-glitch/biospectator-crawler
-  - 저장소는 Private으로 설정 (코드/크롤링 로직 보호)
-  - .github/workflows/daily-crawler.yml 에 스케줄 정의
-  - 평일 오전 9:30 KST (UTC 00:30) 자동 실행
-  - 로그인 정보/이메일 계정은 GitHub Secrets에 암호화 저장
-    (저장소 Settings → Secrets and variables → Actions 에서 확인/수정 가능)
+■ 배포 구조 (GitHub Actions + GitHub Pages)
+  저장소: https://github.com/go2god4u-glitch/KTH_bionews_morning
+  Pages:  https://go2god4u-glitch.github.io/KTH_bionews_morning/
+  - 저장소는 Public (GitHub Pages 무료 사용 조건)
+  - 로그인/이메일 정보는 GitHub Secrets에 암호화 저장 → 코드 공개돼도 안전
+  - .github/workflows/daily-crawler.yml 에 cron 스케줄 정의
   - 수동 실행: GitHub Actions 탭 → Run workflow 버튼
+  - Actions 실행 후 docs/index.html 을 자동 커밋 & 푸시 → Pages 즉시 반영
 
-■ 나중에 코드 수정이 필요할 때
-  ─────────────────────────────────────────────────────
-  1. Claude 앱(claude.ai) 실행 → 이 대화 열기
-     (또는 새 대화에서 "이 파일 열어줘" 후 파일 경로 전달)
+■ 이메일 방식 결정 히스토리
+  1차 시도: 이메일 본문에 HTML 전체 삽입
+    → Gmail이 <style> 블록 제거 → CSS 미적용, 레이아웃 깨짐
+    → css_inline 라이브러리로 인라인화 시도 → 개선됐으나 앵커 내비게이션 불가
+  2차 시도: 링크 버튼만 이메일로 발송 + GitHub Pages에서 전체 열람
+    → 브라우저에서는 sticky 키워드바, 섹션 이동 등 모두 정상 작동
+  최종: 이메일 = 링크 버튼(브라우저용) + 기사 미리보기(이메일 훑어보기용) 동시 제공
 
-  2. 파일 불러오기:
-     Claude Code 탭(터미널)에서 자동으로 로컬 파일에 접근 가능
-     별도로 불러올 필요 없이 바로 "~~ 수정해줘" 라고 요청하면 됨
-     (파일 경로: C:/Users/user/test_project/biospectator/biospectator_crawler.py)
+■ 내비게이션 시도 히스토리
+  - 이메일 내 앵커 링크(href="#...") → Gmail이 새창으로 열어버림 (해결 불가)
+  - onclick JavaScript → Gmail이 JS 전부 차단 (해결 불가)
+  → Gmail 이메일 내 내비게이션은 구조적으로 불가능
+  → 해결책: GitHub Pages 브라우저 버전에서만 내비게이션 제공
+  → 브라우저 버전: sticky 상단바, 키워드 클릭 → 섹션 스크롤 모두 정상 작동
 
-  3. 수정 요청 예시:
-     - "키워드에 '삼성바이오로직스' 추가해줘"
-     - "이메일 수신자를 xxx@donga.co.kr 로 바꿔줘"
-     - "월~금 9:30 → 8:00으로 실행 시간 바꿔줘"
+■ 코드 수정 방법 (나중에 필요할 때)
+  ─────────────────────────────────────
+  1. claude.ai 앱 → 이 대화(또는 새 대화) 열기
+  2. "키워드 추가해줘 / 이메일 바꿔줘" 등 요청
+     → Claude가 로컬 파일 수정 + git commit + push 자동 처리
+  3. push 즉시 GitHub Actions에 반영 (별도 작업 불필요)
 
-  4. 수정 후 GitHub 배포:
-     Claude가 자동으로 git commit + push 처리
-     push 완료 즉시 GitHub Actions에 반영됨 (별도 작업 불필요)
+  자주 쓰는 수정 예시:
+    - "키워드에 '삼성바이오로직스' 추가해줘" → KEYWORDS + 영문 별칭 자동 조사
+    - "이메일 수신자 xxx@donga.co.kr 로 바꿔줘" → GitHub Secrets GMAIL_TO 업데이트
+    - "실행 시간 8:00으로 바꿔줘" → daily-crawler.yml cron 수정
+  ─────────────────────────────────────
 
-  5. 이메일 수신자/발신자 변경 시:
-     GitHub Secrets에서 GMAIL_TO 값을 직접 수정
-     → 저장소 Settings → Secrets → GMAIL_TO → Update
-     (또는 Claude에게 "이메일 수신자 바꿔줘"라고 요청하면 API로 처리)
+■ GitHub Secrets 목록 (Settings → Secrets → Actions)
+  BIOS_ID            BioSpectator 로그인 아이디
+  BIOS_PW            BioSpectator 비밀번호
+  GMAIL_FROM         발신 Gmail 주소
+  GMAIL_APP_PASSWORD Gmail 앱 비밀번호 (2단계 인증 후 발급)
+  GMAIL_TO           수신 이메일 주소 (현재: e2102208@donga.co.kr)
 
-  6. 키워드만 추가할 때는 아래 KEYWORDS 리스트에만 추가하면 됨
-  ─────────────────────────────────────────────────────
-
-■ 주요 파일 구조
+■ 파일 구조
   biospectator/
-  ├── biospectator_crawler.py   ← 메인 크롤러 (이 파일)
-  ├── requirements.txt          ← Python 패키지 목록
-  ├── .env                      ← 로그인/이메일 정보 (로컬 전용, GitHub에 올라가지 않음)
-  ├── .gitignore                ← .env, *.html 제외 설정
-  └── .github/
-      └── workflows/
-          └── daily-crawler.yml ← GitHub Actions 스케줄 정의
+  ├── biospectator_crawler.py    ← 메인 크롤러 (이 파일)
+  ├── requirements.txt           ← Python 패키지 목록
+  ├── .env                       ← 로컬 전용 로그인 정보 (GitHub에 올라가지 않음)
+  ├── .gitignore                 ← .env, *.html 제외 / docs/index.html 예외 허용
+  ├── docs/
+  │   └── index.html             ← 매일 생성되는 리포트 (GitHub Pages 서빙)
+  └── .github/workflows/
+      └── daily-crawler.yml      ← 스케줄 + 커밋/푸시 자동화
 
 ================================================================================
 """
