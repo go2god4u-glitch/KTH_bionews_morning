@@ -5,7 +5,7 @@ BioSpectator 키워드 검색 크롤러
 """
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from datetime import datetime, timedelta
 import time
 import re
@@ -156,6 +156,11 @@ def crawl_article(session: requests.Session, info: dict) -> dict:
             for tag in body_el.find_all(True):
                 if tag.get("style"): del tag["style"]
                 if tag.get("class"): del tag["class"]
+            # 텍스트 노드의 \n → <br> 변환 (HTML 태그 내부는 건드리지 않음)
+            for node in list(body_el.descendants):
+                if isinstance(node, NavigableString) and node.parent.name not in ['script', 'style']:
+                    if '\n' in str(node):
+                        node.replace_with(BeautifulSoup(str(node).replace('\n', '<br>'), 'html.parser'))
             body = str(body_el)
 
         is_paid = "[유료]" if not body or len(body) < 100 else ""
@@ -235,9 +240,10 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .card-header h2 a {{ color: #1a3a5c; text-decoration: none; }}
   .card-header h2 a:hover {{ text-decoration: underline; }}
   .date {{ font-size: 12px; color: #888; margin-top: 4px; display: block; }}
-  .card-body {{ padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; }}
+  .card-body {{ padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; white-space: pre-line; }}
   .card-body h4 {{ font-size: 16px; font-weight: bold; color: #333; background: #f0f4f8; border-left: 4px solid #0077cc; padding: 12px 16px; margin: 12px 0 16px; line-height: 1.8; }}
   .card-body p {{ margin-bottom: 12px; white-space: pre-line; }}
+  .card-body div {{ white-space: pre-line; }}
   .card-body img {{ max-width: 100%; height: auto; margin: 8px 0; }}
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
