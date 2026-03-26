@@ -279,6 +279,7 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
     - 키워드/섹션 제목은 대문자 표시
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    os.makedirs("docs", exist_ok=True)
     html_path = "docs/index.html"  # GitHub Pages로 서빙되는 고정 경로
 
     by_keyword = defaultdict(list)
