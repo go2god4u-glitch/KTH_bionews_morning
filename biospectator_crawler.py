@@ -11,6 +11,7 @@ import time
 import re
 import os
 import smtplib
+import css_inline
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from collections import defaultdict
@@ -288,9 +289,10 @@ def send_email(html_path: str, target_dates: list[str], article_count: int):
         print("[SKIP] Gmail 앱 비밀번호 미설정 → 이메일 발송 건너뜀")
         return
 
-    # HTML 파일을 이메일 본문으로 직접 삽입
+    # HTML 파일 로드 후 CSS 인라인화 (Gmail은 <style> 블록을 제거하므로 필수)
     with open(html_path, "r", encoding="utf-8") as f:
         html_body = f.read()
+    html_body = css_inline.inline(html_body)
 
     date_label = " / ".join(target_dates)
     subject    = f"[BioSpectator] {date_label} 키워드 리포트 ({article_count}건)"
