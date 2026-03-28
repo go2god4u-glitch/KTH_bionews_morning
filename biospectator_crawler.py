@@ -1,6 +1,6 @@
 """
 ================================================================================
-BioSpectator 키워드 크롤러  |  KTH_bionews_morning
+BioSpectator + 더바이오 키워드 크롤러  |  KTH_bionews_morning
 ================================================================================
 
 ■ 제작 환경
@@ -10,14 +10,18 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
 
 ■ 전체 동작 흐름
   평일 오전 9:30 (GitHub 서버 자동 실행)
-    → BioSpectator 로그인
-    → 키워드별 검색 (대/소문자 + 별칭 모두)
+    → BioSpectator 로그인 + 더바이오 (로그인 불필요)
+    → 키워드별 검색 (대/소문자 + 별칭 모두) — 두 사이트 동시 수행
     → 오늘 + 어제 날짜 기사 수집 (월요일은 금/토/일 포함)
     → sent_urls.json 대조 → 이미 발송된 기사 제외 (날짜 중복 방지)
     → 새 기사만 전문 크롤링
     → docs/index.html 생성 → GitHub Pages 업로드
     → 이메일 발송 (상단 링크버튼 + 전체 기사 미리보기)
     → sent_urls.json 업데이트 (최대 500건 보관)
+
+■ 지원 사이트
+  1. BioSpectator (https://www.biospectator.com) — 로그인 필요 (유료)
+  2. 더바이오 (https://www.thebionews.net)        — 로그인 불필요 (무료)
 
 ■ 배포 구조 (GitHub Actions + GitHub Pages)
   저장소: https://github.com/go2god4u-glitch/KTH_bionews_morning
@@ -28,44 +32,18 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
   - 수동 실행: GitHub Actions 탭 → Run workflow 버튼
   - Actions 실행 후 docs/index.html 을 자동 커밋 & 푸시 → Pages 즉시 반영
 
-■ 이메일 방식 결정 히스토리
-  1차 시도: 이메일 본문에 HTML 전체 삽입
-    → Gmail이 <style> 블록 제거 → CSS 미적용, 레이아웃 깨짐
-    → css_inline 라이브러리로 인라인화 시도 → 개선됐으나 앵커 내비게이션 불가
-  2차 시도: 링크 버튼만 이메일로 발송 + GitHub Pages에서 전체 열람
-    → 브라우저에서는 sticky 키워드바, 섹션 이동 등 모두 정상 작동
-  최종: 이메일 = 링크 버튼(브라우저용) + 기사 미리보기(이메일 훑어보기용) 동시 제공
-
-■ 내비게이션 시도 히스토리
-  - 이메일 내 앵커 링크(href="#...") → Gmail이 새창으로 열어버림 (해결 불가)
-  - onclick JavaScript → Gmail이 JS 전부 차단 (해결 불가)
-  → Gmail 이메일 내 내비게이션은 구조적으로 불가능
-  → 해결책: GitHub Pages 브라우저 버전에서만 내비게이션 제공
-  → 브라우저 버전: sticky 상단바, 키워드 클릭 → 섹션 스크롤 모두 정상 작동
-
-■ 코드 수정 방법 (나중에 필요할 때)
-  ─────────────────────────────────────
-  1. claude.ai 앱 → 이 대화(또는 새 대화) 열기
-  2. "키워드 추가해줘 / 이메일 바꿔줘" 등 요청
-     → Claude가 로컬 파일 수정 + git commit + push 자동 처리
-  3. push 즉시 GitHub Actions에 반영 (별도 작업 불필요)
-
-  자주 쓰는 수정 예시:
-    - "키워드에 '삼성바이오로직스' 추가해줘" → KEYWORDS + 영문 별칭 자동 조사
-    - "이메일 수신자 xxx@donga.co.kr 로 바꿔줘" → GitHub Secrets GMAIL_TO 업데이트
-    - "실행 시간 8:00으로 바꿔줘" → daily-crawler.yml cron 수정
-  ─────────────────────────────────────
+■ 이메일 방식
+  이메일 = 링크 버튼(브라우저용) + 기사 미리보기(이메일 훑어보기용) 동시 제공
 
 ■ GitHub Secrets 목록 (Settings → Secrets → Actions)
   BIOS_ID            BioSpectator 로그인 아이디
   BIOS_PW            BioSpectator 비밀번호
   GMAIL_FROM         발신 Gmail 주소
   GMAIL_APP_PASSWORD Gmail 앱 비밀번호 (2단계 인증 후 발급)
-  GMAIL_TO           수신 이메일 주소 (현재: e2102208@donga.co.kr)
+  GMAIL_TO           수신 이메일 주소
 
 ■ 중복 기사 방지 (sent_urls.json)
   - 매일 오늘 + 어제 기사를 가져오므로 날짜가 겹치는 기사가 중복 발송될 수 있음
-    예) 화요일: 월/화 수집 → 수요일: 화/수 수집 → 화요일 기사 중복
   - 발송된 기사 URL을 docs/sent_urls.json에 저장 → 다음 실행 때 자동 제외
   - 최대 500건 보관 (약 7일치), 이후 오래된 것부터 자동 삭제
 
@@ -77,7 +55,6 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
   ├── .gitignore                 ← .env, *.html 제외 / docs/ 예외 허용
   ├── docs/
   │   ├── index.html             ← 매일 덮어씌워지는 리포트 (항상 최신만 유지)
-  │   │                             * 받은 이메일 본문 = 날짜별 이력 역할
   │   └── sent_urls.json         ← 발송된 기사 URL 이력 (중복 방지용)
   └── .github/workflows/
       └── daily-crawler.yml      ← 스케줄 + 커밋/푸시 자동화
@@ -86,14 +63,13 @@ BioSpectator 키워드 크롤러  |  KTH_bionews_morning
 """
 
 import requests
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup, NavigableString, Comment
 from datetime import datetime, timedelta
 import time
 import re
 import os
 import json
 import smtplib
-import css_inline
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from collections import defaultdict
@@ -101,10 +77,16 @@ from dotenv import load_dotenv
 
 load_dotenv()  # .env 에서 BIOS_ID, BIOS_PW 로드
 
-BASE_URL   = "https://www.biospectator.com"
-LOGIN_URL  = "https://member.biospectator.com/login_prc.php"
-SEARCH_URL = BASE_URL + "/section/search_list?searchkey={keyword}&page={page}"
+# ── BioSpectator ──────────────────────────────────────────────────────────────
+BIOS_BASE_URL  = "https://www.biospectator.com"
+BIOS_LOGIN_URL = "https://member.biospectator.com/login_prc.php"
+BIOS_SEARCH_URL = BIOS_BASE_URL + "/section/search_list?searchkey={keyword}&page={page}"
 
+# ── 더바이오 ──────────────────────────────────────────────────────────────────
+THEBIO_BASE_URL   = "https://www.thebionews.net"
+THEBIO_SEARCH_URL = THEBIO_BASE_URL + "/news/articleList.html"
+
+# ── 공통 ──────────────────────────────────────────────────────────────────────
 # 키워드 추가는 여기에만 하면 됨. 영어 포함 시 대/소문자 자동 검색
 KEYWORDS = [
     "DA-1726",
@@ -121,21 +103,24 @@ KEYWORDS = [
 # - 검색은 모든 별칭으로 수행, 결과는 대표 키워드(KEYWORDS에 있는 것)로 그룹화
 # - 하이라이트도 별칭 포함 모두 강조
 KEYWORD_ALIASES = {
-    "동아ST":    ["동아에스티"],
-    "Amylin":   ["아밀린"],
-    "메타비아":  ["MetaVia"],
-    "노보노디스크": ["Novo Nordisk"],
-    "GPR119":   ["GPR-119"],
-    "Vanoglipel": ["바노글리펠"],
-    "DA-1726":  [],  # 별도 통용 한글명 없음
+    "동아ST":       ["동아에스티"],
+    "Amylin":      ["아밀린"],
+    "메타비아":     ["MetaVia"],
+    "노보노디스크":  ["Novo Nordisk"],
+    "GPR119":      ["GPR-119"],
+    "Vanoglipel":  ["바노글리펠"],
+    "DA-1726":     [],
 }
 
-# 브라우저처럼 보이게 해서 차단 방지
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-    "Referer": BASE_URL,
+    "Referer": BIOS_BASE_URL,
 }
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 공통 유틸
+# ══════════════════════════════════════════════════════════════════════════════
 
 def get_target_dates() -> list[str]:
     """
@@ -144,44 +129,75 @@ def get_target_dates() -> list[str]:
     """
     today = datetime.now()
     dates = [today.strftime("%Y-%m-%d"),
-             (today - timedelta(days=1)).strftime("%Y-%m-%d")]  # 항상 어제 포함
+             (today - timedelta(days=1)).strftime("%Y-%m-%d")]
     if today.weekday() == 0:  # 월요일: 금/토/일 추가
         dates.append((today - timedelta(days=2)).strftime("%Y-%m-%d"))  # 토
         dates.append((today - timedelta(days=3)).strftime("%Y-%m-%d"))  # 금
-    return list(dict.fromkeys(dates))  # 중복 제거 (순서 유지)
+    return list(dict.fromkeys(dates))
 
 
-def login(session: requests.Session) -> bool:
+def build_search_variants(kw: str) -> list[str]:
+    """키워드 → 검색에 사용할 변형 목록 (대/소문자 + 별칭)"""
+    variants = [kw]
+    if re.search(r'[a-zA-Z]', kw):
+        extras = {kw.lower(), kw.upper()}
+        extras.discard(kw)
+        variants += list(extras)
+    for alias in KEYWORD_ALIASES.get(kw, []):
+        variants.append(alias)
+        if re.search(r'[a-zA-Z]', alias):
+            variants += [alias.lower(), alias.upper()]
+    return variants
+
+
+def highlight_keywords(body_html: str, keywords: list[str]) -> str:
+    """본문 HTML에서 키워드(+별칭) 모두 형광 <mark>로 강조. HTML 태그 내부는 건드리지 않음"""
+    all_terms = set()
+    for kw in keywords:
+        all_terms.add(kw)
+        if re.search(r'[a-zA-Z]', kw):
+            all_terms |= {kw.lower(), kw.upper()}
+        for alias in KEYWORD_ALIASES.get(kw, []):
+            all_terms.add(alias)
+            if re.search(r'[a-zA-Z]', alias):
+                all_terms |= {alias.lower(), alias.upper()}
+    for v in sorted(all_terms, key=len, reverse=True):
+        pattern = f'({re.escape(v)})(?![^<]*>)'
+        body_html = re.sub(pattern, r'<mark>\1</mark>', body_html, flags=re.IGNORECASE)
+    return body_html
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# BioSpectator 크롤러
+# ══════════════════════════════════════════════════════════════════════════════
+
+def bios_login(session: requests.Session) -> bool:
     """.env 없으면 직접 입력. 로그인 성공 여부는 쿠키 LOGIN_IDX로 판단"""
     user_id  = os.getenv("BIOS_ID")
     password = os.getenv("BIOS_PW")
     if not user_id or not password:
-        user_id  = input("아이디: ").strip()
-        password = input("비밀번호: ").strip()
+        user_id  = input("BioSpectator 아이디: ").strip()
+        password = input("BioSpectator 비밀번호: ").strip()
 
-    session.get("https://member.biospectator.com/login.php", headers=HEADERS)  # 세션쿠키 획득
+    session.get("https://member.biospectator.com/login.php", headers=HEADERS)
     session.post(
-        LOGIN_URL,
-        data={"MEMR_EID": user_id, "MEMR_PWD": password, "URL": BASE_URL + "/"},
+        BIOS_LOGIN_URL,
+        data={"MEMR_EID": user_id, "MEMR_PWD": password, "URL": BIOS_BASE_URL + "/"},
         headers={**HEADERS, "Referer": "https://member.biospectator.com/login.php"},
         allow_redirects=True,
     )
-
     logged_in = "LOGIN_IDX" in session.cookies
-    print("[OK] 로그인 성공" if logged_in else "[FAIL] 로그인 실패")
+    print("[BioSpectator] " + ("로그인 성공" if logged_in else "로그인 실패"))
     return logged_in
 
 
-def search_articles(session: requests.Session, keyword: str, target_dates: list[str]) -> list[dict]:
-    """
-    검색 결과에서 대상 날짜 기사 URL 수집 (최대 10페이지)
-    결과는 최신순이므로 대상 날짜보다 오래된 기사가 나오면 즉시 중단
-    """
+def bios_search(session: requests.Session, keyword: str, target_dates: list[str]) -> list[dict]:
+    """BioSpectator 검색 결과에서 대상 날짜 기사 URL 수집 (최대 10페이지)"""
     results = []
-    seen = set()
+    seen    = set()
 
     for page in range(1, 10):
-        url  = SEARCH_URL.format(keyword=keyword, page=page)
+        url  = BIOS_SEARCH_URL.format(keyword=keyword, page=page)
         resp = session.get(url, headers=HEADERS, timeout=10)
         soup = BeautifulSoup(resp.text, "html.parser")
 
@@ -190,18 +206,18 @@ def search_articles(session: requests.Session, keyword: str, target_dates: list[
 
         for a_tag in soup.select("a[href*='/news/view/']"):
             title = a_tag.get_text(strip=True)
-            if len(title) < 5:  # 아이콘 등 짧은 텍스트 제외
+            if len(title) < 5:
                 continue
 
             href        = a_tag.get("href", "")
-            article_url = BASE_URL + href if href.startswith("/") else href
+            article_url = BIOS_BASE_URL + href if href.startswith("/") else href
             if article_url in seen:
                 continue
             seen.add(article_url)
 
-            # 날짜는 부모/조부모 텍스트에서 정규식으로 추출
             date = ""
-            for parent in [a_tag.find_parent(), a_tag.find_parent().find_parent() if a_tag.find_parent() else None]:
+            for parent in [a_tag.find_parent(),
+                           a_tag.find_parent().find_parent() if a_tag.find_parent() else None]:
                 if parent:
                     m = re.search(r"(\d{4}-\d{2}-\d{2})", parent.get_text())
                     if m:
@@ -213,7 +229,7 @@ def search_articles(session: requests.Session, keyword: str, target_dates: list[
 
             if date in target_dates:
                 found_any = True
-                results.append({"키워드": keyword, "날짜": date, "URL": article_url})
+                results.append({"키워드": keyword, "날짜": date, "URL": article_url, "출처": "BioSpectator"})
             elif date < min(target_dates):
                 stop = True
                 break
@@ -222,19 +238,12 @@ def search_articles(session: requests.Session, keyword: str, target_dates: list[
             break
         time.sleep(0.3)
 
-    print(f"  [{keyword}] {len(results)}건 발견")
+    print(f"  [BioSpectator/{keyword}] {len(results)}건")
     return results
 
 
-def crawl_article(session: requests.Session, info: dict) -> dict:
-    """
-    기사 전문 크롤링
-    - 제목: <h3>, 날짜: .datetime
-    - 본문: .article_view HTML 유지 (광고/유료안내문/기자정보 제거)
-    - <h4>(핵심요약)는 CSS로 강조 표시하기 위해 태그 유지
-    - 인라인 style/class 제거 → 리포트 CSS가 일관 적용되도록
-    - 본문 100자 미만이면 유료기사로 판단
-    """
+def bios_crawl_article(session: requests.Session, info: dict) -> dict:
+    """BioSpectator 기사 전문 크롤링"""
     url = info["URL"]
     try:
         resp = session.get(url, headers=HEADERS, timeout=10)
@@ -255,78 +264,188 @@ def crawl_article(session: requests.Session, info: dict) -> dict:
         body    = ""
         body_el = soup.select_one(".article_view")
         if body_el:
-            # 불필요 요소 제거: 광고, 관련기사, 유료안내박스, 기자정보
             for tag in body_el.select(".ad, .related, script, style, .viwe-pay-coment, .reporter"):
                 tag.decompose()
-            # HTML 주석 제거 (제목~h4 사이 빈 공간 원인)
-            from bs4 import Comment
             for comment in body_el.find_all(string=lambda t: isinstance(t, Comment)):
                 comment.extract()
-            # 비어있는 <p>, <div>, <br> 연속 제거
             for tag in body_el.find_all(['p', 'div']):
                 if not tag.get_text(strip=True) and not tag.find('img'):
                     tag.decompose()
             for tag in body_el.find_all(True):
                 if tag.get("style"): del tag["style"]
                 if tag.get("class"): del tag["class"]
-            # 텍스트 노드의 \n → <br> 변환 (내용 있는 노드만, 태그 사이 공백은 제외)
             for node in list(body_el.descendants):
                 if isinstance(node, NavigableString) and node.parent.name not in ['script', 'style']:
                     text = str(node)
-                    if '\n' in text and text.strip():  # 공백만 있는 노드는 건너뜀
+                    if '\n' in text and text.strip():
                         node.replace_with(BeautifulSoup(text.replace('\n', '<br>'), 'html.parser'))
             body = str(body_el)
 
         is_paid = "[유료]" if not body or len(body) < 100 else ""
-
-        return {"키워드": info["키워드"], "제목": title, "날짜": date, "본문": body, "유료기사": is_paid, "URL": url}
+        return {"키워드": info["키워드"], "제목": title, "날짜": date, "본문": body,
+                "유료기사": is_paid, "URL": url, "출처": "BioSpectator"}
     except Exception as e:
-        return {"키워드": info["키워드"], "제목": "", "날짜": info.get("날짜", ""), "본문": f"[오류] {e}", "유료기사": "", "URL": url}
+        return {"키워드": info["키워드"], "제목": "", "날짜": info.get("날짜", ""),
+                "본문": f"[오류] {e}", "유료기사": "", "URL": url, "출처": "BioSpectator"}
 
 
-def highlight_keywords(body_html: str, keywords: list[str]) -> str:
-    """본문 HTML에서 키워드(+별칭) 모두 형광 <mark>로 강조. HTML 태그 내부는 건드리지 않음"""
-    all_terms = set()
-    for kw in keywords:
-        all_terms.add(kw)
-        if re.search(r'[a-zA-Z]', kw):
-            all_terms |= {kw.lower(), kw.upper()}
-        for alias in KEYWORD_ALIASES.get(kw, []):   # 별칭도 강조 대상에 포함
-            all_terms.add(alias)
-            if re.search(r'[a-zA-Z]', alias):
-                all_terms |= {alias.lower(), alias.upper()}
-    for v in sorted(all_terms, key=len, reverse=True):  # 긴 것 먼저 치환
-        pattern = f'({re.escape(v)})(?![^<]*>)'
-        body_html = re.sub(pattern, r'<mark>\1</mark>', body_html, flags=re.IGNORECASE)
-    return body_html
+# ══════════════════════════════════════════════════════════════════════════════
+# 더바이오 크롤러
+# ══════════════════════════════════════════════════════════════════════════════
 
+def thebio_search(session: requests.Session, keyword: str, target_dates: list[str]) -> list[dict]:
+    """
+    더바이오 검색 결과에서 대상 날짜 기사 URL 수집
+    - POST 방식 검색 (sc_word 파라미터)
+    - 날짜 형식: YYYY.MM.DD → YYYY-MM-DD 로 정규화
+    - 결과는 최신순이므로 대상 날짜보다 오래된 기사가 나오면 즉시 중단
+    """
+    results = []
+    seen    = set()
+    headers = {**HEADERS, "Referer": THEBIO_BASE_URL}
+
+    for page in range(1, 10):
+        resp = session.post(
+            THEBIO_SEARCH_URL,
+            data={"sc_word": keyword, "page": page},
+            headers=headers,
+            timeout=10,
+        )
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        found_any = False
+        stop      = False
+
+        # 기사 목록: <li> 안의 <H2 class="titles"><a href="/news/articleView.html?idxno=...">
+        for li in soup.select("li"):
+            a_tag = li.select_one("H2.titles a[href*='articleView']") or \
+                    li.select_one("h2.titles a[href*='articleView']")
+            if not a_tag:
+                continue
+
+            href        = a_tag.get("href", "")
+            article_url = THEBIO_BASE_URL + href if href.startswith("/") else href
+            if article_url in seen:
+                continue
+            seen.add(article_url)
+
+            # 날짜: <span class="byline"> 안의 <em> 중 날짜 형식인 것
+            date = ""
+            byline = li.select_one(".byline")
+            if byline:
+                for em in byline.select("em"):
+                    m = re.search(r"(\d{4})\.(\d{2})\.(\d{2})", em.get_text())
+                    if m:
+                        date = f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
+                        break
+
+            if not date:
+                continue
+
+            if date in target_dates:
+                found_any = True
+                results.append({"키워드": keyword, "날짜": date, "URL": article_url, "출처": "더바이오"})
+            elif date < min(target_dates):
+                stop = True
+                break
+
+        if stop or not found_any:
+            break
+        time.sleep(0.3)
+
+    print(f"  [더바이오/{keyword}] {len(results)}건")
+    return results
+
+
+def thebio_crawl_article(session: requests.Session, info: dict) -> dict:
+    """
+    더바이오 기사 전문 크롤링
+    - 제목: <h1 class="heading">
+    - 날짜: <ul class="infomation"> 안의 '입력 YYYY.MM.DD HH:MM'
+    - 본문: <article id="article-view-content-div">
+    """
+    url = info["URL"]
+    try:
+        headers = {**HEADERS, "Referer": THEBIO_BASE_URL}
+        resp    = session.get(url, headers=headers, timeout=10)
+        soup    = BeautifulSoup(resp.text, "html.parser")
+
+        # 제목
+        title = ""
+        h1 = soup.select_one("h1.heading") or soup.select_one(".heading")
+        if h1:
+            title = h1.get_text(strip=True)
+
+        # 날짜: '입력 2026.03.27 06:50' 형식
+        date    = info.get("날짜", "")
+        info_ul = soup.select_one("ul.infomation")
+        if info_ul:
+            m = re.search(r"입력\s+(\d{4})\.(\d{2})\.(\d{2})\s+(\d{2}:\d{2})", info_ul.get_text())
+            if m:
+                date = f"{m.group(1)}-{m.group(2)}-{m.group(3)} {m.group(4)}"
+
+        # 본문
+        body    = ""
+        body_el = soup.select_one("#article-view-content-div")
+        if body_el:
+            # 불필요 요소 제거
+            for tag in body_el.select("script, style, .ad, .related, figure.photo-layout"):
+                tag.decompose()
+            for comment in body_el.find_all(string=lambda t: isinstance(t, Comment)):
+                comment.extract()
+            for tag in body_el.find_all(['p', 'div']):
+                if not tag.get_text(strip=True) and not tag.find('img'):
+                    tag.decompose()
+            # 인라인 style/class 제거
+            for tag in body_el.find_all(True):
+                if tag.get("style"): del tag["style"]
+                if tag.get("class"): del tag["class"]
+                if tag.get("id"):    del tag["id"]
+            body = str(body_el)
+
+        is_paid = "[유료]" if not body or len(body) < 100 else ""
+        return {"키워드": info["키워드"], "제목": title, "날짜": date, "본문": body,
+                "유료기사": is_paid, "URL": url, "출처": "더바이오"}
+    except Exception as e:
+        return {"키워드": info["키워드"], "제목": "", "날짜": info.get("날짜", ""),
+                "본문": f"[오류] {e}", "유료기사": "", "URL": url, "출처": "더바이오"}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# HTML 리포트 생성
+# ══════════════════════════════════════════════════════════════════════════════
 
 def save_html(articles: list[dict], target_dates: list[str]) -> str:
     """
-    HTML 리포트 저장 (biospectator_YYYYMMDD_HHMM.html)
-    - 레이아웃: 고정 사이드바(키워드 링크) + 스크롤 본문
-    - 키워드별 섹션 구분, 기사는 연속 배치 (박스 스크롤 없음)
-    - 키워드/섹션 제목은 대문자 표시
+    GitHub Pages용 HTML 리포트 저장 (docs/index.html)
+    - 두 사이트(BioSpectator + 더바이오) 기사 모두 포함
+    - 키워드별 섹션, 각 기사 카드에 출처 뱃지 표시
+    - 상단바: 전체/BioSpectator/더바이오 건수 + 키워드 네비게이션
     """
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     os.makedirs("docs", exist_ok=True)
-    html_path = "docs/index.html"  # GitHub Pages로 서빙되는 고정 경로
+    html_path = "docs/index.html"
 
     by_keyword = defaultdict(list)
     for a in articles:
         if a["URL"] not in {x["URL"] for x in by_keyword[a["키워드"]]}:
             by_keyword[a["키워드"]].append(a)
 
+    bios_count   = sum(1 for a in articles if a["출처"] == "BioSpectator")
+    thebio_count = sum(1 for a in articles if a["출처"] == "더바이오")
+
     sections_html = ""
     for idx, (kw, arts) in enumerate(by_keyword.items()):
         cards = ""
         for a in arts:
             body_html  = highlight_keywords(a["본문"], KEYWORDS) if a["본문"] else "<span class='paid'>유료기사 - 전문 열람 불가</span>"
-            paid_badge = '<span class="badge">유료</span>' if a["유료기사"] else ""
+            paid_badge = '<span class="badge badge-paid">유료</span>' if a["유료기사"] else ""
+            src        = a.get("출처", "")
+            src_badge  = f'<span class="badge badge-bios">BioSpectator</span>' if src == "BioSpectator" \
+                         else f'<span class="badge badge-thebio">더바이오</span>'
             cards += f"""
             <article class="card">
                 <div class="card-header">
-                    <h2><a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}</h2>
+                    <h2>{src_badge} <a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}</h2>
                     <span class="date">{a['날짜']}</span>
                 </div>
                 <div class="card-body">{body_html}</div>
@@ -338,12 +457,10 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
             {cards}
         </section>"""
 
-    date_label = " / ".join(target_dates)
-    generated  = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
-    total      = len(articles)
-
-    # 상단 헤더: 이메일/브라우저 모두 바로 기사가 시작되도록 compact하게
-    header_links = " &nbsp;|&nbsp; ".join(
+    date_label    = " / ".join(target_dates)
+    generated     = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
+    total         = len(articles)
+    header_links  = " &nbsp;|&nbsp; ".join(
         f'<a href="#" onclick="var el=document.getElementById(\'kw-{i}\');if(el){{el.scrollIntoView({{behavior:\'smooth\'}});}};return false;" style="color:#fff;text-decoration:none;font-size:13px;">{k.upper()} ({len(v)}건)</a>'
         for i, (k, v) in enumerate(by_keyword.items())
     )
@@ -353,13 +470,14 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BioSpectator 키워드 리포트 ({date_label})</title>
+<title>바이오 키워드 리포트 ({date_label})</title>
 <style>
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{ font-family: 'Malgun Gothic', sans-serif; background: #f4f6f9; color: #222; }}
   .top-bar {{ background: #1a3a5c; color: #fff; padding: 10px 24px; font-size: 12px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }}
   .top-bar .logo {{ font-size: 15px; font-weight: bold; color: #7ecfff; margin-right: 8px; }}
   .top-bar .meta {{ color: #aac; }}
+  .top-bar .src-count {{ font-size: 11px; color: #cce; }}
   .top-bar .links {{ display: flex; gap: 8px; flex-wrap: wrap; }}
   .wrap {{ max-width: 900px; margin: 0 auto; padding: 24px 20px; }}
   .section-title {{ font-size: 20px; color: #1a3a5c; border-left: 5px solid #0077cc; padding-left: 12px; margin: 32px 0 16px; }}
@@ -375,7 +493,10 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .card-body img {{ max-width: 100%; height: auto; margin: 8px 0; }}
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
-  .badge {{ font-size: 11px; padding: 2px 7px; border-radius: 10px; background: #fff0f0; color: #c00; border: 1px solid #fcc; margin-left: 8px; vertical-align: middle; }}
+  .badge {{ font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-right: 4px; vertical-align: middle; font-weight: bold; }}
+  .badge-bios   {{ background: #e8f0fe; color: #1a5cb8; border: 1px solid #bad0f8; }}
+  .badge-thebio {{ background: #e6f4ea; color: #1a7a3c; border: 1px solid #a8d5b5; }}
+  .badge-paid   {{ background: #fff0f0; color: #c00; border: 1px solid #fcc; }}
   mark {{ background: #ffff00; padding: 0 2px; font-style: normal; }}
   .paid {{ color: #999; font-style: italic; }}
   .no-articles {{ color: #999; font-size: 14px; padding: 20px; }}
@@ -383,8 +504,9 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
 </head>
 <body>
 <div id="top" class="top-bar">
-  <span class="logo">BioSpectator</span>
+  <span class="logo">바이오 뉴스</span>
   <span class="meta">{generated} &nbsp;|&nbsp; {date_label} &nbsp;|&nbsp; 전체 {total}건</span>
+  <span class="src-count">BioSpectator {bios_count}건 &nbsp;|&nbsp; 더바이오 {thebio_count}건</span>
   <div class="links">{header_links}</div>
 </div>
 <div class="wrap">
@@ -398,12 +520,15 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
     return html_path
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# 중복 방지 (sent_urls.json)
+# ══════════════════════════════════════════════════════════════════════════════
+
 PAGES_URL      = "https://go2god4u-glitch.github.io/KTH_bionews_morning/"
-SENT_URLS_FILE = "docs/sent_urls.json"  # 발송된 기사 URL 이력 (중복 방지용)
+SENT_URLS_FILE = "docs/sent_urls.json"
 
 
 def load_sent_urls() -> set:
-    """이미 발송된 기사 URL 목록 로드. 파일 없으면 빈 set 반환"""
     if os.path.exists(SENT_URLS_FILE):
         with open(SENT_URLS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -412,21 +537,60 @@ def load_sent_urls() -> set:
 
 
 def save_sent_urls(new_urls: list[str], existing: set):
-    """
-    발송된 URL 저장. 7일치만 보관 (무한 증가 방지)
-    - 기존 이력 + 신규 URL 합산 후 최신 500건만 유지
-    """
     all_urls = list(existing | set(new_urls))
-    all_urls = all_urls[-500:]  # 최대 500건 (약 7일치)
+    all_urls = all_urls[-500:]
     os.makedirs("docs", exist_ok=True)
     with open(SENT_URLS_FILE, "w", encoding="utf-8") as f:
         json.dump({"urls": all_urls, "updated": datetime.now().isoformat()}, f, ensure_ascii=False, indent=2)
 
-def send_email(target_dates: list[str], article_count: int):
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 이메일 발송
+# ══════════════════════════════════════════════════════════════════════════════
+
+def build_email_body_html(bios_articles: list[dict], target_dates: list[str]) -> str:
     """
-    이메일 발송: 상단에 링크 버튼 + 하단에 전체 기사 내용 포함
-    - 링크: 브라우저에서 열어 완전한 내비게이션 사용
-    - 본문: 이메일에서 바로 훑어볼 수 있도록 CSS 인라인화
+    이메일 본문용 HTML 생성 — BioSpectator 기사만 포함
+    (더바이오 기사는 GitHub Pages 링크로만 제공)
+    """
+    by_keyword = defaultdict(list)
+    for a in bios_articles:
+        if a["URL"] not in {x["URL"] for x in by_keyword[a["키워드"]]}:
+            by_keyword[a["키워드"]].append(a)
+
+    sections_html = ""
+    for idx, (kw, arts) in enumerate(by_keyword.items()):
+        cards = ""
+        for a in arts:
+            body_html  = highlight_keywords(a["본문"], KEYWORDS) if a["본문"] else "<span style='color:#999;font-style:italic;'>유료기사 - 전문 열람 불가</span>"
+            paid_badge = '<span style="font-size:11px;padding:2px 7px;border-radius:10px;background:#fff0f0;color:#c00;border:1px solid #fcc;margin-left:8px;">유료</span>' if a["유료기사"] else ""
+            cards += f"""
+            <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:20px;">
+              <div style="padding:12px 20px 8px;border-bottom:1px solid #eee;">
+                <div style="font-size:17px;line-height:1.5;">
+                  <a href="{a['URL']}" target="_blank" style="color:#1a3a5c;text-decoration:none;">{a['제목']}</a>{paid_badge}
+                </div>
+                <span style="font-size:12px;color:#888;margin-top:4px;display:block;">{a['날짜']}</span>
+              </div>
+              <div style="padding:16px 20px;font-size:14px;line-height:1.9;color:#333;">{body_html}</div>
+              <div style="padding:10px 20px;background:#f8f9fb;font-size:13px;border-radius:0 0 8px 8px;">
+                <a href="{a['URL']}" target="_blank" style="color:#0077cc;text-decoration:none;">원문 보기 &rarr;</a>
+              </div>
+            </div>"""
+        sections_html += f"""
+        <div style="margin-top:32px;">
+          <h1 style="font-size:20px;color:#1a3a5c;border-left:5px solid #0077cc;padding-left:12px;margin-bottom:16px;">#{kw.upper()}</h1>
+          {cards}
+        </div>"""
+
+    return sections_html
+
+
+def send_email(target_dates: list[str], all_articles: list[dict]):
+    """
+    이메일 발송:
+    - 상단: 링크 버튼 (GitHub Pages → 두 사이트 기사 모두 포함)
+    - 하단: BioSpectator 기사 본문만 표시 (기존 방식 유지)
     """
     gmail_from = os.getenv("GMAIL_FROM")
     app_pw     = os.getenv("GMAIL_APP_PASSWORD")
@@ -436,28 +600,43 @@ def send_email(target_dates: list[str], article_count: int):
         print("[SKIP] Gmail 앱 비밀번호 미설정 → 이메일 발송 건너뜀")
         return
 
-    date_label = " / ".join(target_dates)
-    subject    = f"[BioSpectator] {date_label} 키워드 리포트 ({article_count}건)"
+    bios_articles   = [a for a in all_articles if a["출처"] == "BioSpectator"]
+    thebio_count    = sum(1 for a in all_articles if a["출처"] == "더바이오")
+    date_label      = " / ".join(target_dates)
+    subject         = f"[바이오뉴스] {date_label} 키워드 리포트 ({len(all_articles)}건)"
 
-    # 상단 링크 버튼 + 구분선
+    # 더바이오 기사 안내 문구 (있을 때만)
+    thebio_notice = ""
+    if thebio_count > 0:
+        thebio_notice = f"""
+        <div style="font-family:'Malgun Gothic',sans-serif;text-align:center;padding:10px 24px;background:#e6f4ea;color:#1a7a3c;font-size:13px;">
+          더바이오 기사 <b>{thebio_count}건</b>은 위 링크(브라우저)에서 확인하세요.
+        </div>"""
+
     header = f"""
     <div style="font-family:'Malgun Gothic',sans-serif;text-align:center;padding:24px;background:#1a3a5c;">
-      <span style="font-size:18px;font-weight:bold;color:#7ecfff;">BioSpectator 키워드 리포트</span>
-      <span style="color:#aac;font-size:12px;margin-left:16px;">{date_label} &nbsp;|&nbsp; 총 {article_count}건</span><br><br>
+      <span style="font-size:18px;font-weight:bold;color:#7ecfff;">바이오 키워드 리포트</span>
+      <span style="color:#aac;font-size:12px;margin-left:16px;">{date_label} &nbsp;|&nbsp; 총 {len(all_articles)}건</span><br><br>
       <a href="{PAGES_URL}" target="_blank"
          style="display:inline-block;padding:12px 28px;background:#0077cc;color:#fff;
                 text-decoration:none;border-radius:6px;font-size:15px;font-weight:bold;">
-        📰 브라우저에서 열기 (내비게이션 포함)
+        📰 브라우저에서 열기 (두 사이트 전체 기사)
       </a>
     </div>
+    {thebio_notice}
     <hr style="border:none;border-top:3px solid #1a3a5c;margin:0;">"""
 
-    # 기사 본문 HTML 로드 후 CSS 인라인화
-    with open("docs/index.html", "r", encoding="utf-8") as f:
-        article_html = f.read()
-    article_html = css_inline.inline(article_html)
+    # BioSpectator 기사 본문 (이메일에 직접 표시)
+    bios_body = ""
+    if bios_articles:
+        bios_body = build_email_body_html(bios_articles, target_dates)
+        bios_body = f"""
+        <div style="max-width:900px;margin:0 auto;padding:24px 20px;font-family:'Malgun Gothic',sans-serif;">
+          <div style="font-size:13px;color:#888;margin-bottom:8px;">▼ BioSpectator 기사 미리보기</div>
+          {bios_body}
+        </div>"""
 
-    html_body = header + article_html
+    html_body = header + bios_body
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
@@ -475,71 +654,87 @@ def send_email(target_dates: list[str], article_count: int):
         print(f"[FAIL] 이메일 발송 실패: {e}")
 
 
-def main():
-    session = requests.Session()
-    if not login(session):
-        return
+# ══════════════════════════════════════════════════════════════════════════════
+# 메인
+# ══════════════════════════════════════════════════════════════════════════════
 
+def main():
+    session      = requests.Session()
     target_dates = get_target_dates()
-    print(f"\n대상 날짜: {', '.join(target_dates)}")
+
+    print(f"대상 날짜: {', '.join(target_dates)}")
     print(f"검색 키워드: {', '.join(KEYWORDS)}\n")
 
-    # 검색 변형 생성: 영어 대/소문자 + KEYWORD_ALIASES 별칭 모두 포함
-    # 결과는 KEYWORDS 대표 키워드로 그룹화
+    # ── BioSpectator 로그인 ────────────────────────────────────────────────
+    bios_ok = bios_login(session)
+
+    # ── 두 사이트 검색 ────────────────────────────────────────────────────
     all_infos = []
     seen_urls = set()
+
+    print("\n[BioSpectator 검색]")
+    if bios_ok:
+        for kw in KEYWORDS:
+            for variant in build_search_variants(kw):
+                for info in bios_search(session, variant, target_dates):
+                    if info["URL"] not in seen_urls:
+                        seen_urls.add(info["URL"])
+                        info["키워드"] = kw
+                        all_infos.append(info)
+    else:
+        print("  로그인 실패 → BioSpectator 검색 건너뜀")
+
+    print("\n[더바이오 검색]")
     for kw in KEYWORDS:
-        search_variants = [kw]
-        if re.search(r'[a-zA-Z]', kw):          # 영어 포함 시 대/소문자 추가
-            variants = {kw.lower(), kw.upper()}
-            variants.discard(kw)
-            search_variants += list(variants)
-        for alias in KEYWORD_ALIASES.get(kw, []):  # 별칭도 검색 목록에 추가
-            search_variants.append(alias)
-            if re.search(r'[a-zA-Z]', alias):
-                search_variants += [alias.lower(), alias.upper()]
-        for variant in search_variants:
-            for info in search_articles(session, variant, target_dates):
+        for variant in build_search_variants(kw):
+            for info in thebio_search(session, variant, target_dates):
                 if info["URL"] not in seen_urls:
                     seen_urls.add(info["URL"])
-                    info["키워드"] = kw           # 대표 키워드로 그룹화
+                    info["키워드"] = kw
                     all_infos.append(info)
 
     if not all_infos:
-        print("오늘 날짜에 해당하는 기사가 없습니다.")
+        print("\n오늘 날짜에 해당하는 기사가 없습니다.")
         return
 
-    # 이미 발송한 기사 제외 (날짜 중복으로 인한 재발송 방지)
+    # ── 중복 발송 제외 ────────────────────────────────────────────────────
     sent_urls = load_sent_urls()
     before    = len(all_infos)
     all_infos = [i for i in all_infos if i["URL"] not in sent_urls]
     skipped   = before - len(all_infos)
     if skipped:
-        print(f"  → 이미 발송된 기사 {skipped}건 제외")
+        print(f"\n  → 이미 발송된 기사 {skipped}건 제외")
 
     if not all_infos:
         print("새로운 기사가 없습니다 (모두 이미 발송됨).")
         return
 
-    print(f"\n총 {len(all_infos)}건 전문 크롤링 시작...")
+    # ── 전문 크롤링 ───────────────────────────────────────────────────────
+    bios_infos   = [i for i in all_infos if i["출처"] == "BioSpectator"]
+    thebio_infos = [i for i in all_infos if i["출처"] == "더바이오"]
+    print(f"\n총 {len(all_infos)}건 전문 크롤링 시작... (BioSpectator {len(bios_infos)}건 / 더바이오 {len(thebio_infos)}건)")
 
     articles = []
     for i, info in enumerate(all_infos, 1):
-        article = crawl_article(session, info)
+        if info["출처"] == "BioSpectator":
+            article = bios_crawl_article(session, info)
+        else:
+            article = thebio_crawl_article(session, info)
         articles.append(article)
-        print(f"  ({i}/{len(all_infos)}) {article['제목'][:50]}...")
+        print(f"  ({i}/{len(all_infos)}) [{info['출처']}] {article['제목'][:50]}...")
         time.sleep(0.5)
 
+    # ── HTML 저장 ─────────────────────────────────────────────────────────
     html_path = save_html(articles, target_dates)
     paid = sum(1 for a in articles if a["유료기사"])
     print(f"\n[OK] 저장 완료: {html_path}")
     print(f"  전체: {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
 
-    # 발송된 URL 이력 저장 (다음 실행 때 중복 제외에 사용)
+    # ── 발송 이력 저장 ────────────────────────────────────────────────────
     save_sent_urls([a["URL"] for a in articles], sent_urls)
 
-    # 이메일 발송
-    send_email(target_dates, len(articles))
+    # ── 이메일 발송 ───────────────────────────────────────────────────────
+    send_email(target_dates, articles)
 
 
 if __name__ == "__main__":
