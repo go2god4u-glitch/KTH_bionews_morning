@@ -3,9 +3,10 @@
 바이오 키워드 뉴스 크롤러  |  KTH_bionews_morning
 ================================================================================
 
-■ 수정하는 곳은 딱 두 군데
-  1. 키워드  → 아래 KEYWORDS / KEYWORD_ALIASES
-  2. 사이트  → 아래 SITES 목록 (함수 2개 작성 후 등록)
+■ 수정하는 곳은 딱 세 군데
+  1. 키워드       → 아래 KEYWORDS / KEYWORD_ALIASES
+  2. 이벤트 태그  → 아래 EVENT_TAGS (임상/규제/투자 뱃지)
+  3. 사이트       → 아래 SITES 목록 (함수 2개 작성 후 등록)
 
 ■ 전체 동작 흐름
   평일 오전 9:30 (GitHub Actions 자동 실행)
@@ -32,6 +33,13 @@
 ================================================================================
 
 ■ 수정 이력
+  ─────────────────────────────────────────────────────────────────────────────
+  2026-03-28  임상/규제 이벤트 자동 태그 추가
+  ─────────────────────────────────────────────────────────────────────────────
+  10. EVENT_TAGS 딕셔너리 추가 (★2 섹션) → 태그 추가/제거 한 줄로 가능
+  11. detect_event_tags() 함수 추가 → 기사 본문에서 이벤트 키워드 감지
+  12. save_html() 카드 제목 옆 이벤트 뱃지(파란색) 표시
+      · 임상1상/2상/3상, IND, NDA/BLA, FDA승인, 식약처승인, 기술이전, 라이선스인, 투자유치
   ─────────────────────────────────────────────────────────────────────────────
   2026-03-28  더바이오(thebionews.net) 크롤링 소스 추가 (집 개인 PC / Claude Code)
   ─────────────────────────────────────────────────────────────────────────────
@@ -106,6 +114,27 @@ KEYWORD_ALIASES = {
     "GPR119":     ["GPR-119"],
     "Vanoglipel": ["바노글리펠"],
     "DA-1726":    [],
+}
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# ★ 2. 이벤트 태그 설정  ← 여기만 수정 (태그 추가/제거 가능)
+# ──────────────────────────────────────────────────────────────────────────────
+# 형식: "태그명(뱃지 표시 텍스트)": ["감지 키워드1", "감지 키워드2", ...]
+# · 기사 본문에 감지 키워드가 하나라도 있으면 제목 옆에 뱃지 표시
+# · 태그 추가: 딕셔너리에 항목 추가 / 태그 제거: 해당 줄 삭제 or 주석 처리
+EVENT_TAGS: dict[str, list[str]] = {
+    "임상1상":    ["임상 1상", "1상 임상", "1상을", "1상에서", "Phase 1", "Phase I"],
+    "임상2상":    ["임상 2상", "2상 임상", "2상을", "2상에서", "Phase 2", "Phase II"],
+    "임상3상":    ["임상 3상", "3상 임상", "3상을", "3상에서", "Phase 3", "Phase III"],
+    "IND":        ["IND 신청", "IND 승인", "IND 허가", "임상시험계획"],
+    "NDA/BLA":    ["NDA 신청", "NDA 승인", "BLA 신청", "BLA 승인"],
+    "FDA승인":    ["FDA 승인", "FDA승인", "FDA approval", "FDA approved"],
+    "식약처승인":  ["식약처 승인", "식품의약품안전처 승인", "품목허가"],
+    "기술이전":   ["기술이전", "기술 이전", "라이선스아웃", "License-out", "L/O"],
+    "라이선스인":  ["라이선스인", "License-in", "L/I"],
+    "투자유치":   ["시리즈A", "시리즈B", "시리즈C", "시리즈D",
+                   "Series A", "Series B", "Series C", "Series D", "투자 유치"],
 }
 
 
@@ -196,6 +225,18 @@ def highlight_keywords(body_html: str) -> str:
         pattern = f'({re.escape(v)})(?![^<]*>)'
         body_html = re.sub(pattern, r'<mark>\1</mark>', body_html, flags=re.IGNORECASE)
     return body_html
+
+
+def detect_event_tags(body: str) -> list[str]:
+    """기사 본문(HTML 포함)에서 EVENT_TAGS 키워드 감지 → 매칭된 태그명 목록 반환"""
+    body_lower = body.lower()
+    found = []
+    for tag_name, triggers in EVENT_TAGS.items():
+        for trigger in triggers:
+            if trigger.lower() in body_lower:
+                found.append(tag_name)
+                break  # 같은 태그의 다른 키워드는 불필요
+    return found
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -825,11 +866,15 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
             paid_badge = '<span class="badge" style="background:#fff0f0;color:#c00;border:1px solid #fcc;">유료</span>' if a["유료기사"] else ""
             badge_style = f'background:{a["_badge_bg"]};color:{a["_badge_color"]};border:1px solid {a["_badge_border"]};'
             src_badge   = f'<span class="badge" style="{badge_style}">{a["출처"]}</span>'
+            event_badges = "".join(
+                f'<span class="badge event-badge">{tag}</span>'
+                for tag in detect_event_tags(a["본문"] or "")
+            )
             cards += f"""
             <article class="card">
                 <div class="card-header">
                     {_render_also_in(a.get("also_in", []))}
-                    <h2>{src_badge}<a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}</h2>
+                    <h2>{src_badge}<a href="{a['URL']}" target="_blank">{a['제목']}</a>{paid_badge}{event_badges}</h2>
                     <span class="date">{a['날짜']}</span>
                 </div>
                 <div class="card-body">{body_html}</div>
@@ -879,6 +924,7 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
   .card-footer {{ padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }}
   .card-footer a {{ color: #0077cc; text-decoration: none; }}
   .badge {{ font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-right: 4px; vertical-align: middle; font-weight: bold; }}
+  .event-badge {{ background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }}
   mark {{ background: #ffff00; padding: 0 2px; font-style: normal; }}
   .paid {{ color: #999; font-style: italic; }}
   .no-articles {{ color: #999; font-size: 14px; padding: 20px; }}
