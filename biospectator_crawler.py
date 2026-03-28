@@ -522,7 +522,12 @@ def bioin_search(session: requests.Session, keyword: str, target_dates: list[str
             if not a_tag:
                 continue
             href  = a_tag.get("href", "")
-            url   = BIOIN_BASE_URL + href if href.startswith("/") else href
+            # URL 정규화: 검색 파라미터(s_str 등)를 제거해 num+bid만 남김
+            num_m = re.search(r"num=(\d+)", href)
+            bid_m = re.search(r"bid=(\w+)", href)
+            if not num_m or not bid_m:
+                continue
+            url = f"{BIOIN_BASE_URL}/board.do?num={num_m.group(1)}&cmd=view&bid={bid_m.group(1)}"
             if url in seen:
                 continue
             seen.add(url)
@@ -753,17 +758,6 @@ SITES = [
         "login_fn":       None,
         "search_fn":      _pharmatimes_search,
         "crawl_fn":       _pharmatimes_crawl,
-        "email_body":     False,
-    },
-    {
-        "name":           "바이오인",
-        "badge_color":    "#006064",
-        "badge_bg":       "#e0f7fa",
-        "badge_border":   "#80deea",
-        "requires_login": False,
-        "login_fn":       None,
-        "search_fn":      bioin_search,
-        "crawl_fn":       bioin_crawl_article,
         "email_body":     False,
     },
     {
