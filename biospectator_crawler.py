@@ -227,6 +227,18 @@ def highlight_keywords(body_html: str) -> str:
     return body_html
 
 
+def inline_styles_for_email(body_html: str) -> str:
+    """이메일용: <p>, <h4> 태그에 인라인 스타일 추가 (Gmail은 <style> 블록 제거)"""
+    soup = BeautifulSoup(body_html, "html.parser")
+    for p in soup.find_all("p"):
+        p["style"] = "margin-bottom:12px;white-space:pre-line;"
+    for h4 in soup.find_all("h4"):
+        h4["style"] = "font-size:16px;font-weight:bold;background:#f0f4f8;border-left:4px solid #0077cc;padding:10px 16px;margin:0 0 12px;line-height:1.8;"
+    for br in soup.find_all("br"):
+        br["style"] = "display:block;margin-bottom:4px;"
+    return str(soup)
+
+
 def detect_event_tags(body: str) -> list[str]:
     """기사 본문(HTML 포함)에서 EVENT_TAGS 키워드 감지 → 매칭된 태그명 목록 반환"""
     body_lower = body.lower()
@@ -1054,7 +1066,8 @@ def send_email(target_dates: list[str], articles: list[dict]):
         for kw, arts in by_kw.items():
             cards = ""
             for a in arts:
-                bh        = highlight_keywords(a["본문"]) if a["본문"] else "<span style='color:#999;font-style:italic;'>유료기사 - 전문 열람 불가</span>"
+                raw_body  = inline_styles_for_email(a["본문"]) if a["본문"] else ""
+                bh        = highlight_keywords(raw_body) if raw_body else "<span style='color:#999;font-style:italic;'>유료기사 - 전문 열람 불가</span>"
                 paid_b    = '<span style="font-size:11px;padding:2px 7px;border-radius:10px;background:#fff0f0;color:#c00;border:1px solid #fcc;margin-left:8px;">유료</span>' if a["유료기사"] else ""
                 cards    += f"""
                 <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:20px;">
@@ -1143,16 +1156,12 @@ def main():
         send_email(target_dates, [])
         return
 
-    # 중복 발송 제외
-    sent_urls = load_sent_urls()
-    before    = len(all_infos)
-    all_infos = [i for i in all_infos if i["URL"] not in sent_urls]
-    if before - len(all_infos):
-        print(f"\n  → 이미 발송된 기사 {before - len(all_infos)}건 제외")
-    if not all_infos:
-        print("새로운 기사가 없습니다 (모두 이미 발송됨).")
-        send_email(target_dates, [])
-        return
+    # 이메일용: 이미 발송된 기사 제외 (중복 방지)
+    sent_urls  = load_sent_urls()
+    new_infos  = [i for i in all_infos if i["URL"] not in sent_urls]
+    skipped    = len(all_infos) - len(new_infos)
+    if skipped:
+        print(f"\n  → 이미 발송된 기사 {skipped}건 제외 (이메일에서만 제외, HTML엔 포함)")
 
     # 사이트별 건수 출력
     cnt_str = " / ".join(
@@ -1161,7 +1170,7 @@ def main():
     )
     print(f"\n총 {len(all_infos)}건 전문 크롤링 시작... ({cnt_str})")
 
-    # 전문 크롤링
+    # 전문 크롤링 (전체 — HTML용)
     articles = []
     for i, info in enumerate(all_infos, 1):
         site    = info["_site"]
@@ -1181,14 +1190,17 @@ def main():
     if before - len(articles):
         print(f"  → 사이트 간 중복 {before - len(articles)}건 제거")
 
-    # HTML 저장
+    # HTML 저장 (전체 기사 — 브라우저는 항상 오늘 기사 전체 표시)
     html_path = save_html(articles, target_dates)
     paid      = sum(1 for a in articles if a["유료기사"])
     print(f"\n[OK] 저장 완료: {html_path}")
     print(f"  전체: {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
 
-    save_sent_urls([a["URL"] for a in articles], sent_urls)
-    send_email(target_dates, articles)
+    # 이메일은 새 기사만 발송
+    new_urls     = {i["URL"] for i in new_infos}
+    email_articles = [a for a in articles if a["URL"] in new_urls]
+    save_sent_urls([a["URL"] for a in email_articles], sent_urls)
+    send_email(target_dates, email_articles)
 
 
 if __name__ == "__main__":
