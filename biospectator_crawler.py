@@ -65,6 +65,8 @@
 """
 
 import sys
+import urllib.request
+import urllib.parse
 # Windows 작업 스케줄러 실행 시 콘솔이 CP949 — UTF-8로 강제해 UnicodeEncodeError 방지
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -1158,6 +1160,23 @@ def send_email(target_dates: list[str], articles: list[dict]):
 # 메인  (SITES를 자동 순회 — 수정 불필요)
 # ══════════════════════════════════════════════════════════════════════════════
 
+TELEGRAM_TOKEN   = os.getenv("TELEGRAM_TOKEN", "")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+
+
+def send_telegram(text: str) -> None:
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    data = urllib.parse.urlencode({
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": text,
+        "parse_mode": "HTML",
+    }).encode()
+    try:
+        urllib.request.urlopen(url, data=data, timeout=10)
+    except Exception as e:
+        print(f"텔레그램 전송 실패: {e}")
+
+
 def main():
     session      = requests.Session()
     target_dates = get_target_dates()
@@ -1229,6 +1248,7 @@ def main():
     print(f"  전체: {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
 
     send_email(target_dates, articles)
+    send_telegram(f"✅ 바이오 뉴스 크롤링 완료\n전체 {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
 
 
 if __name__ == "__main__":
