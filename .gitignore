@@ -1,3 +1,5 @@
 .env
 *.html
 !docs/index.html
+.venv/
+!docs/archive/*.html
