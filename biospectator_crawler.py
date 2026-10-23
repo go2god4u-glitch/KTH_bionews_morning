@@ -80,6 +80,7 @@ import time
 import re
 import os
 import json
+import html
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -110,7 +111,42 @@ KEYWORDS = [
     "GPR119",
     "동아ST",
     "노보노디스크",
+    # ── Obsidian 위키 Competitor_Pipeline_Master 경쟁 물질 (2026-10-12 태형님) ──
+    # 표 1: GLP-1/글루카곤 이중작용제
+    "Zabopegdutide",
+    "Efinopegdutide",
+    "Mazdutide",
+    "Survodutide",
+    "Pemvidutide",
+    "AZD9550",
+    "CMS-D005",
+    "PB-718",
+    "Cotadutide",
+    # 표 2: 국내 비만
+    "에페글레나타이드",
+    "에크노글루타이드",
+    "보팡글루타이드",
+    "ID110521156",
+    "PG-102",
+    "HM15275",
+    "디앤디파마텍",
+    # 표 3: 글로벌 비만 벤치마크
+    "Retatrutide",
+    "Tirzepatide",
+    "Semaglutide",
+    "CagriSema",
+    "Amycretin",
+    "Petrelintide",
+    "Orforglipron",
+    # 표 4: MetALD / MASH
+    "Resmetirom",
+    "Efruxifermin",
 ]
+
+WIKI_KEYWORDS = set(KEYWORDS[KEYWORDS.index("Zabopegdutide"):])
+
+# 기사에 여러 키워드가 있으면 구체적인 물질 묶음에 넣고, 아래 넓은 키워드는 마지막에 고름
+GENERIC_KEYWORDS = {"glp-1", "Amylin", "동아ST", "노보노디스크", "Semaglutide", "Tirzepatide"}
 
 # 키워드 별칭: 하나의 키워드로 묶을 동의어 목록
 # - 대표 키워드(KEYWORDS)로 그룹화되어 리포트에 표시됨
@@ -119,10 +155,29 @@ KEYWORD_ALIASES = {
     "동아ST":      ["동아에스티"],
     "Amylin":     ["아밀린"],
     "메타비아":    ["MetaVia"],
-    "노보노디스크": ["Novo Nordisk"],
+    "노보노디스크": ["Novo Nordisk", "노보 노디스크"],
     "GPR119":     ["GPR-119"],
-    "Vanoglipel": ["바노글리펠"],
+    "Vanoglipel": ["바노글리펠", "DA-1241"],
     "DA-1726":    [],
+    "Zabopegdutide":  ["자보페그듀타이드", "DD01"],
+    "Efinopegdutide": ["에피노페그듀타이드", "MK-6024"],
+    "Mazdutide":      ["마즈두타이드", "IBI362"],
+    "Survodutide":    ["서보두타이드", "BI 456906"],
+    "Pemvidutide":    ["펨비두타이드", "ALT-801"],
+    "Cotadutide":     ["코타두타이드"],
+    "에페글레나타이드": ["efpeglenatide"],
+    "에크노글루타이드": ["ecnoglutide", "IN-B00009"],
+    "보팡글루타이드":   ["bofanglutide", "GZR18"],
+    "디앤디파마텍":     ["D&D Pharmatech", "디앤디", "MET-097o", "MET-224o", "MET-875o", "NLY12", "DD18"],
+    "Retatrutide":    ["레타트루타이드"],
+    "Tirzepatide":    ["티르제파타이드", "마운자로", "젭바운드"],
+    "Semaglutide":    ["세마글루타이드", "위고비"],
+    "CagriSema":      ["카그리세마"],
+    "Amycretin":      ["아미크레틴"],
+    "Petrelintide":   ["페트렐린타이드"],
+    "Orforglipron":   ["오포글리프론"],
+    "Resmetirom":     ["레스메티롬", "Rezdiffra", "레즈디프라"],
+    "Efruxifermin":   ["에프룩시페르민"],
 }
 
 
@@ -164,6 +219,8 @@ def get_target_dates() -> list[str]:
 def build_search_variants(kw: str) -> list[str]:
     """키워드 → 대/소문자 변형 + 별칭 목록"""
     variants = [kw]
+    if kw in WIKI_KEYWORDS:  # 위키 물질은 대소문자 변형 없이 이름과 별칭만 (접속 수 줄이기)
+        return [kw] + KEYWORD_ALIASES.get(kw, [])
     if re.search(r'[a-zA-Z]', kw):
         extras = {kw.lower(), kw.upper()}
         extras.discard(kw)
@@ -173,6 +230,27 @@ def build_search_variants(kw: str) -> list[str]:
         if re.search(r'[a-zA-Z]', alias):
             variants += [alias.lower(), alias.upper()]
     return variants
+
+
+def _norm_kw_text(text: str) -> str:
+    """대소문자, 공백, 하이픈 무시 비교용"""
+    return re.sub(r"[\s\-‐-―]", "", text).lower()
+
+
+def match_keyword(article: dict, preferred: str) -> str | None:
+    """제목+본문에 실제로 들어 있는 키워드를 돌려줌. 없으면 None.
+    (더바이오 등은 검색어와 무관한 최신 기사를 돌려주는 경우가 있어 2026-10-12 추가)"""
+    body_text = BeautifulSoup(article.get("본문", "") or "", "html.parser").get_text(" ")
+    text = _norm_kw_text(article.get("제목", "") + " " + body_text)
+    specific = [k for k in KEYWORDS if k not in GENERIC_KEYWORDS]
+    generic  = [k for k in KEYWORDS if k in GENERIC_KEYWORDS]
+    order = ([preferred] if preferred not in GENERIC_KEYWORDS else []) + specific + generic
+    if preferred in GENERIC_KEYWORDS:
+        order.remove(preferred); order.insert(len(specific), preferred)
+    for kw in order:
+        if any(_norm_kw_text(v) in text for v in build_search_variants(kw)):
+            return kw
+    return None
 
 
 def deduplicate_across_sites(articles: list[dict]) -> list[dict]:
@@ -288,11 +366,32 @@ def bios_login(session: requests.Session) -> bool:
     return ok
 
 
+# BioSpectator는 계정당 동시세션 1개만 허용 — 같은 계정으로 다른 데서 로그인하면(다른 스크립트,
+# 사용자가 브라우저로 직접 로그인 등) 진행 중이던 세션이 조용히 끊긴다. 이때 서버는 200 + 165바이트
+# 짜리 "중복로그인 알림" 스크립트만 돌려주므로, 본문/검색결과가 빈 채로 통과해 기사가 '유료기사 -
+# 전문 열람 불가'로 찍히거나(사이트 리포트) 제목 없이 버려졌다(da1726 korean_sources).
+# → 이 응답을 감지해 1회 재로그인 후 재요청한다. (2026-09-16 실측 재현 후 추가)
+def _bios_kicked(resp) -> bool:
+    return "중복로그인" in (resp.text or "")
+
+
+def _bios_get(session: requests.Session, url: str, timeout: int = 10):
+    """동시세션 축출(중복로그인)이면 1회 재로그인 후 재시도하는 GET."""
+    resp = session.get(url, headers={**HEADERS, "Referer": BIOS_BASE_URL}, timeout=timeout)
+    if _bios_kicked(resp):
+        print("  [BioSpectator] 중복로그인으로 세션 끊김 → 재로그인 후 재시도")
+        # 끊긴 세션 쿠키를 그대로 둔 채 재로그인하면 서버가 계속 '중복로그인'으로 막는다(실측).
+        session.cookies.clear()
+        if bios_login(session):
+            resp = session.get(url, headers={**HEADERS, "Referer": BIOS_BASE_URL}, timeout=timeout)
+    return resp
+
+
 def bios_search(session: requests.Session, keyword: str, target_dates: list[str]) -> list[dict]:
     results, seen = [], set()
     for page in range(1, 10):
         url  = BIOS_SEARCH_URL.format(keyword=keyword, page=page)
-        resp = session.get(url, headers={**HEADERS, "Referer": BIOS_BASE_URL}, timeout=10)
+        resp = _bios_get(session, url)
         soup = BeautifulSoup(resp.text, "html.parser")
         found_any = stop = False
         for a_tag in soup.select("a[href*='/news/view/']"):
@@ -327,7 +426,7 @@ def bios_search(session: requests.Session, keyword: str, target_dates: list[str]
 def bios_crawl_article(session: requests.Session, info: dict) -> dict:
     url = info["URL"]
     try:
-        resp    = session.get(url, headers={**HEADERS, "Referer": BIOS_BASE_URL}, timeout=10)
+        resp    = _bios_get(session, url)
         soup    = BeautifulSoup(resp.text, "html.parser")
         h3      = soup.select_one("h3")
         title   = h3.get_text(strip=True) if h3 else ""
@@ -370,8 +469,12 @@ THEBIO_BASE_URL   = "https://www.thebionews.net"
 THEBIO_SEARCH_URL = THEBIO_BASE_URL + "/news/articleList.html"
 
 
+_THEBIO_CACHE: dict = {}  # 첫 페이지 URL 묶음 → 결과 (검색이 검색어를 무시할 때 같은 페이지 반복 방지)
+
+
 def thebio_search(session: requests.Session, keyword: str, target_dates: list[str]) -> list[dict]:
     results, seen = [], set()
+    first_key = None
     for page in range(1, 10):
         resp = session.post(
             THEBIO_SEARCH_URL,
@@ -402,8 +505,16 @@ def thebio_search(session: requests.Session, keyword: str, target_dates: list[st
                 results.append({"날짜": date, "URL": url})
             elif date < min(target_dates):
                 stop = True; break
+        if page == 1:
+            first_key = tuple(sorted(seen))
+            if first_key and first_key in _THEBIO_CACHE:
+                results = [dict(r) for r in _THEBIO_CACHE[first_key]]
+                print(f"  [더바이오/{keyword}] {len(results)}건 (앞 검색과 같은 목록)")
+                return results
         if stop or not found_any: break
         time.sleep(0.3)
+    if first_key:
+        _THEBIO_CACHE[first_key] = [dict(r) for r in results]
     print(f"  [더바이오/{keyword}] {len(results)}건")
     return results
 
@@ -866,7 +977,7 @@ def _render_also_in(also_in: list[dict]) -> str:
     return f'<div class="also-in">📌 다른 사이트에서도 보도: {links}</div>'
 
 
-def save_html(articles: list[dict], target_dates: list[str]) -> str:
+def save_html(articles: list[dict], target_dates: list[str], extra: list[dict] | None = None) -> str:
     os.makedirs("docs", exist_ok=True)
 
     today = target_dates[0]  # 가장 최신 날짜
@@ -986,14 +1097,16 @@ def save_html(articles: list[dict], target_dates: list[str]) -> str:
 <body>
 <div id="top" class="top-bar">
   <span class="logo">바이오 뉴스</span>
-  <span class="meta">{date_label} &nbsp;|&nbsp; 전체 {len(articles)}건</span>
+  <span class="meta">{date_label} &nbsp;|&nbsp; 전체 {len(articles)}건{f" + 경쟁동향 {len(extra)}건" if extra else ""}</span>
   <span class="src-count">{src_counts}</span>
   <div class="links">{header_links}</div>
+  <a href="{PAGES_URL}archive/" style="color:#fff;font-size:13px;">📚 지난 리포트</a>
 </div>
 {status_banner}
 <div class="wrap">
 {sections_html if sections_html else '<p class="no-articles">오늘 날짜 기사가 없습니다.</p>'}
 </div>
+<div id="competitor">{render_competitor_email(extra or [])}</div>
 </body>
 </html>"""
 
@@ -1014,17 +1127,161 @@ def load_sent_urls() -> set:
 
 
 def save_sent_urls(new_urls: list[str], existing: set):
-    all_urls = list(existing | set(new_urls))[-500:]
+    # 순서 유지(오래된 것부터), 최근 3000건 보관 (2026-10-19: 하루 2번 발송용)
+    old = []
+    if os.path.exists(SENT_URLS_FILE):
+        with open(SENT_URLS_FILE, "r", encoding="utf-8") as f:
+            old = json.load(f).get("urls", [])
+    all_urls = list(dict.fromkeys(old + [u for u in existing if u not in old] + new_urls))[-3000:]
     os.makedirs("docs", exist_ok=True)
     with open(SENT_URLS_FILE, "w", encoding="utf-8") as f:
         json.dump({"urls": all_urls, "updated": datetime.now().isoformat()}, f, ensure_ascii=False, indent=2)
+
+
+# 2026-10-19 태형님: 오전, 오후 하루 2번. 메일과 텔레그램엔 아직 안 보낸 기사만,
+# 오후(12시 이후)에 새 기사가 없으면 메일, 텔레그램 안 보냄. 페이지는 오늘 기사 전체.
+def deliver(target_dates: list[str], articles: list[dict], extra: list[dict]) -> None:
+    sent      = load_sent_urls()
+    new_arts  = [a for a in articles if a["URL"] not in sent]
+    new_extra = [it for it in extra if it.get("link") not in sent]
+    print(f"[발송] 새 기사 {len(new_arts)}건 + 경쟁동향 {len(new_extra)}건 "
+          f"(이미 보낸 것 {len(articles) - len(new_arts)} + {len(extra) - len(new_extra)}건 제외)")
+    if datetime.now().hour >= 12 and not new_arts and not new_extra:
+        print("[발송] 오후 회차: 새 기사 없음 → 메일, 텔레그램 건너뜀")
+        publish_pages()
+        return
+    send_email(target_dates, new_arts, new_extra)
+    save_sent_urls([a["URL"] for a in new_arts] + [it["link"] for it in new_extra if it.get("link")], sent)
+    publish_pages()
+    send_news_telegram(build_telegram_text(target_dates, new_arts, new_extra))
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 이메일 발송
 # ══════════════════════════════════════════════════════════════════════════════
 
-def send_email(target_dates: list[str], articles: list[dict]):
+# ══════════════════════════════════════════════════════════════════════════════
+# 경쟁동향 앱(da1726_competitor_watch) 합침 (2026-10-13 태형님: 바이오 키워드 메일 기준)
+#   경쟁동향 앱이 13:45에 먼저 돌아 history/digest_오늘.json에 AI가 고른 기사를 남김
+#   → 여기서 키워드 기사와 겹치지 않는 것만 메일과 텔레그램 끝에 "경쟁동향 추가" 로 붙임
+# ══════════════════════════════════════════════════════════════════════════════
+
+COMPETITOR_DIGEST_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                     "..", "da1726_competitor_watch", "history")
+
+
+def _title_key(t: str) -> set:
+    t = re.sub(r"\s+-\s+[^-]+$", "", t or "")          # "제목 - 매체명" 꼬리 제거
+    t = re.sub(r"[^0-9a-zA-Z가-힣]", "", t).lower()
+    return {t[i:i+2] for i in range(len(t) - 1)}
+
+
+def load_competitor_items(articles: list[dict]) -> list[dict]:
+    path = os.path.join(COMPETITOR_DIGEST_DIR, f"digest_{datetime.now():%Y%m%d}.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            items = json.load(f)
+    except Exception as e:
+        print(f"[경쟁동향] 오늘 기사 없음 또는 읽기 실패({os.path.basename(path)}): {e}")
+        return []
+    mine_urls = {a["URL"] for a in articles}
+    mine_keys = [_title_key(a["제목"]) for a in articles]
+    out = []
+    for it in items:
+        if it.get("link") in mine_urls:
+            continue
+        k = _title_key(it.get("src_title") or it.get("title_kr", ""))
+        if any(k and m and len(k & m) / min(len(k), len(m)) >= 0.6 for m in mine_keys):
+            print(f"  [경쟁동향 중복 제외] {it.get('title_kr','')[:40]}")
+            continue
+        out.append(it)
+    order = {"상": 0, "중": 1, "하": 2}
+    out.sort(key=lambda x: order.get(x.get("importance"), 3))
+    print(f"[경쟁동향] {len(items)}건 중 {len(out)}건 추가")
+    return out
+
+
+def render_competitor_email(items: list[dict]) -> str:
+    if not items:
+        return ""
+    cards = ""
+    for it in items:
+        imp = it.get("importance", "")
+        imp_b = (f'<span style="font-size:11px;padding:2px 7px;border-radius:10px;background:#fff0f0;'
+                 f'color:#c00;border:1px solid #fcc;margin-left:8px;">중요</span>') if imp == "상" else ""
+        why = it.get("why_relevant", "")
+        cards += f"""
+                <div style="background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:16px;">
+                  <div style="padding:12px 20px 8px;border-bottom:1px solid #eee;">
+                    <div style="font-size:16px;line-height:1.5;">
+                      <a href="{html.escape(it.get('link',''))}" target="_blank" style="color:#1a3a5c;text-decoration:none;">{html.escape(it.get('title_kr',''))}</a>{imp_b}
+                    </div>
+                    <span style="font-size:12px;color:#888;margin-top:4px;display:block;">{html.escape(it.get('source',''))} &nbsp;|&nbsp; {it.get('published','')[:10]}</span>
+                  </div>
+                  <div style="padding:12px 20px;font-size:14px;line-height:1.8;color:#333;">{html.escape(it.get('summary_kr',''))}
+                    {f'<div style="margin-top:6px;color:#666;font-size:13px;">→ {html.escape(why)}</div>' if why else ''}
+                  </div>
+                </div>"""
+    return f"""
+        <div style="max-width:900px;margin:0 auto;padding:24px 20px;font-family:'Malgun Gothic',sans-serif;">
+          <div style="font-size:13px;color:#888;margin-bottom:8px;">▼ 경쟁동향 추가 기사 (GLP-1, 비만, MASH 경쟁사, AI 요약)</div>
+          <h1 style="font-size:20px;color:#1a3a5c;border-left:5px solid #c05600;padding-left:12px;margin-bottom:16px;">#경쟁동향 ({len(items)}건)</h1>
+          {cards}
+        </div>"""
+
+
+def build_telegram_text(target_dates: list[str], articles: list[dict], extra: list[dict]) -> list[str]:
+    esc = html.escape
+    pm = datetime.now().hour >= 12
+    lines = [f"<b>📰 바이오 키워드 리포트{' (오후 새 기사)' if pm else ''}</b> {esc(' / '.join(target_dates))}",
+             f"키워드 기사 {len(articles)}건" + (f" + 경쟁동향 {len(extra)}건" if extra else ""), ""]
+    by_kw = defaultdict(list)
+    for a in articles:
+        by_kw[a["키워드"]].append(a)
+    for kw, arts in by_kw.items():
+        lines.append(f"<b>#{esc(kw)}</b> ({len(arts)}건)")
+        for a in arts:
+            lines.append(f'• {esc(a["제목"])}')
+        lines.append("")
+    if extra:
+        lines.append(f"<b>#경쟁동향</b> ({len(extra)}건)")
+        for it in extra:
+            star = "🔴 " if it.get("importance") == "상" else ""
+            lines.append(f'• {star}{esc(it.get("title_kr",""))}')
+        lines.append("")
+    if not articles and not extra:
+        lines.append("오늘은 새 기사가 없습니다.")
+    # ?d=날짜: 텔레그램/브라우저가 어제 페이지를 캐시로 보여 주지 않게
+    lines.append(f'👉 <a href="{PAGES_URL}?d={datetime.now():%Y%m%d%H}">오늘 전체 기사 보기</a>')
+    # 텔레그램 4096자 제한: 줄 단위로 나눔
+    chunks, cur = [], ""
+    for ln in lines:
+        if len(cur) + len(ln) + 1 > 3800:
+            chunks.append(cur); cur = ""
+        cur += ln + "\n"
+    if cur.strip():
+        chunks.append(cur)
+    return chunks
+
+
+def send_news_telegram(chunks: list[str]) -> None:
+    token = os.getenv("NEWS_TELEGRAM_TOKEN", "")
+    chat  = os.getenv("NEWS_TELEGRAM_CHAT_ID", "")
+    if not token or not chat:
+        print("[SKIP] NEWS_TELEGRAM_TOKEN 미설정 → 텔레그램 건너뜀")
+        return
+    for c in chunks:
+        data = urllib.parse.urlencode({"chat_id": chat, "text": c, "parse_mode": "HTML",
+                                       "disable_web_page_preview": "true"}).encode()
+        try:
+            urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", data=data, timeout=15)
+        except Exception as e:
+            print(f"[FAIL] 텔레그램 전송 실패: {e}")
+            return
+    print(f"[OK] 텔레그램 발송 완료 ({len(chunks)}개)")
+
+
+def send_email(target_dates: list[str], articles: list[dict], extra: list[dict] | None = None):
     gmail_from = os.getenv("GMAIL_FROM")
     app_pw     = os.getenv("GMAIL_APP_PASSWORD")
     gmail_to   = os.getenv("GMAIL_TO")
@@ -1033,10 +1290,11 @@ def send_email(target_dates: list[str], articles: list[dict]):
         return
 
     date_label = " / ".join(target_dates)
-    subject    = f"[바이오뉴스] {date_label} 키워드 리포트 ({len(articles)}건)"
+    extra      = extra or []
+    subject    = f"[바이오뉴스{' 오후' if datetime.now().hour >= 12 else ''}] {date_label} 키워드 리포트 ({len(articles)}건" + (f" + 경쟁동향 {len(extra)}건)" if extra else ")")
 
     # 0건일 때 간단 알림 이메일
-    if not articles:
+    if not articles and not extra:
         msg = MIMEMultipart("alternative")
         msg["Subject"] = subject
         msg["From"]    = gmail_from
@@ -1138,7 +1396,7 @@ def send_email(target_dates: list[str], articles: list[dict]):
     msg["Subject"] = subject
     msg["From"]    = gmail_from
     msg["To"]      = gmail_to
-    msg.attach(MIMEText(header + body_html, "html", "utf-8"))
+    msg.attach(MIMEText(header + body_html + render_competitor_email(extra), "html", "utf-8"))
 
     try:
         # 포트 465(SSL) 우선 시도, 실패 시 587(STARTTLS) 재시도 (회사 방화벽 대응)
@@ -1201,7 +1459,12 @@ def main():
         print(f"\n[{name} 검색]")
         for kw in KEYWORDS:
             for variant in build_search_variants(kw):
-                for info in site["search_fn"](session, variant, target_dates):
+                try:
+                    found = site["search_fn"](session, variant, target_dates)
+                except requests.exceptions.RequestException as e:
+                    print(f"  [{name}/{variant}] 접속 오류, 건너뜀: {e}")
+                    found = []
+                for info in found:
                     if info["URL"] not in seen_urls:
                         seen_urls.add(info["URL"])
                         info["키워드"] = kw
@@ -1211,7 +1474,9 @@ def main():
 
     if not all_infos:
         print("\n오늘 날짜에 해당하는 기사가 없습니다.")
-        send_email(target_dates, [])
+        extra = load_competitor_items([])
+        save_html([], target_dates, extra)
+        deliver(target_dates, [], extra)
         return
 
     # 사이트별 건수 출력
@@ -1235,20 +1500,58 @@ def main():
         print(f"  ({i}/{len(all_infos)}) [{info['출처']}] {article['제목'][:50]}...")
         time.sleep(0.5)
 
+    # 키워드가 제목/본문에 실제로 없는 기사 제거 (본문 없는 유료기사는 확인 불가라 둠)
+    kept, dropped = [], 0
+    for a in articles:
+        if a.get("유료기사") or a.get("본문", "").startswith("[오류]"):
+            kept.append(a); continue
+        kw = match_keyword(a, a["키워드"])
+        if kw is None:
+            dropped += 1
+            print(f"  [키워드 없음 제외] [{a['출처']}/{a['키워드']}] {a['제목'][:40]}")
+            continue
+        a["키워드"] = kw
+        kept.append(a)
+    articles = kept
+    if dropped:
+        print(f"  → 키워드 없는 기사 {dropped}건 제외")
+
     # 사이트 간 중복 기사 제거
     before   = len(articles)
     articles = deduplicate_across_sites(articles)
     if before - len(articles):
         print(f"  → 사이트 간 중복 {before - len(articles)}건 제거")
 
-    # HTML 저장 (전체 기사 — 브라우저는 항상 오늘 기사 전체 표시)
-    html_path = save_html(articles, target_dates)
+    # HTML 저장 (전체 기사 + 경쟁동향 — 브라우저는 항상 오늘 기사 전체 표시)
+    extra     = load_competitor_items(articles)
+    html_path = save_html(articles, target_dates, extra)
     paid      = sum(1 for a in articles if a["유료기사"])
     print(f"\n[OK] 저장 완료: {html_path}")
     print(f"  전체: {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
 
-    send_email(target_dates, articles)
-    send_telegram(f"✅ 바이오 뉴스 크롤링 완료\n전체 {len(articles)}건 (전문: {len(articles)-paid}건 / 유료: {paid}건)")
+    # 2026-10-13: 헤드라인 목록 + 페이지 링크를 경쟁동향 봇으로 (페이지 올린 뒤에 보냄)
+    deliver(target_dates, articles, extra)
+
+
+def publish_pages():
+    # GitHub Pages 자동 배포
+    import subprocess, shutil
+    if shutil.which("git"):
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # 2026-10-23: 지난 리포트 모음 (docs/archive/날짜-am|pm.html 원본, 날짜.html 하루 모음, 목록)
+        try:
+            import archive_reports
+            archive_reports.publish_today()  # 원본 + 하루 페이지 + 목록 + 지난 날짜 넘김
+        except Exception as e:
+            print(f"[WARN] 지난 리포트 저장 실패: {e}")
+        subprocess.run(["git", "add", "docs/index.html", "docs/sent_urls.json", "docs/archive"], check=False)
+        result = subprocess.run(["git", "commit", "-m", f"chore: 뉴스 업데이트 {ts}"], capture_output=True)
+        if result.returncode == 0:
+            push = subprocess.run(["git", "push"], capture_output=True)
+            if push.returncode == 0:
+                print("[OK] GitHub Pages 배포 완료")
+            else:
+                print(f"[WARN] git push 실패: {push.stderr.decode(errors='replace')}")
 
 
 if __name__ == "__main__":
