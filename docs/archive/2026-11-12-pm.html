@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이오 키워드 리포트 (2026-11-12 / 2026-11-11)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f4f6f9; color: #222; }
+  .top-bar { background: #1a3a5c; color: #fff; padding: 10px 24px; font-size: 12px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+  .top-bar .logo { font-size: 15px; font-weight: bold; color: #7ecfff; margin-right: 8px; }
+  .top-bar .meta { color: #aac; }
+  .top-bar .src-count { font-size: 11px; color: #cce; }
+  .top-bar .links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .status-banner { padding: 10px 24px; font-size: 13px; font-weight: bold; text-align: center; }
+  .status-fresh { background: #e6f4ea; color: #1a7a3c; border-bottom: 2px solid #a8d5b5; }
+  .status-stale  { background: #fff3e0; color: #b34d00; border-bottom: 2px solid #ffcc80; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+  .section-title { font-size: 20px; color: #1a3a5c; border-left: 5px solid #0077cc; padding-left: 12px; margin: 32px 0 16px; }
+  .card { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 20px; }
+  .card-today { border-left: 4px solid #0077cc; }
+  .card-old { border-left: 4px solid #ddd; opacity: 0.85; }
+  .card-header { padding: 12px 20px 8px; border-bottom: 1px solid #eee; }
+  .card-header h2 { font-size: 17px; line-height: 1.5; }
+  .card-header h2 a { color: #1a3a5c; text-decoration: none; }
+  .card-header h2 a:hover { text-decoration: underline; }
+  .date { font-size: 12px; color: #888; margin-top: 4px; display: block; }
+  .card-body { padding: 16px 20px; font-size: 14px; line-height: 1.9; color: #333; }
+  .card-body h4 { font-size: 16px; font-weight: bold; color: #333; background: #f0f4f8; border-left: 4px solid #0077cc; padding: 10px 16px; margin: 0 0 12px; line-height: 1.8; }
+  .card-body p { margin-bottom: 12px; white-space: pre-line; }
+  .card-body img { max-width: 100%; height: auto; margin: 8px 0; }
+  .card-footer { padding: 10px 20px; background: #f8f9fb; font-size: 13px; border-radius: 0 0 8px 8px; }
+  .card-footer a { color: #0077cc; text-decoration: none; }
+  .badge { font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-right: 4px; vertical-align: middle; font-weight: bold; }
+  .new-badge { background: #0077cc; color: #fff; }
+  .event-badge { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+  .date-divider { text-align: center; color: #aaa; font-size: 12px; margin: 8px 0 20px; letter-spacing: 2px; }
+  mark { background: #ffff00; padding: 0 2px; font-style: normal; }
+  .paid { color: #999; font-style: italic; }
+  .no-articles { color: #999; font-size: 14px; padding: 20px; }
+  .also-in { margin-bottom: 6px; padding: 5px 10px; background: #fffbe6; border-left: 3px solid #f5a623; font-size: 12px; color: #666; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="top" class="top-bar">
+  <span class="logo">바이오 뉴스</span>
+  <span class="meta">2026-11-12 / 2026-11-11 &nbsp;|&nbsp; 전체 13건</span>
+  <span class="src-count">BioSpectator 4건 &nbsp;|&nbsp; 더바이오 4건 &nbsp;|&nbsp; 파마타임즈 1건 &nbsp;|&nbsp; 바이오타임즈 4건</span>
+  <div class="links"><a href="#" onclick="var el=document.getElementById('kw-0');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">HM15275 (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-1');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">SURVODUTIDE (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-2');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">EFINOPEGDUTIDE (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-3');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">동아ST (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-4');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">ORFORGLIPRON (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-5');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">GLP-1 (2건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-6');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">디앤디파마텍 (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-7');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">ID110521156 (1건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-8');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">SEMAGLUTIDE (2건)</a> &nbsp;|&nbsp; <a href="#" onclick="var el=document.getElementById('kw-9');if(el){el.scrollIntoView({behavior:'smooth'});};return false;" style="color:#fff;text-decoration:none;font-size:13px;">에페글레나타이드 (2건)</a></div>
+  <a href="https://go2god4u-glitch.github.io/KTH_bionews_morning/archive/" style="color:#fff;font-size:13px;">📚 지난 리포트</a>
+</div>
+<div class="status-banner status-fresh">✔ 2026-11-12 기사 8건 &nbsp;|&nbsp; 마지막 업데이트: 2026년 11월 12일 15:03</div>
+<div class="wrap">
+
+        <section id="kw-0">
+            <h1 class="section-title">#HM15275</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e8f0fe;color:#1a5cb8;border:1px solid #bad0f8;">BioSpectator</span><a href="https://www.biospectator.com/news/view/30377" target="_blank">한미약품, 근육보존 '마이오스타틴 저해제' 다른 이유?유료</a><span class="badge new-badge">NEW</span><span class="badge event-badge">임상2상</span><span class="badge event-badge">기술이전</span></h2>
+                    <span class="date">2026-11-12 06:04</span>
+                </div>
+                <div class="card-body"><div class="article_view bioplus_bg">
+
+
+
+
+<h4>[ObesityWeek 2026 초록] 비만 경쟁속 마이오스타틴 저해제 'HM500197', 릴리의 '비마그루맙' 등 경쟁약물과 차별성 3가지는?..삼중작용제 '잔트루타이드' 새로운 적응증 전략으로, 비만관련 대장암 치료 가능성도 발표</h4>
+
+<p><div><img alt="한미약품, 근육보존 '마이오스타틴 저해제' 다른 이유?" src="https://img.etoday.co.kr/pto_db/2026/11/20261111153002_2415926_765_492.png"/></div>
+</p><p>한미약품(Hanmi Pharmaceutical)이 비만 근육보존(muscle preserving) 포트폴리오에서 그 다음 키워드로, 근골격근(skeletal muscle) 선택적인 마이오스타틴 저해제(myostatin Inhibitor)라는 키워드를 본격적으로 꺼내들고 있다.</p><p>한미약품은 비만에서 5~6년전부터 근육이라는 키워드에 베팅해왔고, 올해 8월 로슈에 계약금 1억9000만달러 규모에 UCN2(urocortin-2) 유사체 ‘HM17321’를 라이선스아웃(L/O)했다. 그리고 이제는 후속 근육보존 에셋으로 펩타이드(peptide) 기반의 마이오스타틴 저해제 ‘HM500197’에 대한 전략을 점점 더 드러내고 있다.</p><p>비만에서 마이오스타틴 저해제 개발은 현재 일라이릴리(Eli Lilly)의 타입2 액티빈 수용체(type II activin receptor, ActRII) 항체 ‘비마그루맙(bimagrumab)’으로 대표되는 영역이고, 글로벌에서 마이오스타틴-액티빈(MSTN/activin) 경로를 타깃한 약물개발 경쟁이 활발히 진행되고 있다.</p><p>그러나 여전히 현재 접근법은 한계점이 있다는 것이며, 기존 마이오스타틴 저해제와 크게 3가지 차별성을 내세우고 있다.</p><p>이러한 결과는 오는 14일부터 17일(현지시간) 미국 워싱턴DC에서 열리는 미국비만학회(ObesityWeek 2026) 초록을 통해 공개됐고, 한미약품은 새로운 적응증 확대 시도로 비만관련 대장암에서 <mark><mark>GLP-1</mark></mark>/GIP/GCG 삼중작용제(triple agonist) ‘잔트루타이드(zantrutide, <mark><mark>HM15275</mark></mark>)’의 효능을 평가한 결과, 이상지질혈증(dyslipidemia)에서 치료 가능성을 본 데이터도 발표한다. 학회 개최에 앞서 HM500197과 잔트루타이드 관련 초록 4건이 먼저 발표됐다.</p><p>인크레틴(incretin) 치료는 비만에서 체중을 효과적으로 감소시키지만, 골격근을 포함한 제지방(lean mass) 감소를 동반해 신체기능을 저하하고, 체중 감량의 질(quality)을 떨어뜨릴 우려가 있다. 이에 따라 근육을 보존하기 위해, 근육을 분해해 골격근 성장을 억제하는 마이오스타틴을 저해하는 접근법이 시도되고 있다.</p><p>다만 한계도 있다. 마이오스타틴 신호를 저해하기 위해 기존에 액티빈수용체(ActRII)를 타깃하는 방식은, 여러 TGF-β 리간드(ligand)를 저해할 수 있고, 골격근에 대한 선택성을 떨어뜨린다. 또한 항체 기반 마이오스타틴 저해제는 펩타이드 기반의 인트레틴 치료제와 병용투여가 적합하지 않을 수 있다.</p><p>한미약품은 차별화 전략으로 첫째, HM500197을 펩타이드 기반의 장기지속형(long-acting) 약물로 설계했고, 주1회 피하투여(SC) 제형으로 개발하고 있다. 항체와 비교해 기존에 시판된 인크레틴 약물과 병용요법 제형 개발시 이점을 기대할 수 있다.</p><p>둘째, 골격근 선택적인 마이오스타틴 저해제로 디자인했다. HM500197은 릴리의 비마그루맙과 비교해 마이오스타틴을 저해하는 효능은 유사하면서(비마 대비 105.3% 수준), 다른 리간드인 액티빈A(activin A), 액티빈B, BMP9 등에 대한 활성을 크게 낮췄다(비마 대비 각각 &lt;0.01%, &lt;0.01%, 0.02% 수준).</p><p>이러한 약물디자인에 기반해 비만 마우스(DIO mice)에서 HM500197 투여시 용량의존적으로 제지방(lean mass)이 투여전 대비 최대 6.7% 증가하는 것을 확인했고, 지방량(fat mass)은 최대 17% 줄었다. 반면 비마그루맙은 제지방이 11%, 지방량이 21% 줄어 수치적으로 효과가 더 컸다.</p><p>이러한 차이로 한미약품은 HM500197의 경우 간이나 심장 무게를 늘리지 않으면서, 비마그루맙과 유사한 수준으로 골근격을 늘린 것을 확인했다. 구체적으로 근육위축 마우스(DEX-induced muscle atrophy mice)에서 HM500197 투여시 골격근과 악력(grip strength)이 증가했고, 근육 외 장기(non-muscle organ) 무게에는 변화가 없었다. 반면 비마그루맙은 간, 심장 무게를 늘려 골격근 선택성이 떨어졌다. 즉 약물 디자인에 기반해 HM500197가 골근격 선택적으로 작용하는 것을 보여주는 데이터다.</p><p>셋째, 인크레틴 약물과 병용투여시 골격근을 선택적으로 보존하고, HM500197 투여시 추가적인 대사적 이점(metabolic benefit)을 제공할 가능성을 확인했다. 비만 마우스(DIO mice)에서 GIP/<mark><mark>GLP-1</mark></mark> 이중작용제 ‘<mark>젭바운드</mark>(터제파타이드)’를 투여했을 때 투여전 대비 체중 25.1%, 지방량 58.9%, 제지방은 3.6% 감소했다. HM500197을 투여하자 지방량에는 영향을 주지 않으면서, 제지방은 최대 15.1% 증가시켰다.</p><p>이때 HM500197와 터제파타이드를 병용투여하자 체중과 지방량을 감소시키면서, 제지방은 최대 7.5% 증가했고, 골격근 무게가 늘어났다. 이러한 효과는 HM500197 투여에 따른 공복혈당 감소 및 인슐린 민감성(insulin sensitivity) 개선과 연관성을 가졌다.</p><p>한미약품은 이번 ObesityWeek 2026에서 경쟁 인크레틴 약물과 차별화되는 적응증 확대 전략으로, 삼중작용제 잔트루타이드가 비만 관련 대장암 치료제로 쓰일 가능성을 발표한다. 잔트루타이드는 현재 비만과 제2형 당뇨병에서 임상2상을 진행하고 있다. 비만은 대장암에서 잘 알려진 위험 인자로, 비만을 표적해 대장암 치료 이점을 제공할 수 있을 것으로 기대한다.</p><p>초록에 따르면 대장암 모델에서 식이요법을 매개로 더 큰 종양부담, 더 많은 수의 용종(poly)이 관찰됐고, <mark><mark>HM15275</mark></mark> 투여시 종양성장이 억제되고 용종 수가 줄었다. 한미약품은 <mark><mark>HM15275</mark></mark>가 비만관련 대장암에서 종양을 예방 및 제거하는 효과를 확인했고, 종양증식, 염증, 대사이상 등을 개선했다.</p> 
+
+<div>
+
+<p>&lt;저작권자 © 바이오스펙테이터 무단전재 및 재배포, AI학습 이용 금지&gt;</p>
+<p>보도자료 및 기사제보 <a href="mailto:press@bios.co.kr">press@bios.co.kr</a></p>
+</div>
+</div></div>
+                <div class="card-footer">
+                    <a href="https://www.biospectator.com/news/view/30377" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-1">
+            <h1 class="section-title">#SURVODUTIDE</h1>
+            
+            <article class="card card-old">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e8f0fe;color:#1a5cb8;border:1px solid #bad0f8;">BioSpectator</span><a href="https://www.biospectator.com/news/view/30358" target="_blank">베링거, ‘GLP-1/GCG’ 3상 "심혈관 안전성+대사 개선"유료</a><span class="badge event-badge">임상3상</span></h2>
+                    <span class="date">2026-11-11 10:35</span>
+                </div>
+                <div class="card-body"><div class="article_view bioplus_bg">
+
+
+
+
+<h4>[AHA 2026] 질랜드 공동개발 ‘서보듀타이드’, 심혈관사건(MACE) 발생위험 위약比 비열등성, “심혈관질환 안전성 양호”..내년 승인신청 계획, 다만 경쟁력은 애매(?) 평가</h4>
+
+<p><div><img alt='베링거, ‘GLP-1/GCG’ 3상 "심혈관 안전성+대사 개선"' src="https://img.etoday.co.kr/pto_db/2026/11/20261110185814_2415390_491_244.png"/><p>▲비켐 보즈쿠르트(Biykem Bozkurt) SYNCHRONIZE-CVOT 임상3상 연구책임자(출처=AHA 2026 공식 홈페이지)</p></div>
+</p><p>베링거인겔하임(Boehringer Ingelheim)은 <mark><mark>GLP-1</mark></mark>/글루카곤(GCG) 이중작용제인 ‘서보듀타이드(<mark><mark><mark>survodutide</mark></mark></mark>)’가 심혈관사건(MACE) 발생위험이 위약군에 비해 비열등성을 나타낸 임상3상 결과를 공개했다.</p><p>서보듀타이드는 베링거인겔하임이 질랜드파마(Zealand Pharma)와 공동개발하고 있는 인크레틴 계열 약물이다.</p><p>이번 서보듀타이드가 심혈관질환 위험을 높이지 않는다는 안전성 데이터에 더해, 심혈관위험이 높은 환자하위군에서 투여 72주차에 기준선 대비 최대 13.7%의 체중이 감소하는 등 여러 심혈관대사 건강지표를 개선하는 결과가 도출됐다. 베링거는 이를 바탕으로 내년에 서보듀타이드의 승인을 신청할 계획이다.</p><p>베링거인겔하임은 지난 9일(현지시간) 미국 시카고에서 개최된 미국 심장학회(AHA 2026)에서 <mark><mark>GLP-1</mark></mark>/GCG 이중작용제 서보듀타이드의 심혈관질환 위험 임상3상의 결과를 발표했다. 회사는 해당 데이터를 란셋(The Lancet)에도 게재했다(DOI: 10.1016/S0140-6736(26)02140-9).</p><p>이번 결과를 발표한 SYNCHRONIZE-CVOT 임상3상에서는 심혈관질환(CVD) 또는 만성신장질환(CKD)이 있거나, 체중관련 합병증이나 CVD 위험요인이 2가지 이상 있는 비만 또는 과체중 성인 5530명을 대상으로 해 주1회 서보듀타이드 3.6mg, 6mg 또는 위약을 투여해서 비교평가했다(NCT06077864).</p><p>1차종결점은 심혈관 사망, 비치명적 심근경색(MI), 비치명적 뇌졸중, 관상동맥 재관류술, 심부전으로 구성된 5가지 주요 심혈관사건(5P-MACE)의 첫 발생까지의 시간이었다. 임상 결과, 서보듀타이드 투여군에서 5P-MACE 발생 위험이 위약군에 비해 감소하며 비열등성을 나타내 1차종결점을 달성했다(HR: 0.89, 95% CI: 0.67~1.18, p&lt;0.0001).</p><p>또한 주요 2차종결점으로 심혈관 사망, 비치명적 심근경색, 비치명적 뇌졸중의 3가지 주요 심혈관사건(3P-MACE) 위험도 증가시키지 않았다(HR: 0.84, 95% CI: 0.60~1.18, p&lt;0.0001).</p><p>추가로 베링거인겔하임은 서보듀타이드 투여군에서 여러 심혈관대사 건강지표를 개선하는 2차종결점을 확인했는데, 먼저 주요 2차종결점에서 투여 72주 시점에 서보듀타이드 투여군은 위약군에 비해 수축기혈압(SBP)이 최대 6.68mmHg 감소했으며(p=0.0001) 허리둘레는 9.22cm포인트(p) 감소했다(11.96cm vs 2.74cm).</p><p>또한 2형당뇨병 환자를 포함한 심혈관질환 위험이 높은 특정 환자하위군을 대상으로 72주차 체중이 서보듀타이드 투여군과 위약군에서 각각 13.7%, 2.0% 감소했으며, 심혈관질환 위험 예측인자인 hs-CRP(high-sensitivity C-reactive protein) 및 중성지방(TG) 등 바이오마커에서도 유의미한 차이가 나타났다고 회사는 부연했다. 참고로 특정 환자하위군이 아닌 서보듀타이드 투여군의 72주차 체중감소율은 3.6mg군과 6mg군에서 각각 평균 9.3%, 9.7% 감소했다.</p><p>다만 안전성 평가결과 위장관(GI) 부작용으로 인해 투여를 중단한 환자비율이 서보듀타이드 3.6mg, 6mg 투여군에서 각각 19.3%, 20.8%로, 위약군 1.9%보다 훨씬 높게 나타났다.</p><p>이번 발표를 맡은 비켐 보즈쿠르트(Biykem Bozkurt) SYNCHRONIZE-CVOT 임상3상 책임연구자는 "비만 환자에게 있어 임상적인 과제는 단순히 체중감량에만 그치지 않고, 심혈관 및 대사건강에 미치는 심각하고도 자주 간과되는 영향까지 아우른다”며 “단순히 체중을 줄이는 것뿐만 아니라 심혈관 안전성을 유지하면서 대사기능장애를 개선할 수 있는 새로운 치료법을 모색하고 있으며, SYNCHRONIZE 프로그램에서 얻은 광범위한 증거와 이러한 데이터를 종합하면 비만 및 관련 심혈관대사 위험을 관리하는 방법에 대한 가능성을 얻을 수 있다”고 말했다.</p><p>회사는 SYNCHRONIZE 프로그램 전반에서 도출된 모든 데이터를 기반으로 전세계 규제당국에 서보듀타이드의 비만 적응증 승인신청을 진행하고 있다고 설명했다.</p><p>한편 업계는 서보듀타이드의 승인 가능성은 긍정적으로 보지만, 시장에서 경쟁력이 있는지에 대해서는 애매하다고 평가한다. 일라이릴리(Eli Lilly)의 메가블록버스터 <mark><mark>GLP-1</mark></mark>/GIP ‘<mark>젭바운드</mark>/<mark>마운자로</mark>(Zepbound/Mounjaro)’의 경우 지난 8월 제2형당뇨병 성인 환자를 대상으로 MACE-3 발생 위험감소 적응증으로 미국 식품의약국(FDA)으로부터 승인받은 바 있으며, 노보(Novo)의 <mark><mark>GLP-1</mark></mark> ‘<mark>위고비</mark>(Wegovy)’ 역시 지난 2024년 심혈관질환이 있는 비만 환자를 대상으로 MACE 발생 위험감소 적응증을 확보한 바 있다.</p><p>샤샨크 데쉬판데(Shashank Deshpande) 베링거 의장 겸 인체의약품(Human Pharma) 책임자는 “SYNCHRONIZE-CVOT 임상3상 결과는 주요 심혈관사건과 관련해 서보듀타이드의 안전성을 확인한 최초의 사례라는 점에서 중요한 이정표가 된다”며 "SYNCHRONIZE 프로그램에서 축적되고 있는 증거들과 함께, 이번 결과는 서보듀타이드의 이중작용제 접근법이 근본적인 대사기능장애를 해결하고 체중감량뿐 아니라 더 광범위한 대사건강을 개선할 수 있는 잠재력에 대한 확신을 강화시켜준다. 우리는 더 광범위한 글로벌 임상 개발 프로그램을 통해 상호연관된 대사질환 전반에 걸쳐 증거를 구축하는 데 전념할 것이다”고 말했다.</p><p>베링거인겔하임은 비만 및 당뇨병 환자를 대상으로 진행하는 SYNCHRONIZE 프로그램 외에도, 서보듀타이드를 대사이상지방간염(MASH) 및 간경변 2단계/3단계 환자를 대상으로 하는 LIVERAGE 임상3상과, MASH로 인한 대상성 간경변증(간섬유화 4단계) 환자를 대상으로 하는 LIVERAGE-Cirrhosis 임상3상에서 평가하고 있다(NCT06632444, NCT06632457).</p> 
+
+<div>
+
+<p>&lt;저작권자 © 바이오스펙테이터 무단전재 및 재배포, AI학습 이용 금지&gt;</p>
+<p>보도자료 및 기사제보 <a href="mailto:press@bios.co.kr">press@bios.co.kr</a></p>
+</div>
+</div></div>
+                <div class="card-footer">
+                    <a href="https://www.biospectator.com/news/view/30358" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-2">
+            <h1 class="section-title">#EFINOPEGDUTIDE</h1>
+            
+            <article class="card card-old">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e8f0fe;color:#1a5cb8;border:1px solid #bad0f8;">BioSpectator</span><a href="https://www.biospectator.com/news/view/30364" target="_blank">머크, 한미 'GLP/GCG' MASH 2b상 "긍정적" 란셋 게재유료</a><span class="badge event-badge">기술이전</span></h2>
+                    <span class="date">2026-11-11 06:35</span>
+                </div>
+                <div class="card-body"><div class="article_view bioplus_bg">
+
+
+
+
+<h4>[AASLD 2026] 머크 CMO "MASH 새로운 치료옵션 시급, 이번 결과 MASH 해소 및 섬유화 완화 임상적 의미있는 반응 보여줘"..체중감소는 5.3~7.4kg 수준, 세부 안전성 데이터도 공개</h4>
+
+<p><div><img alt="머크, 한미 'GLP/GCG' MASH 2b상 &quot;긍정적&quot; 란셋 게재" src="https://img.etoday.co.kr/pto_db/2026/11/20261110161324_2415293_1200_593.png"/></div>
+</p><p>미국 머크(MSD)가 <mark><mark>GLP-1</mark></mark>/GCG 수용체 이중작용제 ‘<mark>에피노페그듀타이드</mark>(<mark><mark><mark>efinopegdutide</mark></mark></mark>, <mark><mark>MK-6024</mark></mark>)’의 대사이상관련 지방간염(MASH) 임상2b상에서 약물 경쟁력을 보여주는 결과를 공개했으며, <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(26)02043-X/abstract" rel="nofollow" target="_blank">글로벌 최고권위지인 란셋(The Lancet)에 동시 게재</a>됐다.</p><p>머크는 9일(현지시간) 미국 간학회(AASLD) 주최 더리버 미팅(The Liver Meeting)에서 <mark>에피노페그듀타이드</mark> 임상2b상에서 긍정적인 결과를 발표했다고 밝혔다. 머크가 한미약품(Hanmi Pharmaceutical)에서 사들인 약물로, 한미약품이 이전 J&amp;J에 기술이전했다가 혈당감소 효능이 내부 기준을 총족하지 못해 반환받았다가 적응증을 바꿔 2020년 다시 머크에 라이선스아웃한 후보물질이다.</p><p>엘리아브 바(Eliav Barr) 머크연구소 글로벌 임상개발 최고의학책임자(CMO)는 “MASH는 간경화와 간부전으로 이어질 위험이 있어, 새로운 치료옵션이 시급하다”며 “우리는 이번 결과를에 고무돼 있으며, <mark>에피노페그듀타이드</mark>가 MASH 해소(resolution)와 섬유화 완화(fibrosis regression)라는 임상적으로 의미있는 반응을 나타낼 잠재력을 보여준다”고 말했다.</p><p>이번 <mark>에피노페그듀타이드</mark>의 효능 결과는 앞서 초록을 통해 1차 종결점과 주요 2차 지표에 달성한 결과가 먼저 공개됐고, 현장에서 체중, 부작용 프로파일, 혈액 지질지표, 혈당 등 세부 결과가 발표됐다. <mark>에피노페그듀타이드</mark>는 MASH 해소에서 동등 이상의 효능을 보이고 있고, 섬유화 개선 측면에서는 경쟁력을 보이고 있다.</p><p>이번 임상2b상은 생검을 통해 확인된(biopsy-confirmed) 섬유화 2~3단계(F2-3) MASH 환자 381명을 대상으로 <mark>에피노페그듀타이드</mark> 3가지 용량(4, 7, 10mg)과 위약, 활성대조약물(active reference)로 ‘<mark>위고비</mark>(<mark>세마글루타이드</mark>)’ 2.4mg을 오픈라벨(open-label)로 주1회 투여해 비교평가하는 임상으로 진행됐다.</p><p>그 결과 임상 1차 종결점으로 설정한 섬유화 악화없이 MASH 해소(resolution)에서 투약 52주차에 통계적으로 유의미한 차이를 확인했고, <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg에서 각각 56%, 63%, 61% 개선을 확인했고, 위약은 13%였다(모두 p&lt;0.0001). 같은 시점에서 <mark>위고비</mark> 투여시 MASH 해소율은 53%였다.</p><p>핵심 조직학적 2차 종결점으로 지방간염 악화없이 섬유화가 1단계 이상 개선된 비율은 <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg에서 각각 43%, 52%, 34%였고, 위약은 21%였다(각각 p=0.0038, p&lt;0.0001, p=0.072). <mark>위고비</mark> 투여시 섬유화 개선 비율은 25%였다.</p><p>또다른 분석법으로 프로토콜을 준수한 데이터셋(per-protocol set, PPS)을 포함한 데이터도 발표됐다. 머크는 약물투여 완료시점(EOT)에 생검 조직이 없는 환자는 비반응군(non-response)으로 처리했는데, 이를 제외한 수치로 이는 약물 내약성, 중단 등을 반영할 수 있다. <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg 투여그룹에서 4명, 7명, 10명에 대한 데이터가 제외됐고, 위약은 7명이었다. <mark>위고비</mark>는 3명의 데이터가 제외됐다.</p><p>프로토콜 준수 환자를 기준으로 1차 종결점인 MASH 해소율은 <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg에서 각각 61%, 74%, 70%였고, 위약은 15%였다. <mark>위고비</mark> 투여시 섬유화 개선 비율은 52%였다.</p><p>섬유화 지표에서도 프로토콜을 준수한 데이터셋에서 수치적으로 높은 반응율을 확인했고, <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg에서 각각 46%, 59%, 41%였고, 위약은 25%였다. <mark>위고비</mark> 투여시 섬유화 개선 비율은 23%였다.</p><p>이번에 새롭게 발표된 데이터로 체중 변화는 <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg 투여시 5.3kg, 5.8kg, 7.4kg이 빠졌고, 위약은 0.4kg이 늘었다. 활성대조군인 <mark>위고비</mark> 투여그룹에서는 10.3kg이 빠져 수치적으로 체중감량이 가장 컸다.</p><p>안전성 데이터로 세부 위장관(GI) 부작용으로, 메스꺼움 발생은 <mark>에피노페그듀타이드</mark> 4mg, 7mg, 10mg 투여시 29%, 39%, 44%로 발생했고, <mark>세마글루타이드</mark> 39%와 유사했다. 위약은 11%였다. 설사는 <mark>에피노페그듀타이드</mark> 29%, 26%, 22% 발생했고, <mark>위고비</mark>는 22%와 위약은 20%였다. 구토는 20%, 8%, 28%로 발생했고, <mark>위고비</mark>는 15%와 위약은 3%였다.</p><p>부작용으로 인한 임상 중단비율은 <mark>에피노페그듀타이드</mark> 고용량에서 높았고, 4mg, 7mg, 10mg 투여시 3%, 4%, 11%였고, <mark>위고비</mark>와 위약은 1%였다.</p><p>혈액 바이오마커로 <mark>에피노페그듀타이드</mark> 투여시 ApoB, 총콜레스테롤, 비-HLD(non-HDL), 중성지방 등 지질대사 관련 지표에서도 개선을 확인했다.</p><p>란셋에서 연구팀은 “에피노페그두타이드 7mg 용량은 가장 우수한 이익위험 프로파일(benefit-risk profile)을 보였다”며 “1년간 치료후 MASH 환자의 약 50%가 MASH를 악화시키지 않으면서 섬유화를 개선했다”고 결론지었다.</p> 
+
+<div>
+
+<p>&lt;저작권자 © 바이오스펙테이터 무단전재 및 재배포, AI학습 이용 금지&gt;</p>
+<p>보도자료 및 기사제보 <a href="mailto:press@bios.co.kr">press@bios.co.kr</a></p>
+</div>
+</div></div>
+                <div class="card-footer">
+                    <a href="https://www.biospectator.com/news/view/30364" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-3">
+            <h1 class="section-title">#동아ST</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e8f0fe;color:#1a5cb8;border:1px solid #bad0f8;">BioSpectator</span><a href="https://www.biospectator.com/news/view/30352" target="_blank">프로바이오, 동아 앱티스와 '이중타깃 ADC' 항체 딜</a><span class="badge new-badge">NEW</span><span class="badge event-badge">라이선스인</span></h2>
+                    <span class="date">2026-11-12 08:43</span>
+                </div>
+                <div class="card-body"><div class="article_view">
+
+<h4>계약금 등 계약규모 비공개..앱티스, 프로바이오서 '암 표적 이중항체' 라이선스인(L/I)..부위특이적 플랫폼 ‘앱클릭’ 통해 "이중타깃 ADC" 개발 추진</h4>
+
+<p><div><img alt="프로바이오, 동아 앱티스와 '이중타깃 ADC' 항체 딜" src="https://img.etoday.co.kr/pto_db/2026/11/20261109163131_2414601_1199_510.png"/></div>
+</p><p>글로벌 위탁연구개발생산(CRDMO) 기업 프로바이오(ProBio)는 <mark><mark>동아ST</mark></mark>(Dong-A ST) 자회사이자 부위특이적 항체-약물접합체(ADC) 기술을 전문으로 개발하는 앱티스(AbTis)와 글로벌 독점 라이선스 계약을 체결했다고 지난 10일(현지시간) 밝혔다.</p><p>계약에 따라 앱티스는 프로바이오의 바이오의약품 발굴 및 개발역량을 통해 도출된 종양 표적 항체치료제 후보물질에 대한 전세계 독점 개발 및 상업화 권리를 갖게 된다. 앱티스는 이 항체를 기반으로, 자사 부위특이적 접합 플랫폼인 '앱클릭(AbClick®)'을 활용한 이중타깃 ADC 파이프라인을 확장하고, 차세대 ADC 개발을 추진할 계획이다.</p><p>앱티스의 앱클릭 링커 플랫폼은 항체 특정 부위에 위치특이적 접합(site-specific conjugation)을 할 수 있도록 설계됐다. 이를 통해 균일한 ADC를 구현하고 특성을 개선시킬 수 있다고 설명했다. 앱티스는 해당 기술을 항암제 분야에서 적극적으로 개발하고 있다.</p><p>앱티스는 프로바이오에 계약금을 지급하며, 프로바이오는 향후 개발 및 상업화 마일스톤과 매출에 따른 로열티도 받을 수 있다. 자세한 규모는 공개하지 않았다.</p><p>이번 계약을 통해 프로바이오는 자사의 발굴 전문성, 첨단 바이오 플랫폼, 그리고 개발 및 생산역량을 결합해 차별화된 바이오의약품을 창출하고 혁신적인 신약개발을 가능하게 하는 데 있어 그 역할을 확대하고 있음을 보여준다고 강조했다.</p><p>엘런 궈(Allen Guo) 프로바이오 대표는 “이번 계약은 파트너사의 프로그램을 지원할 뿐만 아니라, 혁신적인 치료제 개발로 이어질 수 있는 차별화된 자산을 직접 창출하려는 프로바이오 전략의 가치를 입증하는 것”이라며 “프로바이오의 바이오의약품 발굴역량과 앱티스의 부위특이적 ADC 기술을 결합함으로써, 유망한 암 치료제 후보물질의 개발을 가속화하고 환자와 파트너사를 위한 추가적인 가치를 창출할 수 있게 됐다”고 말했다.</p><p>최형석 앱티스 대표는 “이번 라이선스 계약은 유망한 항체 자산을 ADC 개발로 발전시키는 데 있어 중요한 진전”이라며 “프로바이오와 협력하고 앱클릭 플랫폼을 활용해 해당 프로그램의 개발을 가속화할 수 있기를 기대한다”고 말했다.</p><p>한편 회사에 따르면 프로바이오는 후보물질 발굴부터 개발, 제조에 이르는 통합적인 경로를 제공하며, 바이오텍 및 제약 파트너사들이 혁신적인 바이오의약품 자산을 바탕으로 차별화된 파이프라인을 구축할 수 있도록 지원하고 있다.</p> <div>
+
+<p>&lt;저작권자 © 바이오스펙테이터 무단전재 및 재배포, AI학습 이용 금지&gt;</p>
+<p>보도자료 및 기사제보 <a href="mailto:press@bios.co.kr">press@bios.co.kr</a></p>
+</div>
+</div></div>
+                <div class="card-footer">
+                    <a href="https://www.biospectator.com/news/view/30352" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-4">
+            <h1 class="section-title">#ORFORGLIPRON</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e6f4ea;color:#1a7a3c;border:1px solid #a8d5b5;">더바이오</span><a href="https://www.thebionews.net/news/articleView.html?idxno=30181" target="_blank">中아스클레티스, 1일 1회 GLP-1·아밀린 이중기전 경구 비만약 美임상 신청</a><span class="badge new-badge">NEW</span><span class="badge event-badge">IND</span></h2>
+                    <span class="date">2026-11-12 13:20</span>
+                </div>
+                <div class="card-body"><article class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<div>
+<figure data-idxno="32893" data-type="photo"><img alt="출처 : 아스클레티스파마" src="https://cdn.thebionews.net/news/photo/202611/30181_32893_4440.jpg"/>
+<figcaption>출처 : 아스클레티스파마</figcaption>
+</figure>
+</div>
+<p>[더바이오 성재준 기자] 중국 바이오기업인 아스클레티스파마(Ascletis Pharma, 이하 아스클레티스)가 ‘글루카곤 유사 펩타이드1(<mark><mark>GLP-1</mark></mark>)’과 ‘<mark>아밀린</mark>’ 수용체를 함께 겨냥하는 경구용(먹는) 비만 치료제 후보물질인 ‘ASC30_39 FDC(개발코드명)’의 미국 임상 개발을 추진한다. 이 후보물질은 서로 다른 체중 조절 기전을 하나의 알약에 결합해 하루 1번 복용하도록 개발 중인 복합제다.</p>
+<p>아스클레티스는 11일(현지시간) 미국 식품의약국(FDA)에 ASC30_39 FDC의 임상시험계획(IND)을 제출했다고 밝혔다. 이 복합제는 경구용 <mark><mark>GLP-1</mark></mark> 수용체 작용제(RA)인 ‘ASC30’과 선택적 <mark>아밀린</mark> RA인 ‘ASC39’를 하나의 정제에 담은 고정용량 복합제(FDC) 후보물질이다. 회사는 경구용 <mark><mark>GLP-1</mark></mark>·<mark>아밀린</mark> 복합제 중 처음으로 IND 제출 단계에 도달했다고 설명했다.</p>
+<p>ASC30_39 FDC는 동물실험에서 약물 흡수와 지속성 측면에서 긍정적인 결과를 보였다. 개를 대상으로 복합제를 경구 투여한 결과 높은 경구 생체이용률과 체내 약물 노출 수준을 보였으며, 반감기는 최대 12시간으로 나타났다. ASC30과 ASC39를 각각 단독 투여했을 때와 비교해도 주요 약동학적 지표가 유사했다는 게 회사의 설명이다.</p>
+<p>제형의 안정성도 확인했다. 아스클레티스는 자체 기술로 두 성분을 하나의 작은 정제에 결합했으며, 상온에서도 안정성을 유지했다고 밝혔다. ASC30과 ASC39는 모두 회사가 인공지능(AI) 기반 구조 중심 신약 발굴 기술(AISBDD)을 활용해 자체 발굴한 저분자화합물 후보물질이다.</p>
+<p>복합제의 한 성분인 ASC30은 이미 글로벌 임상3상 단계에 진입했다. 아스클레티스는 미국과 유럽, 캐나다에서 비만 또는 과체중 환자 약 4600명을 모집하는 임상3상(AURORA-1·AURORA-2)을 진행 중이며, 2028년 3분기 주요 결과를 발표할 예정이다.</p>
+<p>회사에 따르면 ASC30은 매주 투여 용량을 늘린 임상에서 다국적 제약사 일라이릴리의 경구용 <mark><mark>GLP-1</mark></mark> 치료제인 ‘오르포글리프론(<mark><mark><mark>orforglipron</mark></mark></mark>)’보다 구토 발생률이 약 절반 수준이었다. 다만 서로 다른 임상시험 결과를 간접 비교한 것으로, 두 약물의 안전성 차이가 직접 입증된 것은 아니다.</p>
+<p>또 다른 성분인 ASC39는 <mark>아밀린</mark> 수용체를 선택적으로 겨냥하는 경구용 저분자화합물 치료제 후보물질이다. ‘<mark>아밀린</mark>’은 식욕과 포만감 조절에 관여하는 호르몬으로, <mark><mark>GLP-1</mark></mark>과 다른 기전을 통해 체중 감량에 기여할 수 있다. ASC39는 인간 <mark>아밀린</mark> 1 수용체(hAMY1R)에 대한 선택성이 인간 칼시토닌 수용체(hCTR)보다 40배 높게 나타났다.</p>
+<p>식이유도 비만 쥐에게 ASC39를 6일 연속 하루 1번 경구 투여한 ‘전임상’ 연구에서는 위약 대비 보정 체중 감소율이 6.6%를 기록했다. 회사는 이를 <mark>아밀린</mark> 계열 치료제인 ‘엘로랄린타이드(eloralintide)’의 5.6%와 유사한 수준으로 평가했다. 아스클레티스는 최근 ASC39 단독요법에 대해서도 FDA에 IND를 제출했다.</p>
+<p>다만 이번에 IND를 제출한 ASC30_39 FDC 복합제의 체중 감량 효과와 안전성은 아직 사람을 대상으로 확인되지 않았다. 현재까지 공개된 자료는 동물실험에서 확인한 약동학적 특성과 제형 안정성에 관한 것이다.</p>
+<p>진쯔 제이슨 우(Jinzi Jason Wu) 아스클레티스 창업자 겸 최고경영자(CEO)는 “ASC30_39 FDC는 상호보완적인 2가지 체중 조절 기전을 ‘하루 1번’ 복용하는 ‘정제’에 결합한 후보물질”이라며 “비만 환자에게 차별화되고 편리한 경구 치료 선택지를 제공할 잠재력이 있다”고 말했다.</p> </article></div>
+                <div class="card-footer">
+                    <a href="https://www.thebionews.net/news/articleView.html?idxno=30181" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-5">
+            <h1 class="section-title">#GLP-1</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e6f4ea;color:#1a7a3c;border:1px solid #a8d5b5;">더바이오</span><a href="https://www.thebionews.net/news/articleView.html?idxno=30173" target="_blank">화이자, 블랙스톤서 비만신약 개발비 2조원 확보…‘월 1회’ GLP-1 3상 확대</a><span class="badge new-badge">NEW</span></h2>
+                    <span class="date">2026-11-12 11:58</span>
+                </div>
+                <div class="card-body"><article class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<div>
+<figure data-idxno="32886" data-type="photo"><img alt="출처 : 화이자" src="https://cdn.thebionews.net/news/photo/202611/30173_32886_2937.jpg"/>
+<figcaption>출처 : 화이자</figcaption>
+</figure>
+</div>
+<p>[더바이오 성재준 기자] 다국적 제약사 화이자(Pfizer)가 세계 최대 대체자산 운용사인 ‘블랙스톤(Blackstone)’으로부터 최대 15억달러(약 2조원)의 비만 치료제 개발비를 지원받는다. 이번 계약은 블랙스톤의 생명과학 투자 부문인 ‘블랙스톤라이프사이언스(Blackstone Life Sciences)’와 체결한 것으로, 지원금은 ‘월 1회’ 투여하는 글루카곤 유사 펩타이드1(<mark><mark>GLP-1</mark></mark>) 수용체 작용제(RA) 후보물질인 ‘베로베나타이드(berobenatide)’의 임상 개발에 투입된다. 화이자는 후보물질에 대한 권리와 개발·의사결정권을 모두 유지한다.</p>
+<p>화이자는 블랙스톤과 ‘베로베나타이드’ 개발 자금을 공동으로 조달하기 위한 전략적 계약을 체결했다고 11일(현지시간) 밝혔다. 이번 계약에 따라 블랙스톤이 운용하는 펀드는 오는 2028년까지 베로베나타이드 개발비 중 최대 15억달러를 부담한다. 베로베나타이드는 만성 체중 관리와 비만 관련 동반질환을 대상으로 개발 중인 월 1회 주사형 펩타이드 치료제 후보물질이다.</p>
+<p>이번 계약의 핵심은 블랙스톤이 개발비를 지원하지만, 베로베나타이드에 대한 권리나 소유권은 확보하지 않는다는 점이다. 화이자는 임상시험을 포함한 개발 프로그램의 운영과 의사결정권을 유지하며, 블랙스톤은 향후 미국 허가와 상업화 성과에 따라 성과금을 지급받는 구조다.</p>
+<p>구체적으로 베로베나타이드가 월 1회 주사하는 단독요법으로 만성 체중 관리 적응증에 대해 미국 규제당국의 승인을 받고, 일정 매출 목표를 달성하면 블랙스톤에 단계별 성과금이 지급될 수 있다. 성과금 지급 조건이 충족되면 실제 지급은 여러 해에 걸쳐 이뤄진다. 다만 양사는 구체적인 성과금 규모와 매출 기준은 공개하지 않았다.</p>
+<p>이번 투자에는 블랙스톤라이프사이언스가 운용하는 펀드와 블랙스톤의 사모펀드 투자 플랫폼인 ‘BXPE’가 운용하는 펀드가 함께 참여한다. 화이자는 외부 자금을 활용해 대규모 임상 개발에 필요한 재원을 확보하는 동시에, 다른 치료 분야의 연구개발(R&amp;D)에도 투자할 여력을 유지한다는 방침이다.</p>
+<p>세실 게건(Cecile Guegan) 화이자 최고재무책임자(CFO) 겸 수석부사장은 “내부 연구 투자와 자본 파트너의 선별적인 투자를 결합해 중요한 신약을 환자에게 제공하려고 한다”며 “이번 계약은 비만 치료제 개발을 추진하면서 다른 치료 분야의 R&amp;D에도 투자할 재무적인 유연성을 확보하는데 도움이 된다”고 밝혔다.</p>
+<p>화이자는 올해 비만 및 관련 동반질환을 대상으로 20건 이상의 임상시험을 추진할 계획이다. 여기에는 현재 진행 중이거나 계획 단계에 있는 베로베나타이드 임상3상 10건이 포함된다. 주요 개발 영역은 만성 체중 관리뿐만 아니라 무릎 골관절염, 폐쇄성 수면무호흡증 등 비만 관련 질환이다.</p>
+<p>베로베나타이드는 월 1회 투여하는 최초의 <mark><mark>GLP-1</mark></mark> RA 펩타이드 신약을 목표로 개발 중이다. 화이자는 베로베나타이드 단독요법과 함께 <mark>아밀린</mark> 유사체를 비롯한 영양소 자극 호르몬(NuSH) 펩타이드 계열 후보물질과의 병용요법도 연구할 계획이다. 베로베나타이드를 심혈관·대사질환 치료제 파이프라인의 핵심 후보물질로 개발한다는 전략이다.</p>
+<p>니콜라스 갈라카토스(Nicholas Galakatos) 블랙스톤라이프사이언스 글로벌 대표는 “화이자와의 협력 관계를 확대하고, 베로베나타이드를 화이자 심혈관·대사질환 파이프라인의 핵심으로 개발하는 과정을 지원하게 돼 기쁘다”고 밝혔다.</p>
+<p>한편, 블랙스톤라이프사이언스는 의약품과 의료기술 개발의 여러 단계에 투자하는 생명과학 전문 투자 플랫폼으로, 현재 운용자산 규모는 180억달러(약 24조400억원)다.</p> </article></div>
+                <div class="card-footer">
+                    <a href="https://www.thebionews.net/news/articleView.html?idxno=30173" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#fff3e0;color:#7a3e00;border:1px solid #ffcc80;">바이오타임즈</span><a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36122" target="_blank">식약처, 자가 치료용 의약품 6병 반입 허용…비만약 불법 유통 뚫리나</a><span class="badge new-badge">NEW</span></h2>
+                    <span class="date">2026-11-12</span>
+                </div>
+                <div class="card-body"><div class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<h2>12일부터 정식 허가받은 치료제 6병 또는 3개월치 휴대 가능<br/>
+과도한 통관 보류로 인한 국민 불편 해소 취지지만 안전망 미흡<br/>
+서류 검증 가이드라인 아직 없어 인기 비만약 편법 반입 우려</h2><div>
+<figure data-idxno="47486" data-type="photo"><div>
+<img alt="                                                                     사진=AI 생성 이미지" src="https://cdn.biotimes.co.kr/news/photo/202611/36122_47486_551.png"/></div>
+<figcaption>                                                                     사진=AI 생성 이미지</figcaption>
+</figure>
+</div>
+<p>[바이오타임즈] 개인이 해외에서 정상적으로 처방받거나 구매한 자가 치료용 의약품을 국내로 들여올 때 겪던 통관 보류 문제가 마침내 풀린다.</p>
+<p>식품의약품안전처(식약처)와 관세청은 자가 치료용 의약품의 개인 휴대 반입을 12일부터 전면 허용한다고 11일 밝혔다.</p>
+<p>그동안은 국내 환자가 먹던 약을 해외에 가져갔다가 다시 들여오거나, 유학생·외국인이 복용하던 약을 반입할 때 세관에서 통관이 막혀 곤욕을 치르는 일이 잦았다. 원칙상 수입 요건을 갖추지 않은 의약품 반입을 제한하다 보니, 정당한 치료 목적의 개인 휴대 물품까지 통관 보류 조치를 당했던 것이다.</p>
+<p>최근 국회 예산결산특별위원회 등에서도 정상적인 의료체계 안에서 확보한 약까지 반입을 틀어막는 것은 지나친 규제라는 지적이 제기됐다. 이에 정부는 통관 기준을 개편해 정당한 자가 치료 목적의 의약품 반입을 보장하기로 방향을 틀었다.</p>
+<p><span><strong>◇ 6병 또는 3개월분까지 허용…과도한 통관 규제 풀었다</strong></span></p>
+<p>이번 조치의 핵심은 정식 규제기관의 허가를 받은 의약품을 개인이 정상적으로 처방받거나 구매한 경우, 합법적으로 휴대할 수 있게 양성화한 것이다.</p>
+<p>휴대 반입 한도는 총 6병으로 명시했다. 만약 6병을 초과하더라도, 해당 의약품의 용법에 따른 3개월 복용량까지는 반입을 인정한다. 기존에 통일된 기준이 없어 세관 직원의 자의적 판단이나 임의적인 보류가 빈발했던 점을 감안하면, 명확한 수치 기준을 제시해 혼선을 줄였다는 분석이 나온다.</p>
+<p>주요 허용 유형은 세 가지다. 국내 환자가 지병으로 복용 중인 약을 들고 출국한 뒤 다시 들여오는 경우, 외국인이나 유학생이 해외에서 지속해서 복용하던 약을 국내로 들여오는 상황이다. 해외여행 중 현지에서 급하게 처방받거나 구매한 의약품을 가져오는 경우도 포함한다.</p>
+<p>이로써 입국 과정에서 억울하게 압수되거나 폐기되는 불상사가 대폭 줄어들 것으로 보인다. 식약처와 관세청은 이번 조치로 의약품 통관 과정의 병목 현상이 해소될 것으로 기대하고 있다.</p>
+<p>다만 이번 규제 완화는 일반적인 자가 치료 목적 의약품에 국한된다. 오남용 위험이 큰 향정신성의약품 등은 식약처가 별도로 규정한 휴대 반입 취급승인 절차를 입국 전에 반드시 거쳐야 한다.</p>
+<p><span><strong>◇ 비만약 12개 반입 가능해져…‘정상 처방’ 검증이 관건</strong></span></p>
+<p>규제 완화에 따른 순기능이 뚜렷하지만, 고가 인기 의약품의 불법 유통 통로로 악용될 수 있다는 우려도 나온다. 반입 문턱이 낮아진 틈을 타 음성적인 거래가 활개를 칠 수 있다는 지적이다.</p>
+<p>실제로 식약처는 이번 조치를 설명하며 1주에 1회 1개를 자가 주사하는 글루카곤 유사 펩타이드-1(<mark><mark>GLP-1</mark></mark>) 계열 비만치료제를 예로 들었다. 이 기준을 적용하면 3개월 복용량인 최대 12개까지 한 번에 휴대 반입이 가능하다.</p>
+<p>현재 국내 비만치료제 시장은 폭발적으로 성장하는 반면 물량은 부족하다. 덴마크 제약사 <mark>노보 노디스크</mark>의 <mark>위고비</mark>(성분명 <mark>세마글루타이드</mark>) 등 인기 품목은 심각한 품귀 현상을 빚고 있다. 이 때문에 보따리상을 통한 불법 반입 시도가 끊이지 않는 실정이다. 이런 상황에서 개인이 합법적으로 비만치료제 12개를 들여올 공식 통로가 열린 셈이다.</p>
+<p>문제는 해외 현지 병원의 처방전이나 약국 영수증의 진위를 입국장 세관에서 얼마나 빠르고 정확하게 걸러낼 수 있느냐다. 여러 사람이 가짜 처방전을 꾸며 다량의 비만치료제를 반입한 뒤 국내 불법 유통망에 비싼 값에 되파는 식의 우회로가 될 소지가 다분하다. 제한된 세관 인력으로 쏟아지는 입국자의 영문 서류를 일일이 대조하기란 현실적으로 쉽지 않다.</p>
+<p>더욱이 식약처와 관세청은 반입 시 처방 사실을 구체적으로 어떤 서류로 확인하고 교차 검증할 것인지, 허용 대상에서 제외하는 오남용 우려 성분이 무엇인지 세부 가이드라인을 아직 공개하지 않았다. 제도의 빈틈을 노린 꼼수 반입을 막을 촘촘한 안전장치가 부족하다는 의미다.</p>
+<p>결국 이번 정책의 성패는 휴대 반입 서류의 실효성 있는 검증 시스템 구축에 달렸다. 국민의 통관 불편을 덜어주는 선의를 살리면서도, 비만약 불법 유통 등 부작용을 통제할 명확한 사후 관리 지침을 내놓을 수 있을지가 제도의 안착을 결정지을 최대 관전 포인트다.</p>
+<p>[바이오타임즈=김지수 기자] <a href="mailto://news@biotimes.co.kr">news@biotimes.co.kr</a></p>
+
+
+
+
+
+
+
+
+ </div></div>
+                <div class="card-footer">
+                    <a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36122" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-6">
+            <h1 class="section-title">#디앤디파마텍</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e6f4ea;color:#1a7a3c;border:1px solid #a8d5b5;">더바이오</span><a href="https://www.thebionews.net/news/articleView.html?idxno=30178" target="_blank">디앤디파마텍, 美 관계사 ‘지알파’에 100억원 추가 투자…‘RPT’ 개발 확대</a><span class="badge new-badge">NEW</span></h2>
+                    <span class="date">2026-11-12 11:20</span>
+                </div>
+                <div class="card-body"><article class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<div>
+<figure data-idxno="32890" data-type="photo"><img alt="출처 : 디앤디파마텍" src="https://cdn.thebionews.net/news/photo/202611/30178_32890_859.jpg"/>
+<figcaption>출처 : <mark><mark>디앤디</mark>파마텍</mark></figcaption>
+</figure>
+</div>
+<p>[더바이오 지용준 기자] <mark><mark>디앤디</mark>파마텍</mark>이 표적 알파 방사성의약품을 개발하는 미국 관계사인 지알파홀딩스(Z-Alpha Holdings)에 약 100억원을 추가로 투자한다.</p>
+<p><mark><mark>디앤디</mark>파마텍</mark>은 12일 이사회를 열고 지알파가 발행하는 신주 429만9965주를 약 100억원에 취득하기로 결정했다고 공시했다.</p>
+<p>지알파는 미국 헬스케어 전문 투자사인 오비메드(OrbiMed)와 타이번캐피탈(Tybourne Capital Management)이 최대주주로 있는 바이오기업이다. <mark><mark>디앤디</mark>파마텍</mark>은 지난 2022년 미국 자회사인 뉴랄리(Neuraly)가 개발하던 알파 방사성 치료제 파이프라인을 현물 출자해 합작법인 설립에 참여했다. 이후 추가 주식 교환 등을 통해 지알파의 ‘3대 주주’ 지위를 확보했으며, 이슬기 <mark><mark>디앤디</mark>파마텍</mark> 대표는 이사회 멤버로 참여하고 있다.</p>
+<p>지알파는 알파 방사성 동위원소인 ‘아스타틴-211(211At)’을 기반으로 고형암 치료제를 개발하고 있다. ‘아스타틴-211’은 생산 방식과 방사성 붕괴 경로에서 차별화된 특성을 지닌 동위원소로, 기존 표적 방사성 치료제의 한계를 보완할 수 있는 물질로 평가된다.</p>
+<p>이번 투자에는 오비메드와 타이번캐피탈, <mark><mark>디앤디</mark>파마텍</mark> 등 기존 3대 주주와 글로벌 제약사가 참여했다. 지알파는 확보한 자금을 복수의 아스타틴-211 기반 알파 방사성 치료제 개발에 투입할 계획이다. 해당 후보물질들의 임상 진입 목표 시점은 2027년이다.</p>
+<p><mark><mark>디앤디</mark>파마텍</mark>은 기존 지알파 지분을 미국 자회사를 통해 보유하고 있지만, 이번 신주 취득에는 ‘직접 참여’하기로 했다. 회사는 이번 투자를 통해 지알파와의 협력을 강화하고, 개발 성과에 따른 기업가치 제고를 추진할 방침이다.</p>
+<p>이슬기 <mark><mark>디앤디</mark>파마텍</mark> 대표는 “지알파는 독자적인 플랫폼을 통해 계열 내 최고(best-in-class) 신약으로 성장할 잠재력을 갖춘 다수의 아스타틴-211 기반 후보물질을 빠르게 확보해왔다”며 “이번 투자에 글로벌 제약사가 참여하면서 아스타틴-211 치료제의 가능성과 지알파의 경쟁력을 함께 인정받았다고 생각한다”고 말했다.</p>
+<p>이 대표는 이어 “기존 지분은 미국 자회사가 보유하고 있지만, 이번 투자는 기대 효과를 높이기 위해 <mark><mark>디앤디</mark>파마텍</mark>이 직접 참여했다”며 “지알파와 협력을 더욱 강화해 개발 품목의 성공 가능성을 높이고, 그 성과가 기업가치로 이어질 수 있도록 최선을 다하겠다”고 덧붙였다.</p> </article></div>
+                <div class="card-footer">
+                    <a href="https://www.thebionews.net/news/articleView.html?idxno=30178" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-7">
+            <h1 class="section-title">#ID110521156</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#e6f4ea;color:#1a7a3c;border:1px solid #a8d5b5;">더바이오</span><a href="https://www.thebionews.net/news/articleView.html?idxno=30167" target="_blank">일동제약, ‘바이오유럽’ 참가…P-CAB ‘파도프라잔’ 상업화에 속도</a><span class="badge new-badge">NEW</span><span class="badge event-badge">임상1상</span><span class="badge event-badge">임상2상</span><span class="badge event-badge">임상3상</span><span class="badge event-badge">기술이전</span><span class="badge event-badge">투자유치</span></h2>
+                    <span class="date">2026-11-12 10:09</span>
+                </div>
+                <div class="card-body"><article class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<div>
+<figure data-idxno="32879" data-type="photo"><img alt="일동제약그룹 본사 전경 (출처 : 일동제약)" src="https://cdn.thebionews.net/news/photo/202611/30167_32879_4934.jpg"/>
+<figcaption>일동제약그룹 본사 전경 (출처 : 일동제약)</figcaption>
+</figure>
+</div>
+<p>[더바이오 유수인 기자] 일동제약은 올해 ‘바이오유럽(BIO-Europe 2026)’에 참가해 유망 신약 파이프라인을 소개하고, 라이선스 아웃(L/O) 관련 파트너링 미팅 등 사업 활동을 추진했다고 12일 밝혔다.</p>
+<p>‘바이오유럽’은 글로벌 빅파마와 바이오텍, 투자기관 등이 참가해 기술이전, 공동 연구 및 개발, 투자 유치 등 사업 제휴를 논의하는 유럽 최대 규모의 제약바이오 분야 파트너링 행사로, 올해는 지난 9일부터 11일(현지시간)까지 독일 쾰른에서 개최됐다.</p>
+<p>일동제약은 이번 행사에서 글로벌 파트너사들과 접촉해 소화성 궤양 치료 신약 후보물질인 ‘파도프라잔(padoprazan)’과 글루카곤 유사 펩타이드1(<mark><mark>GLP-1</mark></mark>) 수용체 작용제(RA) 비만 치료제 후보물질인 ‘<mark><mark>ID110521156</mark></mark>(개발코드명)’ 등 회사가 보유한 유망 신약 파이프라인과 관련한 사업화 논의를 진행했다.</p>
+<p>파도프라잔은 일동제약이 자체 발굴한 칼륨 경쟁적 위산 분비 억제제(P-CAB) 계열의 위식도 역류질환 치료제 신약 후보물질이다. 회사는 전임상 연구와 임상1상을 마친 후 지난 2024년 대원제약과 파도프라잔에 대한 공동 개발 및 라이선스 계약을 체결, 현재 대원제약이 임상 2상에 이어 3상을 마무리하고 있다.</p>
+<p>일동제약은 공동 개발 계약에 따라 대원제약과 협력해 파도프라잔에 대한 국내 개발 및 상용화 작업을 추진 중이다. 최근에는 대원제약으로부터 임상3상 톱라인(Top-line) 데이터를 공유 받아 자체 품목 출시를 포함한 시장 전략 구체화에 돌입한 상태다.</p>
+<p>특히 미란성 위식도 역류질환(ERD) 환자를 대상으로 치료 효과를 평가한 파도프라잔 임상3상에서 프로톤 펌프 억제제(PPI)인 ‘에스오메프라졸(esomeprazole)’ 대비 비열등성을 입증, 1차 유효성 변수 충족에 성공하는 등 개발 작업이 순조로워 상업화 전망이 밝은 상황이다. 국내 상용화와 더불어 일동제약은 파도프라잔에 대해 보유 중인 ‘해외’ 권리를 토대로 라이선스 아웃 추진과 제휴 파트너 확보 등 글로벌 시장 성과 도출에도 속도를 낸다는 전략이다.</p>
+<p>또 비만과 당뇨병 등 대사성 질환을 겨냥해 임상 개발을 진행 중인 <mark><mark>GLP-1</mark></mark> RA인 ‘<mark><mark>ID110521156</mark></mark>’은 올해 확보한 임상1상 데이터를 기반으로 기술이전과 공동 개발 등 오픈 이노베이션을 모색하고 있다. <mark><mark>ID110521156</mark></mark>은 저분자화합물 기반의 경구용(먹는) 합성신약 후보물질이다. 이 후보물질은 기존의 펩타이드류 주사제에 비해 약리적 특성, 제조 효율 및 경제성, 사용 편의성 측면에서 차별점을 지닌다.</p>
+<p>올해 마무리된 임상1상에서 <mark><mark>ID110521156</mark></mark>은 4주 동안 최대 13.8%의 체중 감량 효과를 나타냈다. 안전성 측면에서 기존 치료제의 대표적인 부작용인 위장관 장애 및 간독성과 관련한 중대한 이상반응 사례가 발생하지 않아 경쟁력을 확인한 바 있다.</p>
+<p>일동제약 관계자는 “글로벌 시장에서 <mark><mark>GLP-1</mark></mark>과 P-CAB 제제에 대한 관심이 꾸준히 높다는 점을 이번 바이오유럽에서도 확인할 수 있었다”며 “사전에 약속된 미팅뿐만 아니라, 현장에서도 여러 차례의 문의와 접촉이 있었다”고 말했다. 이어 “<mark><mark>GLP-1</mark></mark>과 관련한 협업 논의 외에 P-CAB 제제인 파도프라잔에 대한 권역별 라이선스 아웃 등 사업 제휴 측면에서 진전된 이야기가 오갔다”고 덧붙였다.</p> </article></div>
+                <div class="card-footer">
+                    <a href="https://www.thebionews.net/news/articleView.html?idxno=30167" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-8">
+            <h1 class="section-title">#SEMAGLUTIDE</h1>
+            
+            <article class="card card-today">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#f3e5f5;color:#5c007a;border:1px solid #ce93d8;">파마타임즈</span><a href="https://www.pharmatimes.co.kr/news/articleView.html?idxno=10281" target="_blank">[심층분석] 제약바이오 ‘빚투’ 올 들어 감소세…대형 종목 쏠림은 ‘심화’</a><span class="badge new-badge">NEW</span></h2>
+                    <span class="date">2026-11-12</span>
+                </div>
+                <div class="card-body"><article class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<h2>2025년 6월~2026년 6월 제약바이오기업 146곳 신용잔고 ‘해부’<br/>
+제약바이오 146개 종목 신용융자…지난해 말 잔고 2조4,460억<br/>
+올 상반기 신용융자 8,318억·34.0%↓…6개월 연속 잔고 축소<br/>
+106개 종목 신용잔고 감소에도 상위 5곳 집중도는 오히려 ‘상승’</h2> <div>
+<figure data-idxno="11421" data-type="photo"><img alt="▲ 사진제공=게티이미지뱅크" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11421_511.jpg"/>
+<figcaption>▲ 사진제공=게티이미지뱅크</figcaption>
+</figure>
+</div>
+<p>제약바이오업종에서 빚내서 주식을 사는 투자 규모는 줄었지만 차입위험의 밀도는 오히려 높아졌다. 다수 종목에서 신용잔고가 감소했음에도 남은 자금이 일부 대형·관심 종목에 몰렸고, 주가 하락과 함께 신용 물량이 빠르게 정리된 사례와 반대로 가격이 떨어져도 차입투자가 늘어난 사례가 동시에 나타났다. 같은 업종 안에서도 투자자들의 위험 노출 구조가 크게 달라진 것이다. 전체 신용잔고가 줄었다는 사실만으로 시장의 부담이 해소됐다고 보기 어려운 이유다.</p>
+<p>12일 &lt;파마타임스&gt;는 올해 상반기까지 지난 1년 간 국내 제약바이오기업 146곳의 신용잔고와 주가 변화를 정밀 분석했다. 이번 조사는 한국거래소 종가와 기업별 반기보고서가 근거로 사용됐다.</p>
+<p>신용융자는 투자자가 증권사에서 돈을 빌려 주식을 매수하는 거래다. 이 신용융자의 잔고는 말 그대로 투자자가 주식을 사기 위해 증권사로부터 빌린 돈 가운데 아직 갚지 않고 남아 있는 대출 원금을 뜻한다. 이는 흔히 말하는 ‘빚투(빚내서 투자)’의 규모를 나타내는 대표적인 증시 지표이기도 하다. </p>
+<p>그렇다면 올해 상반기 제약바이오주에 유입됐던 차입투자 자금은 얼마나 줄었을까.</p>
+<p>결론부터 보면, 업종 전반에서 신용융자 규모가 크게 축소됐지만 남아 있는 잔고의 상위 종목 집중도는 오히려 높아진 것으로 나타났다.</p>
+<p>구체적으로, 올해 상반기 말 제약바이오기업 146곳의 신용융자 잔고 합계는 1조6,142억 원으로 집계됐다. 지난해 말 2조4,460억 원보다 8,318억 원(34.0%) 감소한 규모다. 올 들어 신용잔고가 6개월 연속 줄어들면서 반년 만에 전체 차입 규모의 약 3분의 1이 축소된 것이다.</p>
+<p>지난해 하반기와 비교하면 감소폭은 더욱 두드러졌다. 지난해 6월 말 1조9,590억 원이었던 제약바이오주 신용잔고는 같은 해 12월 말까지 약 4,870억 원 증가했다.</p>
+<p>그러나 올해 상반기에만 8,318억 원이 줄어들면서 앞선 6개월 동안 늘어난 차입 규모를 훨씬 웃도는 감소세가 나타났다.</p>
+<p>이에 따라 올해 6월 말 신용잔고는 지난해 하반기 증가세가 시작되기 전 수준마저 밑돌았다. 전년 동기인 지난해 6월 말과 비교해도 17.6% 낮아진 것이다.</p>
+<div>
+<figure data-idxno="11422" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11422_5211.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p>특히 상반기 마지막 달인 6월에는 감소세가 더 가팔라졌다. 지난 5월 말 1조9,488억 원이었던 신용융자 잔고는 6월 말 1조6,142억 원으로 줄었다. 불과 한 달 사이 약 3,346억 원이 감소한 것이다. 6월의 월간 감소율은 17.2%로 올해 상반기 가운데 가장 컸다. 반년 동안 줄어든 신용잔고의 약 40%가 6월 한 달에 집중된 셈이다.</p>
+<p>차입투자 축소는 일부 종목에만 국한되지 않았다. 지난해 말보다 신용잔고가 감소한 종목은 146곳 가운데 106곳으로 전체의 72.6%를 차지했다. 제약바이오주 10개 종목 중 7개 이상에서 신용융자 잔고가 줄어든 것이다.</p>
+<p>다만 업종 전체의 차입 규모가 감소하는 동안 상위 종목에 대한 쏠림은 오히려 심화됐다. 올해 6월 말 기준 신용융자 잔고가 가장 많은 종목은 셀트리온으로 3,325억 원에 달했다. 이어 한미약품 1,183억 원, 유한양행 999억 원, 에이비엘바이오 968억 원, 파마리서치 920억 원 순으로 많았다.</p>
+<p>이들 상위 5개 종목의 신용융자 잔고를 합하면 약 7,395억 원으로 조사 대상 전체 잔고의 45.8%를 차지했다. 지난해 말 당시 상위 5개 종목의 비중이 43.9%였다는 점을 고려하면 집중도가 반년 사이 1.9%포인트 높아진 것이다.</p>
+<p>전체 신용잔고는 34.0% 줄어들었지만 상위 5개 종목에 남아 있는 차입금의 상대적 비중은 오히려 확대됐다. 제약바이오주 전반에서 빚투 규모가 빠르게 줄어드는 가운데 남아 있는 차입 부담은 일부 종목에 더 집중된 셈이다.</p>
+<div>
+<figure data-idxno="11424" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11424_546.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p><strong>◆ 삼천당제약 주가 72.7%·신용잔고 70.6%↓…해외 계약 뒤 ‘공시 제재’</strong></p>
+<p>올해 상반기 제약바이오주 가운데 신용융자 잔고가 가장 크게 줄어든 종목은 삼천당제약이었다.</p>
+<p>이 회사는 지난해 말보다 신용잔고가 1,589억 원 감소했다. 특히 올해 3월 말부터 6월 말까지는 주가와 신용 보유물량이 동시에 급감했다.</p>
+<p>삼천당제약의 신용융자 잔고는 지난해 6월 말 1,696억 원에서 같은 해 12월 말 2,242억 원으로 32.2% 증가했다. 올해 3월 말에도 잔고는 2,225억 원에 달하면서 지난해 말과 비슷한 수준을 유지했다.</p>
+<p>그러나 6월 말에는 653억 원으로 급감했다. 불과 석 달 만에 신용융자 잔고의 70.6%가 줄어든 것이다.</p>
+<p>같은 기간 주가도 큰 폭으로 하락했다. 삼천당제약 주가는 올해 3월 말 82만9,000원에서 6월 말 22만6,000원으로 72.7% 급락했다.</p>
+<p>신용융자를 이용해 보유한 주식 수도 함께 줄었다. 3월 말 69만3,055주에 달했던 신용 보유물량은 6월 말 22만7,070주로 67.2% 감소했다. 신용융자 잔액뿐 아니라 빌린 돈으로 보유한 주식의 수량 자체도 크게 축소된 것이다.</p>
+<div>
+<figure data-idxno="11425" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11425_5431.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p>이 같은 변화는 삼천당제약이 해외 사업 확대를 위한 계약을 잇따라 확보한 뒤 나타났다. 삼천당제약은 올해 2월 유럽, 3월 미국을 대상으로 경구용 <mark>세마글루타이드</mark> 제네릭 관련 라이선스 계약을 체결했다.</p>
+<p>해외 시장에서의 사업 확대를 위한 계약 성과를 확보했지만 이후 주가와 신용융자 잔고는 나란히 급감했다.</p>
+<p>계약 체결 이후에는 공시의무 위반에 따른 제재도 받았다. 한국거래소는 지난 4월 삼천당제약에 영업실적 전망 등에 관한 공정공시 미이행을 이유로 벌점 5점을 부과했다. 이어 4월 21일자로 삼천당제약을 불성실공시법인에 지정한다고 공시했다.</p>
+<p>삼천당제약은 해외 라이선스 계약을 잇따라 확보했지만 그 이후 주가와 신용 보유물량이 크게 줄었고 공시의무 위반에 따른 제재까지 받았다. 사업 계약 체결이라는 성과와 주식시장에서 나타난 가격·차입투자 흐름이 서로 다른 방향으로 움직인 것이다.</p>
+<p><strong>◆ 한미약품·에이비엘 기술계약에도 ‘주가 조정’…신용잔고는 전년보다 많아</strong></p>
+<p>신용잔고는 감소했지만 1년 전보다 여전히 많은 차입금이 남아 있는 종목들도 있었다.</p>
+<p>대표적인 기업이 한미약품과 에이비엘바이오다. 두 회사 모두 글로벌 제약사 일라이 릴리(Eli Lilly)와 기술계약을 확보하고도 올해 상반기 주가는 하락했고, 신용잔고는 전년 동기보다 높은 수준을 유지한 것이다.</p>
+<p>먼저 한미약품의 신용융자 잔고는 지난해 6월 말 470억 원에서 같은 해 12월 말 1,244억 원으로 급증했다. 이후 올해 6월 말에는 1,183억 원으로 줄어들면서 지난해 말 대비 5.0% 감소했다.</p>
+<p>하지만 신용잔고가 본격적으로 늘어나기 전인 지난해 6월 말과 비교하면 상황이 달랐다. 올해 6월 말 잔고는 전년 동기 대비 151.6% 많은 규모로, 1년 전의 약 2.5배 수준에 달했다. 반년 동안 신용잔고가 일부 줄었지만 지난해 같은 시기와 비교하면 투자자들의 차입 부담은 여전히 크게 남아 있었던 것이다.</p>
+<div>
+<figure data-idxno="11426" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11426_5541.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p>에이비엘바이오도 비슷한 흐름을 보였다. 이 회사의 신용융자 잔고는 지난해 6월 말 716억 원에서 같은 해 12월 말 1,476억 원으로 증가했다. </p>
+<p>이어 올해 6월 말 신용잔고는 968억 원으로 감소했다. 지난해 말보다 34.4% 줄어든 규모다. 다만 이는 지난해 6월 말과 비교하면 여전히 35.2%를 웃도는 수치다. 두 회사 모두 올해 들어 신용잔고가 줄었지만 전년 동기 수준까지 낮아지지는 않은 것이다.</p>
+<p>한미약품과 에이비엘바이오는 주가 흐름에서도 기술계약 확보와 별개의 움직임을 보였다.</p>
+<p>한미약품의 주가는 지난해 말 45만2,000원에서 올해 6월 말 39만7,500원으로 12.1% 하락했다. 에이비엘바이오 역시 같은 기간 20만 원에서 9만9,500원으로 50.3% 급락했다. 두 회사 모두 글로벌 제약사와의 기술계약을 확보했지만 주가는 뒷걸음질친 것이다.</p>
+<p>여기에 두 기업은 지난해 말보다 줄어들기는 했어도 1년 전보다는 많은 신용잔고가 남아 있었다. 기술계약 성과가 곧바로 주가 상승이나 차입투자 부담 해소로 이어지지는 않은 셈이다.</p>
+<p><strong>◆ 펩트론 주가 27.4%↓에도 신용잔고 39.4%↑…기술평가 ‘진행형’</strong></p>
+<p>업종 전반에서 차입투자가 줄어드는 동안 오히려 신용융자 규모를 늘린 종목도 있었다. 펩트론이 대표적이다.</p>
+<p>이 회사는 올해 상반기 주가가 하락했지만 신용융자 잔고와 신용으로 보유한 주식 수는 모두 증가했다. 펩트론의 올해 6월 말 신용융자 잔고는 453억 원으로 지난해 말 325억 원보다 39.4% 증가했다. 신용융자로 매수한 주식 수도 같은 기간 13만8,822주에서 18만2,917주로 31.8% 늘었다. 차입 잔액뿐 아니라 신용으로 보유한 주식 물량 자체가 확대된 것이다.</p>
+<div>
+<figure data-idxno="11427" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11427_566.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p>반면 주가는 정반대로 움직였다. 펩트론의 주가는 지난해 말 25만4,000원에서 올해 상반기 말 18만4,300원으로 27.4% 하락했다. 주가가 떨어지는 동안 신용잔고와 보유물량이 동시에 감소했던 삼천당제약과는 대조적인 모습이다. 펩트론에서는 가격 하락에도 차입을 이용한 주식 보유가 오히려 늘어난 것이다.</p>
+<p>이 기간 펩트론의 주요 사업 변수는 릴리와 진행하고 있던 약효지속형 플랫폼 ‘스마트데포’의 기술평가였다. </p>
+<p>두 회사는 지난 2024년 10월 기술평가 계약을 체결했다. 계약상 평가기간은 최대 24개월이다. 해당 기술평가는 스마트데포를 릴리의 약물에 적용하는 공동연구와 후속 상업적 라이선스 계약 가능성을 검토하기 위한 것이다. </p>
+<p>릴리에 부여한 기술 이용권 역시 연구 목적에 한정된 제한적인 비독점 라이선스였다. 앞서 한미약품과 에이비엘바이오가 체결한 라이선스 계약과는 사업 진행 단계가 달랐던 것이다.</p>
+<p>펩트론은 기술평가를 통해 후속 상업계약 가능성을 검토하는 단계였으며 실제 상업계약 체결이 확정된 상태는 아니었다.</p>
+<p>그러나 기술평가가 진행되는 동안 주가가 하락했음에도 신용융자 잔고와 신용 보유물량은 오히려 증가했다. 사업 성과를 확인하는 과정이 이어지는 가운데 주가와 차입투자 규모가 반대 방향으로 움직인 셈이다.</p>
+<p><strong>◆ 파미셀 영업익 59.0%↑…신용잔고율 5.03%로 조사 대상 ‘최다 비중’</strong></p>
+<p>신용융자 잔고가 감소했지만 신용으로 보유한 주식의 비중이 여전히 높은 기업도 있었다. 파미셀이 대표적이다.</p>
+<p>이 회사의 올해 6월 말 신용잔고율은 5.03%로 조사 대상 제약바이오기업 146곳 가운데 가장 높았다. 이어 위더스제약이 4.02%, 바이오플러스 3.97%, 바이넥스 3.78% 순으로 높았다. 신용잔고율은 해당 기업의 전체 상장주식 가운데 신용융자로 매수한 주식이 차지하는 비율이다.</p>
+<p>파미셀의 신용융자 잔고금액은 올해 상반기 감소했다. 지난해 말 429억 원이었던 이 회사 잔고는 올해 6월 말 345억 원으로 19.6% 줄어들었다.</p>
+<p>그러나 1년 전과 비교하면 상황이 달랐다. 지난해 6월 말 신용융자 잔고는 283억 원이었으며 올해 6월 말 잔액은 이보다 22.0% 많았다. 작년 말보다 차입 규모가 축소됐지만 전년 동기보다는 여전히 높은 수준이 유지된 것이다.</p>
+<div>
+<figure data-idxno="11428" data-type="photo"><img alt="▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스" src="https://cdn.pharmatimes.co.kr/news/photo/202611/10281_11428_5639.png"/>
+<figcaption>▲ 자료출처=국내 제약바이오기업 146곳 반기보고서 맟 한국거래소 종가 / 분석 및 인포그래픽=파마타임스</figcaption>
+</figure>
+</div>
+<p>주목할 점은 파미셀의 사업 실적이 크게 개선됐다는 사실이다. 이 회사의 올해 상반기 매출은 757억 원으로 전년 동기 538억 원보다 40.7% 증가했다. 영업이익도 같은 기간 165억 원에서 263억 원으로 59.0% 늘어났다. 전자 소재 수요 확대와 의약품 원료 매출 증가가 외형과 수익성을 동시에 개선한 배경으로 작용했다는 게 사측의 설명이다.</p>
+<p>이처럼 파미셀은 올해 상반기 실적을 개선하는 동안 신용융자 잔고도 지난해 말보다 줄었다. 그러나 전년 동기 대비 차입 규모는 여전히 많았고 신용으로 보유한 주식의 비중도 조사 대상 기업 가운데 가장 높았다.</p>
+<p>결국 올해 상반기 국내 제약바이오주 신용융자 잔고는 반년 만에 크게 줄어들었지만 상위 종목에 대한 집중도는 오히려 높아졌다. 신용융자 총액이 감소했다는 사실보다 어느 종목에 차입금이 집중돼 있고 신용으로 보유한 주식이 얼마나 남아 있는지를 함께 살펴야 하는 이유다.</p>
+<p>제약바이오에 정통한 자본시장 한 관계자는 “업종 전체의 빚투가 줄었다고 해서 투자 위험까지 사라졌다고 생각하면 큰 오산”이라며 “차입금이 일부 종목에 집중된 상태에서 주가가 크게 흔들린다면 전체 신용잔고가 감소했다는 사실만으로 개별 투자자의 부담이 줄었다고 평가하기는 어렵다”고 지적했다.</p>
+<p>이어 “신용으로 주식을 매수한 투자자는 주가가 하락하면 담보가치가 낮아져 추가 담보를 요구받거나 반대매매 위험에 노출될 수 있다”며 “특히 기술계약을 체결했다는 사실과 실제 상업화 성과를 확보했다는 것은 전혀 다른 문제다. 계약의 진행 단계와 무관하게 대출 만기와 담보 유지 부담은 투자자가 감당해야 하는 만큼 사업에 대한 기대감만으로 차입투자의 위험을 판단해서는 안 된다”고 분석했다.</p>
+<p>그러면서 “투자자들은 신용잔고가 얼마나 줄었는지만 볼 것이 아니라 남아 있는 잔액의 규모와 신용잔고율, 주가 변동에 따른 상환 부담까지 함께 살펴봐야 한다”며 “기업의 기술수출과 실적 성장이 장기적으로 긍정적인 성과가 될 수는 있지만 그 과정에서 발생하는 단기적인 주가 변동까지 막아주는 것은 아니다. 결국 중요한 것은 기업의 사업 성과와 투자자가 차입 감당 능력을 구분해 판단하는 것”이라고 강조했다.</p>
+ </article></div>
+                <div class="card-footer">
+                    <a href="https://www.pharmatimes.co.kr/news/articleView.html?idxno=10281" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article><div class="date-divider">&#8212; 이전 날짜 기사 &#8212;</div>
+            <article class="card card-old">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#fff3e0;color:#7a3e00;border:1px solid #ffcc80;">바이오타임즈</span><a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36092" target="_blank">아울바이오, 오창 테크노폴리스에 '글로벌 기준' 장기지속형 비만주사제 신공장 착공</a><span class="badge event-badge">기술이전</span></h2>
+                    <span class="date">2026-11-11</span>
+                </div>
+                <div class="card-body"><div class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<h2><mark>세마글루타이드</mark>·터제파타이드 등 차세대 장기지속형 비만주사제 생산 거점 마련</h2><div>
+<figure data-idxno="47450" data-type="photo"><div>
+<img alt="아울바이오 오창 무균주사제 의약품 제조시설 투시도(사진=아울바이오)" src="https://cdn.biotimes.co.kr/news/photo/202611/36092_47450_3334.jpg"/></div>
+<figcaption>아울바이오 오창 무균주사제 의약품 제조시설 투시도(사진=아울바이오)</figcaption>
+</figure>
+</div>
+<p>[바이오타임즈] 주식회사 아울바이오가 차세대 장기지속형 비만주사제의 대규모 글로벌 상업 생산 기지 구축을 본격화한다. 아울바이오는 11일 제약·바이오 플랜트 전문 기업인 GC녹십자EM과 신공장 건설 계약을 체결하고, 충북 청주시 청원구 오창읍 테크노폴리스 산업단지 내 신공장 건립에 돌입했다고 밝혔다.</p>
+<p>이번에 건립되는 오창 신공장은 대지면적 약 1만 3,878㎡, 연면적 약 9,650㎡ 규모의 지상 3층(철골·철근콘크리트 구조) 무균주사제 의약품 제조시설로 조성되며, 총 투자비 500억 원 규모가 투입된다. 아울바이오는 이번 GC녹십자EM과의 시공 계약 체결을 통해 2027년 하반기 내에 준공을 완료할 계획이다.</p>
+<p>새롭게 구축되는 오창 공장은 아울바이오가 독자 개발한 원천기술인 ‘엑스티나’를 적용한 고부가 장기지속형 주사제의 핵심 상업 생산 거점 역할을 하게 된다. 특히 이번 신공장은 최근 글로벌 시장에서 주목받고 있는 <mark>세마글루타이드</mark> 및 터제파타이드 기반의 장기지속형 비만주사제를 안정적으로 대량 생산할 수 있는 cGMP 수준의 전문 시설로 설계된 것이 가장 큰 특징이다.</p>
+<p>아울바이오는 이번 신공장 신축을 계기로, 자체 파이프라인 상용화 속도를 극대화하고 글로벌 제약사들과의 대규모 기술이전 및 위탁생산(CRDMO/CDMO) 파트너십 협상에서 우위를 점할 수 있는 강력한 무기를 확보하게 됐다.</p>
+<p>아울바이오 김청주 대표는 "이번 오창 무균주사제 공장 건립은 <mark>세마글루타이드</mark>, 터제파타이드 등 당사의 핵심 장기지속형 주사제 파이프라인의 글로벌 상업화를 실현하기 위한 전초기지"라며, "역량 있는 GC녹십자EM과의 협력을 통해 최고 수준의 cGMP 시설을 적기에 준공하고, 압도적인 생산 경쟁력을 바탕으로 글로벌 시장 진출을 가속화하겠다"라고 포부를 밝혔다.</p>
+<p>[바이오타임즈=김지수 기자] <a href="mailto://news@biotimes.co.kr">news@biotimes.co.kr</a></p>
+
+
+
+
+
+
+
+
+ </div></div>
+                <div class="card-footer">
+                    <a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36092" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+        <section id="kw-9">
+            <h1 class="section-title">#에페글레나타이드</h1>
+            
+            <article class="card card-old">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#fff3e0;color:#7a3e00;border:1px solid #ffcc80;">바이오타임즈</span><a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36083" target="_blank">GLP-1 비만약, 중증 안과 질환에 제동…후발 주자 검증 험로</a></h2>
+                    <span class="date">2026-11-11</span>
+                </div>
+                <div class="card-body"><div class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<h2>식약처 국내 허가 38개 품목 대상 안전성 서한 배포<br/>
+투여군 발생률 더 높아…미국 규제 당국 라벨 경고 후폭풍<br/>
+인과관계 미검증 속 국내 처방 주의사항 최종 변경 촉각</h2><div>
+<figure data-idxno="47438" data-type="photo"><div>
+<img src="https://cdn.biotimes.co.kr/news/photo/202611/36083_47438_819.png"/></div>
+<figcaption>                                                                              사진=AI 생성 이미지</figcaption>
+</figure>
+</div>
+<p>[바이오타임즈] 전 세계적으로 흥행 중인 <mark><mark>GLP-1</mark></mark> 계열 비만·당뇨 치료제가 중증 안과 질환이라는 새로운 부작용 장벽에 부딪혔다. 소화기계 불편을 넘어 영구적 시력 상실로 이어질 수 있는 위험이 공식화되면서 처방 시장의 성장세에 제동이 걸릴 변수로 떠올랐다.</p>
+<p>식품의약품안전처는 11일 <mark><mark>GLP-1</mark></mark> 계열 의약품이 비동맥 전방 허혈성 시신경병증(NAION) 발생 위험을 높일 수 있다며 국내 의약 전문가와 환자를 대상으로 안전성 서한을 배포했다고 밝혔다. NAION은 눈으로 가는 혈관이 막혀 시신경이 손상되는 질환이다. 환자는 통증 없이 갑자기 시력이 떨어지며 심하면 시력을 완전히 잃을 수 있다.</p>
+<p>적용 대상은 국내에 허가된 4개 제약사의 38개 품목이다. 한국릴리가 22개로 가장 많고, <mark>노보노디스크</mark>제약 9개, 한미약품 5개, 사노피-아벤티스코리아 2개 순이다. 체중 감량 돌풍을 이끈 <mark>노보노디스크</mark>제약의 <mark>위고비</mark>(성분명 세마글루티드)와 삭센다(성분명 리라글루티드), 한국릴리의 <mark>마운자로</mark>(성분명 터제파타이드) 등 주요 약물이 대거 이름을 올렸다. 지난 10월 7일 국산 비만 치료제로는 처음 상용화 관문을 넘은 한미약품의 에페오토인젝터주(성분명 <mark>에페글레나타이드</mark>) 역시 품목 허가 한 달 만에 부작용 관리 대상이 됐다.</p>
+<p>식약처는 의료진을 향해 환자에게서 NAION 발생 의심 증상이 확인되면 투여 중단을 고려하고 안과 전문의의 진료를 받게 하라고 권고했다. 환자에게는 자고 일어났을 때 한쪽 눈의 시력이 떨어지거나 시야에 사각지대가 생기는 등 이상이 나타나면 즉시 의사와 상의해야 한다고 당부했다.</p>
+<p><span><strong>◇ 투여군 발생률 더 높아…글로벌 규제 기관 일제히 경고</strong></span></p>
+<p>국내 당국의 발 빠른 조치는 미국 식품의약국(FDA)의 규제 상향에 맞춘 결과다. FDA는 9일 모든 <mark><mark>GLP-1</mark></mark> 약물 제조사에 라벨의 경고 및 주의사항 항목에 NAION 위험을 의무적으로 추가하도록 요구했다. 특정 성분을 넘어 전체 계열 약물로 안전성 검증망을 넓혔다.</p>
+<p>FDA가 규제 근거로 삼은 핵심 자료는 13만 4,253명이 참여한 126건의 임상시험 메타분석 결과다. <mark><mark>GLP-1</mark></mark> 투여군 7만 8,217명의 NAION 발생률은 10만 인년당 6.4건으로 집계됐다. 이는 위약이나 다른 혈당강하제를 투여한 대조군 5만 6,036명에서 나타난 3.8건보다 눈에 띄게 높은 수치다. 분석에서 확인된 실제 추정 사례 15건 가운데 10건이 <mark><mark>GLP-1</mark></mark> 투여군에서 나왔다.</p>
+<p>실제 의료 현장의 처방 기록을 살핀 실사용 데이터망 분석에서도 경향성은 이어졌다. FDA가 2019년부터 2024년까지 당뇨병 약물을 투여받은 성인을 추적한 결과, <mark><mark>GLP-1</mark></mark> 계열 약물의 시신경병증 발생 위험은 기존 약물인 DPP-4 억제제 투여군보다 1.43배 높았다. 유럽의약품청(EMA)도 2025년 6월 세마글루티드 성분 의약품에 대해 NAION을 복용 환자 1만 명당 1명꼴로 나타나는 매우 드문 부작용으로 명시하도록 권고한 바 있다.</p>
+<p><span><strong>◇ 기전 미확인 한계 뚜렷…국내 허가 변경이 시장 성장 분수령</strong></span></p>
+<p>데이터상으로는 발생률 격차가 드러났지만, 직접적인 인과관계는 아직 명확하게 입증되지 않았다는 한계도 있다. <mark><mark>GLP-1</mark></mark> 약물이 어떤 생리적 원리로 시력 상실을 유발하는지는 구명되지 않았다.</p>
+<p>FDA 역시 동물 실험 등에서 생물학적 기전을 확인하지 못했다고 선을 그었다. 특히 약물을 처방받는 주요 대상인 비만 및 당뇨 환자는 고혈압, 수면무호흡증, 신장 질환을 동반하는 경우가 많다. 50세 이상 일반 인구의 NAION 발생률이 연간 10만 명당 2.3건에서 10.2건에 달한다는 점을 고려하면, 기저질환 자체가 위험 요인과 겹쳐 오롯이 약물 탓으로 돌리기는 까다롭다.</p>
+<p>식약처는 <mark><mark>GLP-1</mark></mark> 의약품을 공급하는 제약사들에 허가 변경 계획 등 자료 제출을 요청했다. 제출된 근거를 바탕으로 사용상 주의사항이 최종 변경될 예정이다. 뛰어난 체중 감량 수치에 가려져 있던 중증 부작용 꼬리표가 라벨에 본격적으로 새겨지면서 처방 현장의 반응도 달라질 수 있다. 투약 지침이 까다로워질 경우 현재 임상 단계에 있는 후발 주자들은 효능뿐 아니라 철저한 안전성 데이터 확보라는 더 높은 허들을 넘어야 할 것으로 보인다.</p>
+<p>[바이오타임즈=랑펀미디어] <a href="mailto://news@biotimes.co.kr">news@biotimes.co.kr</a></p>
+
+
+
+
+
+
+
+
+ </div></div>
+                <div class="card-footer">
+                    <a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36083" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+            <article class="card card-old">
+                <div class="card-header">
+                    
+                    <h2><span class="badge" style="background:#fff3e0;color:#7a3e00;border:1px solid #ffcc80;">바이오타임즈</span><a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36089" target="_blank">FDA, 위고비·마운자로 등 GLP-1 계열 전체에 '희귀 시신경 질환' 경고</a></h2>
+                    <span class="date">2026-11-11</span>
+                </div>
+                <div class="card-body"><div class="article-veiw-body view-page" id="article-view-content-div" itemprop="articleBody">
+<h2>126개 임상시험 통합 분석서 NAION 위험 신호…10만 인년당 발생률 6.4건<br/>
+실제 진료 데이터·후속 연구서 연관성 관찰…한국도 <mark><mark>GLP-1</mark></mark> 계열 안전성 서한 배포</h2><div>
+<figure data-idxno="47445" data-type="photo"><div>
+<img alt="사진=AI 생성 이미지" src="https://cdn.biotimes.co.kr/news/photo/202611/36089_47445_3638.jpg"/></div>
+<figcaption>사진=AI 생성 이미지</figcaption>
+</figure>
+</div>
+<p>[바이오타임즈] 비만·당뇨병 치료제로 사용이 확대된 <mark><mark>GLP-1</mark></mark> 계열 의약품에서 희귀 시신경 질환과의 연관성이 안전성 문제로 떠올랐다.</p>
+<p>미국 식품의약국(FDA)이 오젬픽·<mark>위고비</mark>를 비롯한 <mark><mark>GLP-1</mark></mark> 수용체 작용제(<mark><mark>GLP-1</mark></mark> RA) 계열 의약품에 비동맥염성 전방 허혈성 시신경병증(NAION) 발생 가능성을 알리는 경고 문구를 추가하도록 요구하면서다. 특정 성분에서 처음 제기된 이상사례는 임상시험 통합 분석과 실제 진료 데이터 검토를 거치며 <mark><mark>GLP-1</mark></mark> 계열 전반의 안전성 표시 강화로 이어졌다. 비만·당뇨병 치료를 넘어 활용 범위가 넓어지는 <mark><mark>GLP-1</mark></mark> 계열 의약품의 장기 안전성 관리에도 관심이 쏠린다.</p>
+<p><strong><span>◇ <mark>세마글루타이드</mark>에서 시작된 논란…FDA, <mark><mark>GLP-1</mark></mark> 계열 전체로 확대</span></strong></p>
+<p>FDA는 2026년 11월 9일(현지 시간) <mark><mark>GLP-1</mark></mark> RA 의약품 허가권자에 제품 설명서의 '경고 및 주의사항(Warnings and Precautions)' 항목에 NAION 위험 정보를 추가하도록 요구했다.</p>
+<p>대상에는 <mark>노보 노디스크</mark>의 오젬픽·<mark>위고비</mark>·리벨서스(<mark>세마글루타이드</mark>), 일라이 릴리의 <mark>마운자로</mark>·<mark>젭바운드</mark>(<mark>티르제파타이드</mark>) 등이 포함된다. 리라글루타이드 성분의 빅토자·삭센다, 둘라글루타이드 성분의 트루리시티도 해당한다. FDA가 공개한 대상 목록에는 경구용 <mark><mark>GLP-1</mark></mark> 수용체 작용제 파운다요(오르포글리프론)도 포함됐다.</p>
+<p><mark>티르제파타이드</mark>는 <mark><mark>GLP-1</mark></mark>과 GIP 수용체를 동시에 활성화하는 이중 작용제다. <mark><mark>GLP-1</mark></mark> 수용체 작용을 갖는다는 점에서 이번 안전성 조치 대상에 포함됐다. 특정 제품에 국한된 경고가 아니라 <mark><mark>GLP-1</mark></mark> 수용체 작용을 갖는 의약품 전반의 안전성 정보를 보완한 것이다.</p>
+<p>NAION과 약물의 연관성이 처음 제기된 것은 2024년이다. 당시 미국 연구진은 <mark>세마글루타이드</mark> 처방 환자의 NAION 발생 위험이 비교군보다 높게 나타났다는 연구 결과를 JAMA Ophthalmology에 발표했다. 제2형 당뇨병 및 비만 환자의 진료 기록을 분석한 관찰연구로, 약물 사용과 질환 발생 사이의 연관성을 제시했다.</p>
+<p>FDA는 이후 임상시험 자료와 동물실험, 시판 후 이상사례 보고, 관찰연구를 종합적으로 검토해 이번 허가사항 변경을 결정했다.</p>
+<p><strong><span>◇ 126개 임상시험 통합 분석…NAION 발생률 10만 인년당 6.4건</span></strong></p>
+<p>FDA가 제시한 주요 근거는 <mark><mark>GLP-1</mark></mark> 계열 의약품 개발 과정에서 수행된 126개 무작위 대조 임상시험의 통합 분석이다. 전체 분석 대상은 13만 4,253명으로 <mark><mark>GLP-1</mark></mark> RA 투여군 7만 8,217명, 비교군 5만 6,036명이 포함됐다. 총 약물 노출 기간은 28만 8,879인년이었다.</p>
+<p>분석에서 개연성이 높은 NAION 사례는 15건 확인됐다. <mark><mark>GLP-1</mark></mark> RA 투여군에서 10건, 위약군에서 5건이 발생했으며 비<mark><mark>GLP-1</mark></mark> 계열 혈당강하제를 투여한 비교군에서는 사례가 확인되지 않았다. 전체 발생률은 <mark><mark>GLP-1</mark></mark> RA 투여군이 10만 인년당 6.4건, 비교군이 3.8건이었다.</p>
+<p>실제 진료 데이터를 활용한 분석에서도 비교 약물에 따라 결과가 달랐다. FDA는 2019~2024년 제2형 당뇨병 환자를 대상으로 <mark><mark>GLP-1</mark></mark> RA와 SGLT-2 억제제 또는 DPP-4 억제제 투여군의 NAION 발생을 비교했다.</p>
+<p><mark><mark>GLP-1</mark></mark> RA 투여군의 발생률은 10만 인년당 30~32건이었다. SGLT-2 억제제 투여군은 31건으로 두 집단 사이에 통계적으로 유의한 위험 차이가 확인되지 않았다(HR 1.19, 95% 신뢰구간 0.91~1.54). 반면 DPP-4 억제제 투여군의 발생률은 26건이었으며 <mark><mark>GLP-1</mark></mark> RA 투여군에서 위험이 높게 나타났다(HR 1.43, 95% 신뢰구간 1.02~2.01).</p>
+<p>임상시험과 실제 진료 데이터에서 관찰된 발생률은 차이가 있다. FDA가 제시한 50세 이상 일반 인구의 NAION 발생률은 10만명당 연간 2.3~10.2건이다. 임상시험에서 확인된 <mark><mark>GLP-1</mark></mark> RA 투여군의 발생률은 낮은 수준이며, 실제 진료 데이터에서는 비교 약물에 따라 위험 차이가 달라졌다.</p>
+<p>당뇨병과 고혈압, 수면무호흡증 등은 NAION 자체의 위험 요인이다. 환자군의 기저질환과 특성 차이가 관찰 결과에 영향을 줄 수 있으며, FDA가 검토한 동물실험에서도 <mark><mark>GLP-1</mark></mark> RA가 NAION 위험을 높이는 구체적인 작용 기전은 확인되지 않았다.</p>
+<p><strong><span>◇ 후속 연구에서도 연관성 관찰…절대 위험은 낮아</span></strong></p>
+<p>NAION과 <mark><mark>GLP-1</mark></mark> 계열 약물의 연관성을 살핀 후속 연구에서도 위험 신호가 보고됐다. 연구 설계와 비교 대상에 따라 결과에는 차이가 있었다.</p>
+<p>2025년 JAMA Ophthalmology에 발표된 다국가 연구는 14개 데이터베이스에 포함된 제2형 당뇨병 환자 3710만명의 자료를 분석했다. 이 가운데 <mark>세마글루타이드</mark> 신규 사용자는 약 81만명이다. 연구진은 <mark>세마글루타이드</mark> 노출과 NAION 발생 사이에 작은 수준의 상대적 위험 증가를 관찰했다. 개인별 약물 노출 전후를 비교한 분석에서는 발생률비(IRR)가 1.32(95% 신뢰구간 1.14~1.54)로 나타났다. 비교 약물과 환자 특성을 조정한 코호트 분석에서는 NAION 진단 기준에 따라 위험 차이가 통계적으로 유의하지 않거나 특정 비교군에서만 유의하게 나타났다.</p>
+<p>2026년 Diabetes Care에 발표된 메타분석은 15개 종단 연구와 150만명 이상의 환자 자료를 종합했다. <mark><mark>GLP-1</mark></mark> RA 사용군의 NAION 위험은 비교군보다 높았으며 통합 오즈비는 1.70(95% 신뢰구간 1.23~2.36)이었다. 무작위시험 하위분석의 오즈비는 2.36이었지만 신뢰구간이 0.85~6.53으로 통계적 유의성을 확보하지 못했다. 비무작위 연구에서는 오즈비 1.64(95% 신뢰구간 1.15~2.35)로 위험 증가가 관찰됐다.</p>
+<p>메타분석에서 <mark><mark>GLP-1</mark></mark> RA 투여군의 NAION 절대 위험은 0.09%, 비교군과의 위험 차이는 0.037%포인트로 추정됐다. 상대위험 증가와 별개로 실제 발생은 드물다는 점을 보여준다. 연구진은 장기 시판 후 안전성 연구의 필요성을 제시했다.</p>
+<div>
+<figure data-idxno="47446" data-type="photo"><div>
+<img alt="ⓒ게티이미지뱅크" src="https://cdn.biotimes.co.kr/news/photo/202611/36089_47446_3927.jpg"/></div>
+<figcaption>ⓒ게티이미지뱅크</figcaption>
+</figure>
+</div>
+<p><strong><span>◇ 유럽은 <mark>세마글루타이드</mark> '매우 드문 부작용' 분류…한국도 안전성 서한</span></strong></p>
+<p>규제당국의 대응은 미국에 앞서 유럽에서 시작됐다. 유럽의약품청(EMA)은 2025년 <mark>세마글루타이드</mark> 관련 자료를 검토한 뒤 NAION을 매우 드문 부작용으로 분류했다. 오젬픽·<mark>위고비</mark>·리벨서스의 제품 정보에 관련 내용을 반영하도록 권고했으며, 발생 빈도는 투여 환자 1만명당 최대 1명 수준으로 제시했다.</p>
+<p>영국 의약품건강관리제품규제청(MHRA)도 2026년 2월 <mark>세마글루타이드</mark> 제품의 안전성 정보를 갱신했다. 당시 영국에서 확인된 <mark>세마글루타이드</mark> 관련 의심 보고는 3건이었다. 이는 자발적 이상사례 보고로, 약물과 질환 사이의 인과관계가 확정된 사례를 의미하지 않는다. MHRA는 다른 <mark><mark>GLP-1</mark></mark> 계열 약물과의 연관성도 검토하고 있다고 밝혔다.</p>
+<p>한국에서도 안전성 관리가 진행되고 있다. 식품의약품안전처는 2026년 10월 <mark>세마글루타이드</mark> 성분 의약품의 허가사항에 NAION을 반영하는 변경 절차를 진행했다. 오유경 식약처장은 같은 달 13일 국회 보건복지위원회 국정감사에서 국내 <mark><mark>GLP-1</mark></mark> 계열 치료제 투여 후 NAION 의심 사례 1건이 2024년 12월 접수됐다고 밝혔다.</p>
+<p>이어 식약처는 11월 11일 국내 의약 전문가와 환자에게 <mark><mark>GLP-1</mark></mark> 계열 의약품의 NAION 위험 관련 안전성 서한을 배포했다. 대상 성분은 <mark>세마글루타이드</mark>, <mark>티르제파타이드</mark>, 리라글루타이드, <mark>에페글레나타이드</mark>다. NAION이 의심되는 환자는 의료진이 투여 중단을 고려하고 즉시 진료를 받도록 권고했다. 식약처는 국내 공급 제약사에도 관련 안전성 정보와 허가사항 변경 계획 등에 관한 자료 제출을 요청했다. 제출 자료를 검토해 사용상 주의사항 변경 여부를 결정할 방침이다.</p>
+<p>미국은 <mark><mark>GLP-1</mark></mark> 수용체 작용을 갖는 의약품 전체에 경고 문구 추가를 요구했다. 유럽과 영국은 현재 <mark>세마글루타이드</mark> 중심으로 허가사항을 갱신했으며, 한국은 <mark>세마글루타이드</mark> 관련 허가사항 변경 절차에 이어 <mark><mark>GLP-1</mark></mark> 계열 주요 성분 전체에 안전성 서한을 배포하고 추가 변경을 검토하는 단계다.</p>
+<p><strong><span>◇ 치료 효과와 희귀 부작용 관리…장기 투여 안전성 근거 축적해야</span></strong></p>
+<p>NAION은 시신경 앞부분인 시신경유두에 혈액 공급이 감소하면서 발생하는 질환이다. 주로 한쪽 눈에서 갑작스럽고 통증 없는 시력 저하가 나타나며 시야 일부가 가려지거나 중심 시력이 떨어질 수 있다. 시신경 손상이 영구적으로 남으면 시력 회복이 어려울 수 있다. 당뇨병과 고혈압, 수면무호흡증, 흡연, 빈혈, 신장질환 등이 위험 요인으로 알려져 있다.</p>
+<p>FDA는 <mark><mark>GLP-1</mark></mark> RA 투여 중 갑작스러운 시력 저하나 시야 이상이 나타나면 즉시 의료진에게 알리고 안과 전문의의 진료를 받도록 권고했다. NAION이 의심되면 신속히 안과로 의뢰하고, 확진된 경우에는 치료상 이득이 위험보다 명확히 크지 않은 한 약물 중단을 고려하도록 안내했다.</p>
+<p><mark><mark>GLP-1</mark></mark> 계열 의약품은 혈당 조절과 체중 감량을 넘어 일부 제품에서 심혈관·신장 질환 위험 감소, 폐쇄성 수면무호흡증, 대사이상 관련 지방간염 등으로 활용 범위가 넓어지고 있다. 치료 대상과 투여 기간이 늘어날수록 임상시험에서 포착하기 어려운 희귀 이상사례를 실제 진료 현장에서 추적하는 약물감시 체계의 역할도 커진다.</p>
+<p>이번 FDA 조치는 <mark><mark>GLP-1</mark></mark> 계열 약물의 치료 효과와 함께 드물지만 중대한 이상사례를 환자와 의료진이 인지하도록 안전성 정보를 보완한 것이다. 약물별·환자군별 위험 차이와 발생 시점, 기저질환 및 혈당 변화와의 관계를 규명하는 연구가 이어져야 한다. 비만·당뇨병 치료제 시장이 확대되는 만큼 장기 투여 환자의 안전성 근거를 축적하는 일이 처방과 개발 전략의 중요한 과제로 남았다.</p>
+<p>[바이오타임즈=김가람 기자] <a href="mailto://news@biotimes.co.kr">news@biotimes.co.kr</a></p>
+
+
+
+
+
+
+
+
+ </div></div>
+                <div class="card-footer">
+                    <a href="https://www.biotimes.co.kr/news/articleView.html?idxno=36089" target="_blank">원문 보기 &rarr;</a>
+                </div>
+            </article>
+        </section>
+</div>
+<div id="competitor"></div>
+</body>
+</html>
